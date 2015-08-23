@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1.5"
+        android:background="@drawable/fondo_cuadros"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/buttonlayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/layoutPrev"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/prevMonth"
+                    android:layout_width="20dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:gravity="right|center_vertical"
+                    android:src="@drawable/arrow_left" >
+                </ImageView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_weight="2"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/currentMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textColor="#000000"
+                    android:textSize="18dp" >
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutNext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/nextMonth"
+                    android:layout_width="20dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/arrow_right" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <GridView
+                android:id="@+id/diasSem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:numColumns="7" >
+            </GridView>
+
+            <GridView
+                android:id="@+id/calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:numColumns="7" >
+            </GridView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/fondo_cuadros"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#6e6e6e"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1dp"
+            android:background="#eeeeee" />
+
+        <LinearLayout
+            android:id="@+id/layoutAddManiana"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/maniana"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutAddUtilidad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/botonAddManiana"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/actionBarColor"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/aniadir"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/botonEditManiana"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/actionBarColor"
+                    android:layout_marginRight="15dp"
+                    android:visibility="gone" >
+
+                    <TextView                        
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="#FFFFFF"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/verLook"
+                        android:textColor="#000000"
+                        android:textSize="12dp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee" />
+
+        <LinearLayout
+            android:id="@+id/layoutAddTarde"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/tarde"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/botonAddTarde"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/actionBarColor"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/aniadir"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/botonEditTarde"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/actionBarColor"
+                    android:layout_marginRight="15dp"
+                    android:visibility="gone" >
+
+                    <TextView                        
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="#FFFFFF"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/verLook"
+                        android:textColor="#000000"
+                        android:textSize="12dp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eeeeee" />
+
+        <LinearLayout
+            android:id="@+id/layoutAddNoche"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/noche"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/botonAddNoche"
+                    android:layout_width="65dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/actionBarColor"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/aniadir"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/botonEditNoche"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/actionBarColor"
+                    android:layout_marginRight="15dp"
+                    android:visibility="gone" >
+
+                    <TextView                        
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="#FFFFFF"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/verLook"
+                        android:textColor="#000000"
+                        android:textSize="12dp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

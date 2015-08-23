@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Closfy</string>
+    <string name="aceptar">Accept</string>
+    <string name="cancelar">Cancel</string>
+    <string name="atencion">Warning</string>
+    <string name="pulseDosVeces">Press again to skip</string>
+    <string name="acerca">About</string>
+    <string name="informacion">Information</string>
+    <string name="version">Version 1.1.6</string>
+    <string name="cambio1">1. The create and edit outfit phases have been improved.</string>
+    <string name="cambio2">2. Incidents solved.</string>
+    <string name="cambio3"></string>
+    <string name="msnDesarrollador">This application has been developed by AGBA Android Apps.</string>
+    <string name="msnIncidencias">The application is in beta, if you have any problems using the application or any error, please send us an mail to the following address:</string>
+    <string name="msnEmail">info@closfy.com</string>
+    <string name="msnSugerencias">Please, send us your suggestions to improve the application. Thank you very much.</string>
+
+    <string-array name="titles">
+        <item>New garment</item>
+        <item>Create outfit</item>
+        <item>My closet</item>
+        <item>My outfits</item>
+        <item>Utilities</item>
+        <item>What can I wear?</item>
+        <item>Calendar</item>
+        <!-- <item>Data base</item> -->
+        <item>Colorful test</item>
+        <item>Morphology</item>
+        <item>Rate app</item>
+    </string-array>
+    <string-array name="tiposPrendaAdd">
+        <item>Add...</item>
+        <item>Upper part</item>
+        <item>Lower part</item>
+        <item>Full body</item>
+        <item>Coat</item>
+        <item>Footwear</item>
+        <item>Complement</item>
+    </string-array>
+    <string-array name="tiposPrendaHombreAdd">
+        <item>Add...</item>
+        <item>Upper Part</item>
+        <item>Lower Part</item>
+        <item>Coat</item>
+        <item>Footwear</item>
+        <item>Complement</item>
+    </string-array>
+    <string-array name="tiposPrenda">
+        <item>Select...</item>
+        <item>Upper part</item>
+        <item>Lower part</item>
+        <item>Full body</item>
+        <item>Coat</item>
+        <item>Footwear</item>
+        <item>Complement</item>
+    </string-array>
+    <string-array name="tiposPrendaHombre">
+        <item>Select...</item>
+        <item>Upper Part</item>
+        <item>Lower Part</item>
+        <item>Coat</item>
+        <item>Footwear</item>
+        <item>Complement</item>
+    </string-array>
+    <string-array name="tiposPrendaArmario">
+        <item>All</item>
+        <item>Upper Part</item>
+        <item>Lower Partr</item>
+        <item>Full body</item>
+        <item>Coat</item>
+        <item>Footwear</item>
+        <item>Complement</item>
+    </string-array>
+    <string-array name="tiposPrendaArmarioHombre">
+        <item>All</item>
+        <item>Upper Part</item>
+        <item>Lower Part</item>
+        <item>Coat</item>
+        <item>Footwear</item>
+        <item>Complement</item>
+    </string-array>
+    <string-array name="tiposTemporada">
+        <item>Autumn - Winter</item>
+        <item>Spring - Summer</item>
+        <item>All year long</item>
+    </string-array>
+
+    <string name="selectType">Select type</string>
+    <string name="tipo">Type</string>
+    <string name="utilidad">Select utilities</string>
+    <string name="estacion">Season</string>
+    <string name="mostrar">Show</string>
+    <string name="filtrar">Filter</string>
+    <string name="prendas">Garments</string>
+    <string name="prenda">Garment</string>
+    <string name="looks">Outfits</string>
+    <string name="look">Outfit</string>
+    <string name="addUtilidad">Add utility</string>
+    <string name="editUtilidad">Edit utility</string>
+    <string name="eliminarUtilidad">Edit utility</string>
+    <string name="otonoInvierno">Autumn - Winter</string>
+    <string name="primaveraVerano">Spring - Summer</string>
+    <string name="todoAno">All year long</string>
+    <string name="prendaFavorita">Favorite</string>
+    <string name="prendasFavoritas">Favorites</string>
+    <string name="guardar">Save</string>
+    <string name="volver">Back</string>
+    <string name="cargando">Loading...</string>
+    <string name="continuar">Continue</string>
+    <string name="crearLook">Create outfit</string>
+    <string name="morfologia1">Know our body type is very important for our image. You can choose the clothes that best suits you, hide flaws and highlight strengths.</string>
+    <string name="morfologia2">We can summarize the most common shapes in 5 groups. Observe carefully yourself in the mirror, then click on the image of the silhouette that best matches you, and you will discover some tips on how to carefully choose each garment and accessories to improve your image </string>
+    <string name="testColoresIni">As our eye color, skin and hair, there are certain colors in the palette that favor us more than others. When we talk about this we refer only to the colors that are in contact with the face.</string>
+    <string name="testColoresIni2">One of the classic studies of the colometry is the study of colors through the seasons. To find your station, you need to observe in the mirror without makeup.</string>
+    <string name="testColoresIni3">It is vital that light is natural to observe well your skin. If you tend toward yellow or gold, you have a warm skin tone. If instead tends toward the pink or reddish tone of your skin it is cold. Once you locate your skin type, scans between stations to discover yours and click to find out what colors suit you.</string>
+    <string name="primavera">Spring</string>
+    <string name="otono">Autumn</string>
+    <string name="invierno">Winter</string>
+    <string name="verano">Summer</string>
+    <string name="tonosCalidos">Hot colors</string>
+    <string name="tonosFrios">Cold Colors</string>
+    <string name="siguiente">Next</string>
+    <string name="editar">Edit</string>
+    <string name="eliminar">Delete</string>
+    <string name="detalle">Show details</string>
+    <string name="elijaOpcion">Select an option</string>
+    <string name="msnEliminarPrenda">Are you sure you want to delete the selected garment?</string>
+    <string name="deletePrendaOk">The garment has been successfully removed.</string>
+    <string name="deletePrendaError">There was an error deleting the item.</string>
+    <string name="msnEliminarLook">Are you sure you want to delete the selected outfit?</string>
+    <string name="deleteLookOk">The outfit has been successfully removed.</string>
+    <string name="deleteLookError">There was an error deleting the outfit.</string>
+    <string name="invierno1">Skin: Pale as porcelain, with a pink or slightly bluish, but overall it is clear complexion.</string>
+    <string name="invierno2">Eyes: Dark brown, gray, blue or deep green. The eye color contrasts sharply with the white of the eyes.</string>
+    <string name="invierno3">Hair: Brunette.</string>
+    <string name="invierno4">Your colors: bright, primary, intense and bright colors. Pure white, black, navy blue, emerald green, deep hot pink, red, royal shiny burgundy, charcoal gray, black, electric blue, fuchsia and royal blue.</string>
+    <string name="invierno5">Never use the colors: Orange, beige and brown</string>
+    <string name="verano1">Skin: Pink, bronze or pale.</string>
+    <string name="verano2">Eyes: Clear.</string>
+    <string name="verano3">Hair: Usually blond or light brown hair.</string>
+    <string name="verano4">Your colors: Use cold and soft colors (pink, blue, green and gray), pastels, neutral shades of pink and blue (blue-gray including Navy), the grayish beige, brown, lavender, plum, and emerald green.</string>
+    <string name="verano5">Never use the colors: Orange and earth tone generally do not favor you.</string>
+    <string name="otono1">Skin: Gold and / or dark brown clear or brown. Some redheads fall into this group. You can also find anyone in black or blond hair is golden autumn.</string>
+    <string name="otono2">Eyes: Brown, hazel, green or blue or hazel.</string>
+    <string name="otono3">Hair: Brown or red with golden highlights.</string>
+    <string name="otono4">Your colors: earth tones; beige, orange, gold or dark brown are for you.</string>
+    <string name="otono5">Never use the colors: White and black, will make you look tired. Nor views with pastel colors.</string>
+    <string name="primavera1">Skin: Cream or ivory, peach and pink or yellow; sub-cutaneous tone gold. They tend to have freckles.</string>
+    <string name="primavera2">Eyes: Gold, green or blue.</string>
+    <string name="primavera3">Hair: Blond or red hair.</string>
+    <string name="primavera4">Your colors: Soft as peach, golden yellow, golden brown, ivory, Verdez and light blue. Some red also help you fine.</string>
+    <string name="primavera5">Never use the colors: Dark, muted tone as dark gray or black.</string>
+    <string name="maniana">Morning</string>
+    <string name="tarde">Afternoon</string>
+    <string name="noche">Evening</string>
+    <string name="add">Add</string>
+    <string name="seleccionarLook">Select outfit</string>
+    <string name="complementos">Complements</string>
+    <string name="abrigo">Coat</string>
+    <string name="calzado">Footwear</string>
+    <string name="soloFavoritas">Only favorites</string>
+    <string name="inspiraciones">Inspirations</string>
+    <string name="aniadir">Add</string>
+    <string name="addUtilidadOK">The utility has been correctly added</string>
+    <string name="addUtilidadKO">There was an error adding the utility</string>
+    <string name="editUtilidadOK">The utility has been successfully changed</string>
+    <string name="editUtilidadKO">It was an error by modifying the utility</string>
+    <string name="deleteUtilidadOK">The utility successfully removed</string>
+    <string name="deleteUtilidadKO">There was an error deleting the utility</string>
+    <string name="seleccionePrenda">Select a garment</string>
+    <string name="temporada">Season</string>
+    <string name="cambiar">Change</string>
+    <string name="selectTemporada">Select season</string>
+    <string name="mas">More</string>
+    <string name="mostrarFavoritas">Show favorites</string>
+    <string name="editarPrenda">Edit garment</string>
+    <string name="editLook">Edit outfit</string>
+    <string name="fotoObligatoria">You must add a picture to continue. </string>
+    <string name="tipoObligatorio">You must select a type of garment to continue.</string>
+    <string name="tipoObligatorioBasica">You must select a type of garment before you can choose a basic garment. </string>
+    <string name="prendaOK">The garment has been successfully saved.</string>
+    <string name="prendaKO">There was an error saving the garment.</string>
+    <string name="lookOK">The outfit has been saved successfully.</string>
+    <string name="lookKO">There was an error creating the outfit.</string>
+    <string name="editPrendaOK">The garment has been edited correctly.</string>
+    <string name="editPrendaKO">There was an error when editing the garment.</string>
+    <string name="editLookOK">The outfit has been edited correctly.</string>
+    <string name="editLookKO">There was an error when editing the outfit</string>
+    <string name="addCalendar">Add to calendar</string>
+    <string name="addFavoritos">Add to favorites</string>
+    <string name="hacerFoto">Take a pic</string>
+    <string name="seleccionaGaleria">Select from gallery</string>
+    <string name="prendaBasica">Basic garment</string>
+    <string name="aniadirUtilidad">Add utility</string>
+    <string name="msnEliminar">Are you sure you want to delete the utility?</string>
+    <string name="verLook">Outfit</string>
+    <string name="masOpciones">More options</string>
+    <string name="cuentaseleccionada">Selected account</string>
+    <string name="selectOtraCuenta">Select another account</string>
+    <string name="addNewCuenta">Add new account</string>
+    <string name="deleteCuenta">Delete Account</string>
+    <string name="editCuenta">Edit Account</string>
+    <string name="addCuenta">Add an account</string>
+    <string name="selectCuenta">Select an account</string>
+    <string name="addCuentaOK">The account was created successfully</string>
+    <string name="editCuentaOK">The account has been successfully changed</string>
+    <string name="deleteCuentaOK">The account was successfully removed</string>
+    <string name="addCuentaKO">There was an error creating the account</string>
+    <string name="editCuentaKO">It was an error by modifying the account.</string>
+    <string name="deleteCuentaKO">There was an error deleting the account.</string>
+    <string name="deleteCuentaMns">When you delete an account, all your clothes and outfits will be also deleted.</string>
+    <string name="cuentaPrincipal">You can not delete the main account.</string>
+    <string name="notas">Notes</string>
+    <string name="quitar">Remove from Calendar</string>
+    <string name="sexo">Gender</string>
+    <string name="almacenamiento">Storage</string>
+    <string name="calendario">Calendar</string>
+    <string name="hombre">Man</string>
+    <string name="mujer">Woman</string>
+    <string name="domingo_sabado">S-S</string>
+    <string name="lunes_domingo">M-S</string>
+    <string name="cuentaPrincipalText">Main account</string>
+    <string name="testColorido">Colorful test</string>
+    <string name="morfologiaHombre">How many body types are there?</string>
+    <string name="morfologiaHombre2">Technically we discuss three main types: mesomorph, endomorph and ectomorph.</string>
+    <string name="morfologiaHombre3">In the first point we talk about people with broad shoulders and narrow waist, in the second case are referred to people with a rounder figure and in the third the proportion is straighter.</string>
+    <string name="morfologia">body shape</string>
+    <string name="morfologiaTriangular">Reverse triangle</string>
+    <string name="morfologiaReloj">Hourglass</string>
+    <string name="morfologiaOvalado">Oval</string>
+    <string name="morfologiaRectangular">Rectangular o cuadrado</string>
+    <string name="morfologiaPera">Triangular</string>
+    <string name="morfologiaEctomorfo">Ectomorph</string>
+    <string name="morfologiaEndomorfo">Endomorph</string>
+    <string name="morfologiaMesomorfo">Mesomorph</string>
+    <string name="msgTriangular1">This silhouette is characterized by the wider than the hips. Usually the body that develop debit swimmers to develop all the exercise.</string>
+    <string name="msgTriangular2">The ideal is to divert attention from the shoulders and highlight the hips and legs.</string>
+    <string name="msgTriangular3">The star items are those with volume at the bottom like skirts or dresses with flight. If further colors used will be a perception of greater size and ratio in that area.</string>
+    <string name="msgTriangular4">Hip belts also work well, like the necks of peak. The flares are another of the garments that suit this kind of women and jackets must reach the height of the hips, not the waist.</string>
+    <string name="msgReloj1">This is the body where the shoulders and hips measure the same, with well-defined waist.</string>
+    <string name="msgReloj2">Maybe if you have this formología, it is to promote garments that follow the line of the body. Tight garments that adhere to the body like a second skin, even if you have a few extra pounds do not need to be reached that point.</string>
+    <string name="msgReloj3">It’s a good idea to use belts that mark the waist, since the waist is one of the strengths of these bodies. It is preferable that seat, that if are not too wide, as could cause the opposite effect.</string>
+    <string name="msgOvalado1">This body has no angular lines and shoulders are round, waist is not defined.</string>
+    <string name="msgOvalado2">Monochromatic looks are part of our allies.</string>
+    <string name="msgOvalado3">We escape the large prints. Dark colors such as black, brown, burgundy, dark green ... We also favored.</string>
+    <string name="msgOvalado4">We do not Encourage excessive very tight clothes, but beware, esta Because We Should does not mean wear clothes super-wide, vaporous, etc because we’d get the opposite effect.</string>
+    <string name="msgOvalado5">The best pants are the straight ones, no cigarettes or elephant leg. On the other hand, t-shirts or dresses V-neck will also stylize the figure.</string>
+    <string name="msgRectangular1">It is the body where the hips, shoulders and waist are aligned. The secret to dress this body shape is to create curves with soft fabrics and feminine lines, with overlapping fabrics and angular details. </string>
+    <string name="msgRectangular2">We must emphasize the bust with some accessories or clothes that draw attention to the upper body, give volume, so look away from the weaknesses. Better use shirts or dresses with cleavage, either in V as round, since the absence of this, also emphasize the lack of curves.</string>
+    <string name="msgRectangular3">Another thing you can not miss in your closet are belts, to help you define your waist and seem to have a curvier silhouette.</string>
+    <string name="msgPera1">This Body shape has the upper smaller than the bottom, these bodies can be defined or waist and legs are generally little stylized.</string>
+    <string name="msgPera2">We highlight the upper part of the body and causing the optical effect of widening the shoulders. The stripes can be our partner, because horizontal stripes "widen".</string>
+    <string name="msgPera3">Avoid the hip belt and any type of accessory, printing or flyer that goes directly to the hip area, since any volume in this part of the body we "widen" further this part of the body.</string>
+    <string name="msgPera4">Pants that we will be better sit straight.</string>
+    <string name="msgPera5">A great tip is, to focus attention to the upper body is preferred in this light-colored and dark colored bottom.</string>
+    <string name="msgMesomorfo1">We refer to the type of body that is naturally muscular or athletic. V-shaped, usually broad shoulders and narrow waist.</string>
+    <string name="msgMesomorfo2">To not be very disproportionate, your main goal should be to find the balance between your shoulders and waist.</string>
+    <string name="msgMesomorfo3">In jerseys, shirts or jackets, the neck feel great because it gives very good visual sense and balances the upper torso. Just do not abuse the clothes too tight. The most flattering pants will be visible straight cut with pockets on the hips to provide more in the sense of trying to balance.</string>
+    <string name="msgEndomorfo1">Endomorph body is synonymous with the type of person who tends to gain weight and has the features the widest waist, higher density and tips that are commonly a shorter size.</string>
+    <string name="msgEndomorfo2">We must base our outfits in straight vertical lines, careful cuts and long jackets as both hunter ...</string>
+    <string name="msgEndomorfo3">We must not add layers or volumes as with ectomorphs. When we talk about the pants, the most successful will be those that provide high-waisted we linearity.</string>
+    <string name="msgEctomorfo1">These type of bodies are naturally thin and usually has little muscular structure.</string>
+    <string name="msgEctomorfo2">If you want to conceal the thinness perhaps a plus would be playing with the volumes in your clothes. Large pockets on jackets and coats with abuse: shirts, jackets, cardigans will also come in handy in that corpulence increase.</string>
+
+    <string-array name="listaDias">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+
+    <string name="cuentas">Accounts</string>
+    <string name="masApps">Other apps</string>
+    <string name="selectCuentaPrincipal">Select main account</string>
+    <string name="errorFoto">There was an error loading the photo, please try again later.</string>
+    <string name="queMePongo">What can I wear?</string>
+    <string name="mnsQueMePongo1">Closfy team is formed by fashion consultants specialized in online counseling.</string>
+    <string name="mnsQueMePongo2">Do you have an important event and you don’t know what to wear or you don’t know where you can find what you have in mind? Please contact us for a quote. You will receive feedback from our stylists in maximum 48 hours. Support in Spanish and English</string>
+    <string name="emailQueMePongo">Please enter your email</string>
+    <string name="mensajeQueMePongo"><i>Message</i></string>
+    <string name="enviar">Send</string>
+    <string name="errorEmail">You must enter a valid email address.</string>
+    <string name="ErrorMensaje">You must write a message.</string>
+    <string name="ErrorEnviarEmail">There was an error sending the email, please try again later.</string>
+    <string name="enviarEmailOK">The email has been sent successfully.</string>
+    <string name="mensajeEditLook">You must edit this outfit to create the image</string>
+    
+    <string name="quemepongoIntroduccion">Closfy team is formed by fashion stylists who have extensive experience in online counseling for men, women and children, therefore, they will be happy to assist you.</string>
+    <string name="quemepongoIntroduccion2">Applications will be attended only in <b>Spanish</b> or <b>English</b>.</string>
+    <string name="comofunciona">How does it Work?</string>
+    <string name="tarifas">Our Rates</string>
+    <string name="terminos">Terms and conditions</string>
+    <string name="solicitarAsesoramiento">Request an advice</string>
+    <string name="quemepongoIntroduccionMail">If you have any questions about the service, please contact us at the following address: </string>
+    <string name="asesoramientos">Advice</string>
+    <string name="asesoramientosTipos">Closfy offers two types of fashion advice service for men and Women:</string>
+    <string name="asesoramientoEvento"> - <b>Advice for an event</b>: If you have a special occasion and you don´t know what to wear, you can hire our service. The styling team will contact you to know the details needed for counseling, as well as their purchasing budget. In the range of 72h it will be sent a full dossier which includes four wardrobe choices, plus guidance on hair and makeup.</string>
+    <string name="resumenEvento">Therefore, to suggest such advice is requested with the minimum of one week before the date that the final result of the advice needed.</string>
+    <string name="asesoramientoCasual"> - <b>Casual advice</b>: If you have problems when dressing in their daily activities, the Closfy Team will study your needs and lifestyle. In the range of 72h they will send you a full dossier in which you will get different combinations of costumes, as well as a wardrobe "must have" and tips on how to multiply your looks.</string>
+    <string name="resumenAsesoramientos">During any fashion advice, the client will be in constant and personal contact with the stylists.</string>
+    <string name="ofertas">Offers</string>
+    <string name="resumenOfertas">We give you the opportunity to purchase <b>packages of fashion advice</b>, which can be used as you want, because they have no expiration. Packages are available in format of 3 and 5 assessments.</string>
+    <string name="asesoramientox1">Fashion Advice (x1)</string>
+    <string name="asesoramientox3">Fashion Advice (x3)</string>
+    <string name="asesoramientox5">Fashion Advice (x5)</string>
+    <string name="precio">Price: </string>
+    <string name="impuestosIncluidos">(Taxes are included)</string>
+    <string name="comprar">Buy</string>
+    <string name="termino1">- The fashion advice will be only assisted in Spanish and English.</string>
+    <string name="termino2">- Closfy team is committed to answer the email application advice up to 48h.</string>
+    <string name="termino3">- Closfy team agrees that once started counseling, will send the dossier clothing in a range of 72h.</string>
+    <string name="termino4">- Considering the above deadlines, the responsibility of ask the advice in good time belongs to the customer. Closfy doesn´t make refunds if the event date is prior to the margins marked.</string>
+    <string name="termino5">- It is the sole responsibility of the customer to provide a valid email address to Closfy. Otherwise we are not responsible for the inability to get in touch with you to give you the advice.</string>
+    <string name="termino6">- In case you have to delete the application or if you change the device, we recommend contacting us previously to not lose the acquired advice. The assessments are stored in the device, so if you don´t inform us in advance, it can´t be recovered.</string>
+    <string name="termino7">- By buying our products, you agree to our terms and conditions. Any returns involving any of the cases described above will not be performed.</string>
+    <string name="sinAsesoramientos">You have no advice available. Do you want to buy now?</string>
+	<string name="masTarde">Later</string>
+	<string name="comprarAhora">Buy now</string>
+	<string name="graciasCompra1singular">Thank you for your purchase.</string>
+	<string name="graciasCompra2singular"> fashion advice has been added to your inventory.</string>
+	<string name="graciasCompra1">Thank you for your purchase.</string>
+	<string name="graciasCompra2"> fashion advice have been added to your inventory.</string>
+	<string name="errorCompra">There was an error managing your purchase. Please if you have made it and have not been added to your inventory assessments, please contact us.</string>
+	<string name="errorYaComprado">This product is already available.</string>
+	<string name="confirmacionAsesoramiento">Make sure you have entered the correct email address, otherwise we can´t get in touch with you. By accepting advice it will be consumed. Are you sure you want to continue?</string>
+	<string name="emailOK">The email was sent successfully, Closfy team will contact you in a maximum of 48h.</string>
+	<string name="emailError">There was an error sending the email. Please, try again later.</string>
+	<string name="asesoramientoTipoEvento">Advice for an event</string>
+	<string name="asesoramientoTipoCasual">Casual advice</string>
+	<string name="selectTipoAsesoramiento">Select a type of fashion advice service</string>
+	<string name="mensajeAsesoramiento">Please, write a brief description of your needs to our stylists.</string>
+</resources>

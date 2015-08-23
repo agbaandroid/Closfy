@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/layoutPrendaSup"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/fondo_cuadros"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/parte_sup" />
+
+            <org.lucasr.twowayview.TwoWayView
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/listViewPrendaSup"
+                style="@style/TwoWayView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:drawSelectorOnTop="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPrendaInf"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/fondo_cuadros"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/parte_inf" />
+
+            <org.lucasr.twowayview.TwoWayView
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/listViewPrendaInf"
+                style="@style/TwoWayView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:drawSelectorOnTop="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPrendaCuerpo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/fondo_cuadros"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/vestido" />
+
+            <org.lucasr.twowayview.TwoWayView
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/listViewPrendaCuerpo"
+                style="@style/TwoWayView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:drawSelectorOnTop="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPrendaAbrigo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/fondo_cuadros"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/abrigo_woman" />
+
+            <org.lucasr.twowayview.TwoWayView
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/listViewPrendaAbrigo"
+                style="@style/TwoWayView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:drawSelectorOnTop="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPrendaCalzado"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/fondo_cuadros"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/calzado_woman" />
+
+            <org.lucasr.twowayview.TwoWayView
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/listViewPrendaCalzado"
+                style="@style/TwoWayView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:drawSelectorOnTop="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPrendaCompl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/fondo_cuadros"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/comp_woman" />
+
+            <org.lucasr.twowayview.TwoWayView
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/listViewPrendaComp"
+                style="@style/TwoWayView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:drawSelectorOnTop="false" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/fondo_cuadros"
+            android:gravity="bottom" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal" >
+
+                <TextView
+                    android:id="@+id/botonCancelar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:background="#FFFFFF"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/cancelar"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="0.1"
+                android:gravity="center_vertical|center_horizontal" >
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:background="#eeeeee"
+                    android:gravity="center_vertical|center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal" >
+
+                <TextView
+                    android:id="@+id/botonCrear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:background="#FFFFFF"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/siguiente"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

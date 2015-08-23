@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/btInfo"
+        android:icon="@drawable/ic_info_azul"
+        android:showAsAction="always"
+        android:title="@string/informacion">
+    </item>
+    <item
+        android:id="@+id/btAcerca"
+        android:icon="@drawable/ic_acerca_azul"
+        android:showAsAction="always"
+        android:title="@string/acerca">
+    </item>
+
+</menu>

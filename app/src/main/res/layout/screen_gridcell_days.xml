@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical"
+    android:background="#727171" >
+
+    <!-- android:background="@drawable/calendar_tile_small" -->
+
+    <TextView
+        android:id="@+id/nameDay"
+        style="@style/calendar_event_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:textSize="14dp"
+        android:textColor="#FFFFFF" >
+    </TextView>
+
+</LinearLayout>

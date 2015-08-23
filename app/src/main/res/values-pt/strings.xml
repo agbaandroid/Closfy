@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Closfy</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="aceptar">Aceitar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="atencion">Atenção</string>
+    <string name="pulseDosVeces">Pressione voltar para sair</string>
+    <string name="acerca">Sobre</string>
+    <string name="informacion">Informação</string>
+    <string name="version">Versão 1.1.6</string>
+    <string name="cambio1">1. As fases de cria e edita equipamento foram melhorados.</string>
+    <string name="cambio2">2. Resolução de incidentes.</string>
+    <string name="cambio3"></string>
+    <string name="msnDesarrollador">Esse aplicativo foi desenvolvido por AGBA Android Apps.</string>
+    <string name="msnIncidencias">O aplicativo está em fase BETA, se tiver algum problema durante o uso ou encontrar algum erro, envie um e-mail para o seguinte endereço:</string>
+    <string name="msnEmail">info@closfy.com</string>
+    <string name="msnSugerencias">Por favor, nos envie sugestões para melhorar ainda mais o aplicativo. Muito obrigado.</string>
+
+    <string-array name="titles">
+        <item>Nova roupa</item>
+        <item>Elaborar visual</item>
+        <item>Meu guarda-roupas</item>
+        <item>Meus visuais</item>
+        <item>Utilidades</item>
+        <item>O que devo vestir?</item>
+        <item>Calendário</item>
+        <!-- <item>Base de datos</item> -->
+        <item>Teste de cor</item>
+        <item>Morfologia</item>
+        <item>Avaliar app</item>
+    </string-array>
+    <string-array name="tiposPrendaAdd">
+        <item>Adicionar...</item>
+        <item>Parte superior</item>
+        <item>Parte inferior</item>
+        <item>Corpo inteiro</item>
+        <item>Casaco</item>
+        <item>Calçados</item>
+        <item>Acessórios</item>
+    </string-array>
+    <string-array name="tiposPrendaHombreAdd">
+        <item>Adicionar...</item>
+        <item>Parte superior</item>
+        <item>Parte inferior</item>
+        <item>Casaco</item>
+        <item>Calçados</item>
+        <item>Acessórios</item>
+    </string-array>
+    <string-array name="tiposPrenda">
+        <item>Selecione...</item>
+        <item>Parte superior</item>
+        <item>Parte inferior</item>
+        <item>Corpo inteiro</item>
+        <item>Casaco</item>
+        <item>Calçados</item>
+        <item>Acessórios</item>
+    </string-array>
+    <string-array name="tiposPrendaHombre">
+        <item>Selecione...</item>
+        <item>Parte superior</item>
+        <item>Parte inferior</item>
+        <item>Casaco</item>
+        <item>Calçados</item>
+        <item>Acessórios</item>
+    </string-array>
+    <string-array name="tiposPrendaArmario">
+        <item>Todos</item>
+        <item>Parte superior</item>
+        <item>Parte inferior</item>
+        <item>Corpo inteiro</item>
+        <item>Casaco</item>
+        <item>Calçados</item>
+        <item>Acessórios</item>
+    </string-array>
+    <string-array name="tiposPrendaArmarioHombre">
+        <item>Todos</item>
+        <item>Parte superior</item>
+        <item>Parte inferior</item>
+        <item>Casaco</item>
+        <item>Calçados</item>
+        <item>Acessórios</item>
+    </string-array>
+    <string-array name="tiposTemporada">
+        <item>Outono - Inverno</item>
+        <item>Primavera - Verão</item>
+        <item>O ano todo</item>
+    </string-array>
+
+    <string name="selectType">Selecione um tipo</string>
+    <string name="tipo">Tipo</string>
+    <string name="utilidad">Selecione utilidades</string>
+    <string name="estacion">Estação</string>
+    <string name="mostrar">Mostrar</string>
+    <string name="filtrar">Filtrar</string>
+    <string name="prendas">Vestuário</string>
+    <string name="prenda">Roupa</string>
+    <string name="looks">Visuais</string>
+    <string name="look">Visual</string>
+    <string name="addUtilidad">Adicionar utilidade</string>
+    <string name="editUtilidad">Editar utilidade</string>
+    <string name="eliminarUtilidad">Remover utilidade</string>
+    <string name="otonoInvierno">Outono - Inverno</string>
+    <string name="primaveraVerano">Primavera - Verão</string>
+    <string name="todoAno">O ano todo</string>
+    <string name="prendaFavorita">Favorito</string>
+    <string name="prendasFavoritas">Favoritos</string>
+    <string name="guardar">Salvar</string>
+    <string name="volver">Voltar</string>
+    <string name="cargando">Carregando...</string>
+    <string name="continuar">Continuar</string>
+    <string name="crearLook">Criar Visual</string>
+    <string name="testColoresIni">Como a cor de nossos olhos, pele e cabelo, existem certas cores que nos favorecem mais do que outras. Quando falamos disso, nos referimos apenas às cores que estão em contato com o rosto.</string>
+    <string name="testColoresIni2">Um dos estudos mais clássicos da colorimetria é o estudo das cores através das estações do ano. Para conhecer sua estação, é necessário se ver no espelho sem maquiagem.</string>
+    <string name="testColoresIni3">É de extrema importância que a luz seja natural para observar bem sua pele. Se tende para amarelo ou para o dourado, você tem um tom de pele quente. Se em vez disso, tende para o rosa ou avermelhado, o tom de sua pele é frio. Uma vez encontrado seu tipo de pele, explore entre as estaciones para descobrir qual é a sua e clique para conhecer quais cores te favorecem.</string>
+    <string name="morfologia1">Saber o tipo de corpo que tem é essencial para obter melhores resultados. Podemos escolher o tipo de roupa que melhor nos convém, esconder pequenas imperfeições e destacar nossos melhores aspectos.</string>
+    <string name="morfologia2">Podemos resumir as formas mais comuns em 5 grupos. Observa-se atentamente no espelho, depois clique na imagem da silhueta que mais se corresponda contigo e poderá aprender algumas dicas sobre como escolher cuidadosamente cada roupa e acessório para obter o melhor resultado.</string>
+    <string name="primavera">Primavera</string>
+    <string name="otono">Outono</string>
+    <string name="invierno">Inverno</string>
+    <string name="verano">Verão</string>
+    <string name="tonosCalidos">Tons quentes</string>
+    <string name="tonosFrios">Tons frios</string>
+    <string name="siguiente">Próximo</string>
+    <string name="editar">Editar</string>
+    <string name="eliminar">Remover</string>
+    <string name="detalle">Ver detalhe</string>
+    <string name="elijaOpcion">Selecione uma opção</string>
+    <string name="msnEliminarPrenda">Tem certeza que deseja deletar o item selecionado?</string>
+    <string name="deletePrendaOk">O item foi eliminada com sucesso.</string>
+    <string name="deletePrendaError">Houve um erro ao excluir o item.</string>
+    <string name="msnEliminarLook">Tem certeza que deseja deletar o visual selecionado?</string>
+    <string name="deleteLookOk">O visual foi eliminado com sucesso.</string>
+    <string name="deleteLookError">Houve um erro ao excluir o visual.</string>
+    <string name="invierno1">Pele: Pálida como porcelana, com um tom rosado ou ligeiramente azulado, mas no geral é clara.</string>
+    <string name="invierno2">Olhos: Marrom escuro, cinza, azul ou verde intenso. A cor dos olhos contrasta muito com o branco dos olhos.</string>
+    <string name="invierno3">Cabelo: Escuro.</string>
+    <string name="invierno4">Suas cores: Cores brilhantes, primárias, intensos e luminosos. Branco puro, negro, azul marinho, verde esmeralda, rosa quente profundo, roxo, Borgonha brilhante real, cinza de carvão vegetal, preto, azul elétrico, fúcsia e azul real.</string>
+    <string name="invierno5">Nunca use as cores: Laranja, bege e marrom.</string>
+    <string name="verano1">Pele: Rosa, bronze ou pálida.</string>
+    <string name="verano2">Olhos: Claros.</string>
+    <string name="verano3">Cabelo: Geralmente loiros ou castanho claro.</string>
+    <string name="verano4">Suas cores: Use tons frios e suaves (rosa, azul, verde e cinza), cores pastel, neutras de tonalidades rosa e azuis (incluindo azul-cinzento marinho), amarelo acinzentado, marrom, lavanda, ameixa, e verde esmeralda.</string>
+    <string name="verano5">Nunca use as cores: Laranja e em geral tom terra não te favorecem.</string>
+    <string name="otono1">Pele: Dourada e/ou morena clara o morena escura. Algumas ruivas pertencem a este grupo. Também pode se encontrar alguma pessoa de cabelo preto ou ruivo dourado que seja outono.</string>
+    <string name="otono2">Olhos: Marrom, avelã, verde ou azul ou cor de mel.</string>
+    <string name="otono3">Cabelo: Marrom ou vermelho com reflexos dourados.</string>
+    <string name="otono4">Suas cores: Tons de terra; bege, laranja, dourado ou marrom escuro são para você.</string>
+    <string name="otono5">Nunca use as cores: Branco e preto, te fazem parecer cansada. Nem se vista com cores pastel.</string>
+    <string name="primavera1">Pele: Creme ou marfim, pêssego e rosa ou amarelada; com tom de pele dourado. Geralmente tem sardas.</string>
+    <string name="primavera2">Olhos: ouro, verdes ou azuis.</string>
+    <string name="primavera3">Cabelo: Louro ou vermelho.</string>
+    <string name="primavera4">Suas cores: São as suaves, como pêssego, amarelo dourado, marrom dourado, marfim, verde e azul claro. Alguns vermelhos também te favorecem.</string>
+    <string name="primavera5">Nunca use as cores: Tons escuros e apagados, como cinza escuro ou preto.</string>
+    <string name="maniana">Manhã</string>
+    <string name="tarde">Tarde</string>
+    <string name="noche">Noite</string>
+    <string name="add">Adicionar</string>
+    <string name="seleccionarLook">Selecionar Look</string>
+    <string name="complementos">Acessórios</string>
+    <string name="abrigo">Casaco</string>
+    <string name="calzado">Calçado</string>
+    <string name="soloFavoritas">Só favoritos</string>
+    <string name="inspiraciones">Inspirações</string>
+    <string name="aniadir">Adicionar</string>
+    <string name="addUtilidadOK">O acessório foi adicionado com sucesso</string>
+    <string name="addUtilidadKO">Houve um erro ao adicionar o acessório</string>
+    <string name="editUtilidadOK">O acessório foi modificado com sucesso</string>
+    <string name="editUtilidadKO">SHouve um erro ao modificar o acessório</string>
+    <string name="deleteUtilidadOK">O acessório foi deletado com sucesso</string>
+    <string name="deleteUtilidadKO">Houve um erro ao deletar o acessório</string>
+    <string name="seleccionePrenda">Selecione uma peça</string>
+    <string name="temporada">Temporada</string>
+    <string name="cambiar">Modificar</string>
+    <string name="selectTemporada">Selecionar temporada</string>
+    <string name="mas">Mais</string>
+    <string name="mostrarFavoritas">Mostrar favoritos</string>
+    <string name="editarPrenda">Editar peça</string>
+    <string name="editLook">Editar visual</string>
+    <string name="fotoObligatoria">Você deve adicionar uma imagem para continuar.</string>
+    <string name="tipoObligatorio">Você deve selecionar um tipo de roupa para continuar.</string>
+    <string name="tipoObligatorioBasica">Você deve selecionar um tipo de roupa antes de escolher uma roupa básica.</string>
+    <string name="prendaOK">A roupa foi salva com sucesso.</string>
+    <string name="prendaKO">Houve um erro ao salvar a roupa.</string>
+    <string name="lookOK">O visual foi salvo com sucesso.</string>
+    <string name="lookKO">Houve um erro ao criar o visual.</string>
+    <string name="editPrendaOK">A roupa foi editada com sucesso.</string>
+    <string name="editPrendaKO">Houve um erro ao editar a roupa.</string>
+    <string name="editLookOK">O visual foi editado com sucesso.</string>
+    <string name="editLookKO">Houve um erro ao editar o visual.</string>
+    <string name="addCalendar">Adicionar ao calendário</string>
+    <string name="addFavoritos">Adicionar aos visuais favoritos</string>
+    <string name="hacerFoto">Tirar uma foto</string>
+    <string name="seleccionaGaleria">Selecionar da galeria</string>
+    <string name="prendaBasica">Vestuário básico</string>
+    <string name="aniadirUtilidad">Adicionar utilitário</string>
+    <string name="msnEliminar">Tem certeza que deseja deletar o utilitário?</string>
+    <string name="verLook">Visual</string>
+    <string name="masOpciones">Mais opções</string>
+    <string name="cuentaseleccionada">Conta selecionada</string>
+    <string name="selectOtraCuenta">Selecionar outra conta</string>
+    <string name="addNewCuenta">Adicionar nova conta</string>
+    <string name="deleteCuenta">Excluir conta</string>
+    <string name="editCuenta">Editar conta</string>
+    <string name="addCuenta">Adicionar conta</string>
+    <string name="selectCuenta">Selecione uma conta</string>
+    <string name="addCuentaOK">A conta foi criada com sucesso</string>
+    <string name="editCuentaOK">A conta foi modificada com sucesso</string>
+    <string name="deleteCuentaOK">A conta foi excluída com sucesso</string>
+    <string name="addCuentaKO">Houve um erro ao criar a conta</string>
+    <string name="editCuentaKO">Houve um erro ao modificar a conta.</string>
+    <string name="deleteCuentaKO">Houve um erro ao apagar a conta.</string>
+    <string name="deleteCuentaMns">Ao apagar uma conta, serão apagados todos os vestuários e visuais dela.</string>
+    <string name="cuentaPrincipal">Não pode apagar a conta principal.</string>
+    <string name="notas">Notas</string>
+    <string name="quitar">Remover do calendário</string>
+    <string name="sexo">Sexo</string>
+    <string name="almacenamiento">Armazenamento</string>
+    <string name="calendario">Calendário</string>
+    <string name="hombre">Homem</string>
+    <string name="mujer">Mulher</string>
+    <string name="domingo_sabado">D-S</string>
+    <string name="lunes_domingo">L-D</string>
+    <string name="cuentaPrincipalText">Conta Principal</string>
+    <string name="selectCuentaPrincipal">Selecionar conta principal</string>
+    <string name="testColorido">Teste de cores</string>
+    <string name="morfologiaHombre">Há quantos tipos de corpo?</string>
+    <string name="morfologiaHombre2">Tecnicamente discutiremos três tipos principais: mesomorfo, endomorfo e ectomorfo.</string>
+    <string name="morfologiaHombre3">O primeiro trata de pessoas com ombros largos e cintura estreita, o segundo caso é sobre pessoas com silhueta mais redonda e o terceiro, a proporção é mais reta.</string>
+    <string name="morfologia">Morfologia</string>
+    <string name="morfologiaTriangular">Corpo triangular o inverso</string>
+    <string name="morfologiaReloj">Ampulheta</string>
+    <string name="morfologiaOvalado">Oval ou redondo</string>
+    <string name="morfologiaRectangular">Retangular ou quadrado</string>
+    <string name="morfologiaPera">Triangular ou com forma de Pera</string>
+    <string name="morfologiaEctomorfo">Ectomorfo</string>
+    <string name="morfologiaEndomorfo">Endomorfo</string>
+    <string name="morfologiaMesomorfo">Mesomorfo</string>
+    <string name="msgTriangular1">Esta silhueta se caracteriza por ter os ombros mais largos que os quadris. Geralmente é o corpo que nadadores desenvolvem devido ao exercício que praticam.</string>
+    <string name="msgTriangular2">O ideal é tirar a atenção dos ombros e ressaltar os quadris e as pernas.</string>
+    <string name="msgTriangular3">Portanto, as roupas que destacam são aquelas que tem volume na parte inferior como saias ou vestidos com voo. Se usar mais cores, dará uma percepção de maior tamanho e proporção a essa zona.</string>
+    <string name="msgTriangular4">Cintos no quadril também funcionam muito bem, como as golas de bico. Calças boca de sino é um outro tipo de roupa que favorecem esse tipo de mulher e os casacos devem atingir a altura dos quadris, não da cintura.</string>
+    <string name="msgReloj1">É o corpo onde os ombros e quadris têm a mesma medida, com cintura bem definida.</string>
+    <string name="msgReloj2">O melhor para quem tem essa morfologia, é utilizar roupas que seguem a linha do corpo. Roupas apertadas, que ficam no corpo como se fosse uma segunda pele, mas se você está com alguns quilinhos a mais não precisar chegar a tal ponto. Roupas que sigam a linha do corpo bastam.</string>
+    <string name="msgReloj3">É uma boa ideia usar cintos que marcam a cintura, porque a cintura é um dos pontos fortes desse tipo de corpo. É preferível que a cintura não seja excessivamente larga, pois poderia causar o efeito inverso.</string>
+    <string name="msgOvalado1">Este corpo tem linhas não angulares e ombros redondos, a cintura não é definida.</string>
+    <string name="msgOvalado2">Os visuais monocromáticos serão seus aliados.</string>
+    <string name="msgOvalado3">Deve fugir de estampas grandes. Cores escuras, como o preto, marrom, bordô, verde escuro... Também nos favorecem.</string>
+    <string name="msgOvalado4">Não nos favorecem o excesso de roupas apertadas, mas cuidado, pois isso não significa que devemos nos vestir com roupas muito largas, de tecido fino, etc...Porque obteríamos o efeito contrário.</string>
+    <string name="msgOvalado5">As melhores calças são as retas, nada de calças skinny nem de perna de elefante, lembre-se, melhor um meio termo. Por outro lado, camisetas ou vestidos com gola em V também estilizam a figura.</string>
+    <string name="msgRectangular1">É o corpo onde o quadril, a cintura e os ombros estão alinhados. O segredo para vestir esse tipo de corpo está em criar curvas com tecidos moles e linhas femininas, com tecidos sobrepostos e detalhes angulares.</string>
+    <string name="msgRectangular2">Deve destacar o busto com alguns acessórios ou roupas que chamem atenção para a parte superior do corpo, dar volume, para desviar o olhar dos pontos fracos. Será melhor utilizar camisetas ou vestidos com decote, tanto em V como redondo, porque a ausência deste, também destacará essa falta de curvas.</string>
+    <string name="msgRectangular3">Outra coisa que não pode faltar em seu guarda-roupas são os cintos, que ajudarão a definir sua cintura e a aparecer que tem uma silhueta mais curvilínea.</string>
+    <string name="msgPera1">É o corpo que tem a parte superior menor que a inferior, esse tipo de corpo pode ter a cintura definida ou não e em geral as pernas são pouco estilizadas.</string>
+    <string name="msgPera2">Destaque a parte superior do corpo dando o efeito ótico de ampliar os ombros. As listras poderão ser suas aliadas, porque as listras horizontais “alargam”.</string>
+    <string name="msgPera3">Evite o cinto no quadril e qualquer tipo de acessório que bloqueie a visão da zona do quadril, pois qualquer volume nessa parte do corpo irá “ampliar” ainda mais essa parte do corpo.</string>
+    <string name="msgPera4">As calças que vestem melhor são as retas.</string>
+    <string name="msgPera5">Uma ótica dica é, para focar a atenção à parte superior do corpo é preferível utilizar cores claras e para a parte inferior, cores escuras.</string>
+    <string name="msgMesomorfo1">Iremos referir ao tipo de corpo que é naturalmente muscular e atlético. Em forma de V, geralmente tem ombros largos e cintura estreita.</string>
+    <string name="msgMesomorfo2">Para não parecer muito desproporcionado, seu principal objetivo deve ser buscar o equilíbrio entre seus ombros e cintura.</string>
+    <string name="msgMesomorfo3">Em jérseis, camisas ou casacos, a gola fica muito bem porque dá uma boa sensação visual e equilibra a parte superior do torso. Só não abuse das roupas muito apertadas. As calças que mais favorecem são as de corte reto com bolsos visíveis nos quadris que contribuem ainda mais no sentido de tentar o equilíbrio.</string>
+    <string name="msgEndomorfo1">Corpo endomorfo é sinônimo do tipo de pessoa que tem tendência a ganhar peso e tem como característica a cintura mais larga, maior densidade e extremidades que normalmente são de um tamanho mais curto.</string>
+    <string name="msgEndomorfo2">Devemos basear nossas roupas em linhas retas e verticais, tendo cuidado com os cortes tanto das jaquetas como dos casacos...</string>
+    <string name="msgEndomorfo3">Não devemos adicionar camadas ou volume como acontece com os ectomorfos. Quando se trata de calças, as melhores serão as de cintura alta que fornecem linearidade.</string>
+    <string name="msgEctomorfo1">Esse tipo de corpo é naturalmente fino e geralmente tem pouca estrutura muscular.</string>
+    <string name="msgEctomorfo2">Se você quer disfarçar a magreza, talvez uma boa coisa a se fazer é brincar com os volumes de suas roupas. Jaquetas com bolsos grandes e abusar nos casacos: camisetas, coletes, cardigã… também virão a calhar no aumento da corpulência.</string>
+
+    <string-array name="listaDias">
+        <item>Seg</item>
+        <item>Ter</item>
+        <item>Qua</item>
+        <item>Qui</item>
+        <item>Sex</item>
+        <item>Sáb</item>
+        <item>Dom</item>
+    </string-array>
+
+    <string name="cuentas">Contas</string>
+    <string name="masApps">Outros Apps</string>
+    <string name="errorFoto">Houve um erro ao carregar a foto, tente novamente mais tarde.</string>
+    <string name="queMePongo">O que devo vestir?</string>
+    <string name="mnsQueMePongo1">A equipe de Closfy é formada por estilistas e assessores de moda especializados em aconselhamento online.</string>
+    <string name="mnsQueMePongo2">Tem um evento importante e não sabe o que vestir ou você não sabe encontrar o que você tem em mente? Entre em contato conosco para uma cotação sem compromisso. Receberá resposta de nossos estilistas em no máximo 48h. Suporte em espanhol e inglês.</string>
+    <string name="emailQueMePongo">Escreva seu e-mail</string>
+    <string name="mensajeQueMePongo"><i>Mensagem</i></string>
+    <string name="enviar">Enviar</string>
+    <string name="errorEmail">Deve introduzir um e-mail válido.</string>
+    <string name="ErrorMensaje">Deve escrever uma mensagem.</string>
+    <string name="ErrorEnviarEmail">Houve um erro ao enviar o e-mail, tente novamente mais tarde.</string>
+    <string name="enviarEmailOK">O e-mail foi enviado com sucesso.</string>
+    <string name="mensajeEditLook">Você deve editar o visual para criar a imagem</string>
+    <string name="quemepongoIntroduccion">A equipe de Closfy é formada por estilistas e assessores de moda
+especializados em assessoramentos online, portanto, ficarão encantados de te
+atender..</string>
+    <string name="quemepongoIntroduccion2">Somente atenderemos a solicitações em <b>Inglês</b> e <b>Espanhol</b>.</string>
+    <string name="comofunciona">Como funciona?</string>
+    <string name="tarifas">Preços</string>
+    <string name="terminos">Termos e condições</string>
+    <string name="solicitarAsesoramiento">Solicitar assessoramento</string>
+    <string name="quemepongoIntroduccionMail">Para qualquer dúvida sobre o serviço, não hesite em nos contatar através do seguinte e-mail: </string>
+    <string name="asesoramientos">Assessoramentos</string>
+    <string name="asesoramientosTipos">No Closfy oferecemos dois tipos de assessoramento:</string>
+    <string name="asesoramientoEvento"> - <b>Assessoramento para um evento</b>: Se tem uma ocasião especial e não sabe o que vestir, poderá contratar nosso serviço. A equipe de estilistas entrará em contato com você para reunir os dados necessários para realizar o assessoramento, bem como seu orçamento de compra. Em cerca de 72h lhe enviarão um dossiê completo com quatro opções de vestimentas, além de orientações sobre cabelo e maquiagem.</string>
+    <string name="resumenEvento">Portanto, para este tipo de assessoramento aconselhamos que solicite <b>com no mínimo uma semana de antecedência</b>.</string>
+    <string name="asesoramientoCasual"> - <b>Assessoramento casual</b>: Se tem problema em se vestir para suas atividades diárias, a equipe de Closfy estudará sua necessidade e seu estilo de vida. Em cerca de 72h lhe enviarão um completo dossiê de vestimentas com diferentes combinações, bem como fundos de armário necessários e dicas de como multiplicar seus looks.</string>
+    <string name="resumenAsesoramientos">Durante todo o assessoramento, o cliente estará em contato constante e personalizado com a equipe de estilistas.</string>
+    <string name="ofertas">Ofertas</string>
+    <string name="resumenOfertas">Nos damos a possibilidade de adquirir <b>pacotes de assessoramento</b>, que podem ser consumidos quando você desejar, pois não possuem validade. Os pacotes estão disponíveis no formato de 3 e 5 assessoramentos.</string>
+    <string name="asesoramientox1">Assessoramento (x1)</string>
+    <string name="asesoramientox3">Assessoramento (x3)</string>
+    <string name="asesoramientox5">Assessoramento (x5)</string>
+    <string name="precio">Preço: </string>
+    <string name="impuestosIncluidos">(Impostos incluídos)</string>
+    <string name="comprar">Comprar</string>
+    <string name="termino1">- Os assessoramentos somente serão atendidos em Espanhol e Inglês.</string>
+    <string name="termino2">- A equipe do Closfy se compromete a atender solicitações de assessoramento por e-mail em até 48 horas.</string>
+    <string name="termino3">- A equipe de Closfy se compromete que, uma vez iniciado o assessoramento, será enviado o dossiê de vestuário em uma margem de 72h.</string>
+    <string name="termino4">- Considerando os prazos acima, é de responsabilidade do cliente solicitar o assessoramento com antecedência suficiente. Closfy não realizará devoluções se a data do evento é anterior às margens marcadas.</string>
+    <string name="termino5">- É de total responsabilidade do cliente informar um e-mail válido à equipe do Closfy. Caso contrário, não nos responsabilizamos pela impossibilidade de entrar em contato com você e realizar o assessoramento.</string>
+    <string name="termino6">- Em caso de ter que deletar o aplicativo ou em caso de trocar de dispositivo, recomendamos entrar em contato conosco para não perder os assessoramentos previamente adquiridos. Os assessoramentos são armazenados no dispositivo, por isso, se não comunicar com antecedência, não poderemos recuperá-los.</string>
+    <string name="termino7">- Ao comprar nossos produtos, você aceita nossos termos e condições. Não se realizará nenhuma devolução que implique em algum dos casos anteriormente descritos.</string>
+    <string name="sinAsesoramientos">Nenhum assessoramento disponível. Deseja comprar agora?</string>
+    <string name="masTarde">Mais tarde</string>
+    <string name="comprarAhora">Comprar agora</string>
+    <string name="graciasCompra1singular">Obrigado por sua compra. Foi acrescentado</string>
+    <string name="graciasCompra2singular">assessoramento para seu inventário.</string>
+    <string name="graciasCompra1">Obrigado por sua compra. Foi acrescentado</string>
+    <string name="graciasCompra2">assessoramentos para seu inventário.</string>
+    <string name="errorCompra">Houve um erro na gestão de sua compra. Por favor se você realizou uma compra e não foi adicionada aos assessoramentos de seu inventario, entre em contato conosco.</string>
+    <string name="errorYaComprado">Já tem esse produto.</string>
+    <string name="confirmacionAsesoramiento">Certifique-se de que digitou seu endereço de e-mail corretamente caso contrário, não poderemos entrar em contato com você. Ao aceitar será consumido um assessoramento. Tem certeza que deseja continuar?</string>
+    <string name="emailOK">O e-mail foi enviado com sucesso, a equipe do Closfy entrará em contato com você em no máximo 48h.</string>
+    <string name="emailError">Houve um erro ao enviar o e-mail. Tente novamente mais tarde.</string>
+    <string name="asesoramientoTipoEvento">Assessoramento para Evento</string>
+    <string name="asesoramientoTipoCasual">Assessoramento Casual</string>
+    <string name="selectTipoAsesoramiento">Selecione um tipo de assessoramento</string>
+    <string name="mensajeAsesoramiento">Escreva uma breve descrição das necessidades de seu assessoramento para nossos estilistas.</string>
+
+</resources>

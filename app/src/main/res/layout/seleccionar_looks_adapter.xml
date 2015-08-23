@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutLook"
+    android:layout_width="140dp"
+    android:layout_height="160dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EEEEEE" >
+
+        <LinearLayout
+            android:id="@+id/layoutImageLook"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"            
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imagenLook"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#EEEEEE" >
+            </ImageView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTextLook"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="1dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/mensajeEditLook" >
+            </TextView>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imagecheck"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/tic_azul"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/fondo_cuadros"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/look"
+            android:textColor="#6e6e6e"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1dp"
+            android:background="#eeeeee" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="140dp"
+                    android:layout_height="160dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#FFFFFF"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginTop="2dp"
+                            android:background="#eeeeee"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="1dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginTop="1dp"
+                                android:background="#FFFFFF"
+                                android:orientation="vertical" >
+
+                                <RelativeLayout
+                                    android:id="@+id/fondoPrendas"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:layout_marginBottom="5dp"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:orientation="vertical" >
+
+                                    <RelativeLayout
+                                        android:id="@+id/layoutPrendaCuerpo"
+                                        android:layout_width="57dp"
+                                        android:layout_height="77dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="5dp"
+                                        android:background="@drawable/cuadro_prenda"
+                                        android:orientation="vertical" >
+
+                                        <ImageView
+                                            android:id="@+id/prendaCuerpo"
+                                            android:layout_width="45dp"
+                                            android:layout_height="65dp"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginBottom="1dp"
+                                            android:layout_marginLeft="1dp"
+                                            android:layout_marginRight="1dp"
+                                            android:layout_marginTop="1dp"
+                                            android:background="@drawable/cruz_roja"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/cruzPrendaCuerpo"
+                                            android:layout_width="40dp"
+                                            android:layout_height="55dp"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_centerVertical="true"
+                                            android:background="@drawable/cuerpo_sin" />
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/layoutPrendaAbrigo"
+                                        android:layout_width="57dp"
+                                        android:layout_height="67dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginTop="5dp"
+                                        android:background="@drawable/cuadro_prenda"
+                                        android:orientation="vertical" >
+
+                                        <ImageView
+                                            android:id="@+id/prendaAbrigo"
+                                            android:layout_width="45dp"
+                                            android:layout_height="50dp"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginBottom="1dp"
+                                            android:layout_marginLeft="1dp"
+                                            android:layout_marginRight="1dp"
+                                            android:layout_marginTop="1dp"
+                                            android:background="@drawable/cruz_roja"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/cruzPrendaAbrigo"
+                                            android:layout_width="40dp"
+                                            android:layout_height="40dp"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_centerVertical="true"
+                                            android:background="@drawable/abrigo_mujer_sin" />
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/layoutPrendaCuerpo"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="20dp"
+                                        android:orientation="vertical" >
+                                        
+                                        <RelativeLayout
+                                            android:id="@+id/layoutPrendaCalzado"
+                                            android:layout_width="32dp"
+                                            android:layout_height="32dp"
+                                            android:layout_marginTop="5dp"                                            
+                                            android:background="@drawable/cuadro_peq"
+                                            android:orientation="vertical" >
+
+                                            <ImageView
+                                                android:id="@+id/prendaCalzado"
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:layout_centerHorizontal="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginBottom="1dp"
+                                                android:layout_marginLeft="1dp"
+                                                android:layout_marginRight="1dp"
+                                                android:layout_marginTop="1dp"
+                                                android:background="@drawable/cruz_roja"
+                                                android:visibility="invisible" />
+
+                                            <ImageView
+                                                android:id="@+id/cruzPrendaCalzado"
+                                                android:layout_width="19dp"
+                                                android:layout_height="19dp"
+                                                android:layout_centerHorizontal="true"
+                                                android:layout_centerVertical="true"
+                                                android:background="@drawable/calzado_mujer_sin" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:id="@+id/layoutPrendaCompl1"
+                                            android:layout_width="32dp"
+                                            android:layout_height="32dp"                                            
+                                            android:layout_marginLeft="15dp"
+                                            android:layout_toRightOf="@+id/layoutPrendaCalzado"
+                                            android:layout_marginTop="5dp"
+                                            android:background="@drawable/cuadro_peq"
+                                            android:orientation="vertical" >
+
+                                            <ImageView
+                                                android:id="@+id/prendaCompl1"
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:layout_centerHorizontal="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginBottom="1dp"
+                                                android:layout_marginLeft="1dp"
+                                                android:layout_marginRight="1dp"
+                                                android:layout_marginTop="1dp"
+                                                android:background="@drawable/cruz_roja"
+                                                android:visibility="invisible" />
+
+                                            <ImageView
+                                                android:id="@+id/cruzPrendaCompl1"
+                                                android:layout_width="19dp"
+                                                android:layout_height="19dp"
+                                                android:layout_centerHorizontal="true"
+                                                android:layout_centerVertical="true"
+                                                android:background="@drawable/complemento_mujer_sin" />
+                                        </RelativeLayout>
+
+                                        <RelativeLayout
+                                            android:id="@+id/layoutPrendaCompl2"
+                                            android:layout_width="32dp"
+                                            android:layout_height="32dp"                                            
+                                            android:layout_toRightOf="@+id/layoutPrendaCompl1"
+                                            android:layout_marginLeft="15dp"
+                                            android:layout_marginTop="5dp"
+                                            android:background="@drawable/cuadro_peq"
+                                            android:orientation="vertical" >
+
+                                            <ImageView
+                                                android:id="@+id/prendaCompl2"
+                                                android:layout_width="24dp"
+                                                android:layout_height="24dp"
+                                                android:layout_centerHorizontal="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginBottom="1dp"
+                                                android:layout_marginLeft="1dp"
+                                                android:layout_marginRight="1dp"
+                                                android:layout_marginTop="1dp"
+                                                android:background="@drawable/cruz_roja"
+                                                android:visibility="invisible" />
+
+                                            <ImageView
+                                                android:id="@+id/cruzPrendaCompl2"
+                                                android:layout_width="19dp"
+                                                android:layout_height="19dp"
+                                                android:layout_centerHorizontal="true"
+                                                android:layout_centerVertical="true"
+                                                android:background="@drawable/bolso_sin" />
+                                        </RelativeLayout>                                        
+                                    </RelativeLayout>
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/prenda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/prendaFavorita"
+                        android:textColor="#000000"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:id="@+id/checkFavoritos"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/check_corazon_off" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/notas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="right"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/textNotas"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/actionBarColor"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/notas"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/fondo_cuadros"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/temporada"
+            android:textColor="#6e6e6e"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1dp"
+            android:background="#eeeeee" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textTemporada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="@string/todoAno"
+                android:textColor="#000000"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="4"
+            android:background="@drawable/fondo_cuadros"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/utilidad"
+                    android:textColor="#6e6e6e"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="1dp"
+                android:background="#eeeeee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ListView
+                    android:id="@+id/listUtilidades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/botonVolver"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/fondo_cuadros"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:background="#FFFFFF"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/volver"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

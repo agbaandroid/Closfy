@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/testColoresIni"
+            android:textColor="#000000"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/testColoresIni2"
+            android:textColor="#000000"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/testColoresIni3"
+            android:textColor="#000000"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/tonosCalidos"
+            android:textColor="#000000"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/layoutPrimavera"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:background="#E29F6A"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/primavera"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutOtono"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:background="#F2D54D"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/otono"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/tonosFrios"
+            android:textColor="#000000"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/layoutInvierno"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:background="#547D45"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/invierno"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutVerano"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:background="#41437C"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/verano"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
