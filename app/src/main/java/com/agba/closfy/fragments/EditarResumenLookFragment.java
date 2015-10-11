@@ -1,12 +1,5 @@
 package com.agba.closfy.fragments;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -56,11 +49,18 @@ import com.agba.closfy.modelo.PrendaLook;
 import com.agba.closfy.modelo.ViewsVo;
 import com.agba.closfy.util.Util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
+
 public class EditarResumenLookFragment extends Fragment {
 
 	String[] idPrendas;
 
-	private Button m_btnSDeleteImage, m_btnZoom;
+	private Button m_btnSDeleteImage, m_btnZoomLado, m_btnZoomAlto, m_btnZoomZoom;
 	private Context m_context;
 
 	private TextView botonGuardar;
@@ -79,7 +79,7 @@ public class EditarResumenLookFragment extends Fragment {
 			m_height, m_absHeight = 0, m_AddedViewsHeightText = 0,
 			m_deleteEditHeightwidth;
 	private Dialog m_dialog;
-	private OnTouchListener m_touchImagListener, m_strecthArrowListener;
+	private OnTouchListener m_touchImagListener, anchoListener, altoListener, zoomListener;
 	private RelativeLayout m_RelativeLayout, m_RelativeLayoutAux,
 			m_absTextlayout, m_absZoomlayout;
 	private int m_widthDelete = 0, m_totalTextViewCount = 0;
@@ -87,7 +87,7 @@ public class EditarResumenLookFragment extends Fragment {
 			m_posX, m_posY, m_prevX = 0, m_prevY = 0, m_newX, m_newY;
 	ViewTreeObserver m_vtoTree;
 	private RelativeLayout.LayoutParams m_layoutparams, m_layoutparamsDelete,
-			m_layoutParamsEdit;
+			m_layoutParamsEdit, m_layoutParamsLado, m_layoutParamsAlto, m_layoutParamsZoom;
 	private ArrayList<ViewsVo> m_arrSignObjects;
 	ArrayList<PrendaLook> listaPrendas = new ArrayList<PrendaLook>();
 
@@ -443,12 +443,36 @@ public class EditarResumenLookFragment extends Fragment {
 		m_layoutparamsDelete.topMargin = 5;
 
 		m_layoutParamsEdit = new RelativeLayout.LayoutParams(50, 50);
+		m_layoutParamsLado = new RelativeLayout.LayoutParams(50, 50);
+		m_layoutParamsAlto = new RelativeLayout.LayoutParams(50, 50);
+		m_layoutParamsZoom = new RelativeLayout.LayoutParams(50, 50);
 		if (prenda != null) {
 			m_layoutParamsEdit.leftMargin = (int) prenda.getAncho() - 45;
 			m_layoutParamsEdit.topMargin = (int) prenda.getAlto() - 45;
+
+			m_layoutParamsLado.leftMargin = (int) prenda.getAncho() - 45;
+			m_layoutParamsLado.topMargin = (int) (prenda.getAlto() / 2) - 25;
+
+			m_layoutParamsAlto.leftMargin = (int) (prenda.getAncho() / 2) - 25;
+			m_layoutParamsAlto.topMargin = (int) prenda.getAlto() - 45;
+
+			m_layoutParamsZoom.leftMargin = (int) prenda.getAncho() - 45;
+			m_layoutParamsZoom.topMargin = (int) prenda.getAlto() - 45;
 		} else {
 			m_layoutParamsEdit.leftMargin = 255;
 			m_layoutParamsEdit.topMargin = 255;
+
+			m_layoutParamsLado = new RelativeLayout.LayoutParams(50, 50);
+			m_layoutParamsLado.leftMargin = 255;
+			m_layoutParamsLado.topMargin = 127;
+
+			m_layoutParamsAlto = new RelativeLayout.LayoutParams(50, 50);
+			m_layoutParamsAlto.leftMargin = 127;
+			m_layoutParamsAlto.topMargin = 255;
+
+			m_layoutParamsZoom = new RelativeLayout.LayoutParams(50, 50);
+			m_layoutParamsZoom.leftMargin = 255;
+			m_layoutParamsZoom.topMargin = 255;
 		}
 
 		m_deleteEditHeightwidth = 50;
@@ -473,7 +497,9 @@ public class EditarResumenLookFragment extends Fragment {
 		 */
 
 		m_btnSDeleteImage = new Button(m_context);
-		m_btnZoom = new Button(m_context);
+		m_btnZoomLado = new Button(m_context);
+		m_btnZoomAlto = new Button(m_context);
+		m_btnZoomZoom = new Button(m_context);
 		m_ivtmpImage = new ImageView(m_context);
 
 		m_absTextlayout = new RelativeLayout(m_context);
@@ -538,17 +564,29 @@ public class EditarResumenLookFragment extends Fragment {
 		m_btnSDeleteImage.setId(m_arrSignObjects.size());
 		m_btnSDeleteImage.setOnClickListener(new ImageDeleteListener());
 
-		m_btnZoom.setLayoutParams(m_layoutParamsEdit);
-		m_btnZoom.setBackgroundDrawable(getResources().getDrawable(
+		m_btnZoomLado.setLayoutParams(m_layoutParamsLado);
+		m_btnZoomLado.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.resize_width));
+		m_btnZoomLado.setId(m_arrSignObjects.size());
+
+		m_btnZoomAlto.setLayoutParams(m_layoutParamsAlto);
+		m_btnZoomAlto.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.resize_alto));
+		m_btnZoomAlto.setId(m_arrSignObjects.size());
+
+		m_btnZoomZoom.setLayoutParams(m_layoutParamsZoom);
+		m_btnZoomZoom.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.resize));
-		m_btnZoom.setId(m_arrSignObjects.size());
+		m_btnZoomZoom.setId(m_arrSignObjects.size());
 
 		m_absZoomlayout.setBackgroundResource(R.drawable.recuadro);
 		m_absZoomlayout.addView(m_ivtmpImage);
 
 		m_absTextlayout.addView(m_absZoomlayout);
 		m_absTextlayout.addView(m_btnSDeleteImage);
-		m_absTextlayout.addView(m_btnZoom);
+		m_absTextlayout.addView(m_btnZoomLado);
+		m_absTextlayout.addView(m_btnZoomAlto);
+		m_absTextlayout.addView(m_btnZoomZoom);
 
 		m_absTextlayout.setDrawingCacheEnabled(true);
 		m_absTextlayout.setClickable(true);
@@ -576,12 +614,18 @@ public class EditarResumenLookFragment extends Fragment {
 			m_signVo.setyValue(prendaLook.getPosiY());
 			m_signVo.setAncho(prendaLook.getAncho());
 			m_signVo.setAlto(prendaLook.getAlto());
+			m_signVo.setActualBitmap(Bitmap.createScaledBitmap(p_bitmap,(int) prendaLook.getAncho(),
+					(int) prendaLook.getAlto(), true));
+			m_signVo.setOriginalBitmap(p_bitmap);
 		} else {
 			m_signVo.setIdPrenda(prenda.getIdPrenda());
 			m_signVo.setxValue(posiX);
 			m_signVo.setyValue(posiY);
 			m_signVo.setAncho(300);
 			m_signVo.setAlto(300);
+			m_signVo.setActualBitmap(Bitmap.createScaledBitmap(p_bitmap, 300,
+					300, true));
+			m_signVo.setOriginalBitmap(p_bitmap);
 		}
 
 		m_signVo.setPos(m_arrSignObjects.size());
@@ -641,6 +685,10 @@ public class EditarResumenLookFragment extends Fragment {
 					((RelativeLayout) v).getChildAt(0).setBackgroundResource(
 							R.drawable.recuadro);
 					((RelativeLayout) v).getChildAt(2).setBackgroundResource(
+							R.drawable.resize_width);
+					((RelativeLayout) v).getChildAt(3).setBackgroundResource(
+							R.drawable.resize_alto);
+					((RelativeLayout) v).getChildAt(4).setBackgroundResource(
 							R.drawable.resize);
 
 					m_dX = event.getX() - m_oldX;
@@ -719,71 +767,90 @@ public class EditarResumenLookFragment extends Fragment {
 		};
 
 		// Listener for the arrow ontouch of arrow ZoomIn and ZoomOut the image.
-		m_strecthArrowListener = new OnTouchListener() {
+		anchoListener = new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
 				View view;
+				ViewsVo viewVo = new ViewsVo();
 				// RemoveBorders();
 				view = v;
 				v.setClickable(true);
 				v.setDrawingCacheEnabled(true);
-				v.bringToFront();
+				//v.bringToFront();
 				RelativeLayout m_absLayout = null;
 				switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
-				case MotionEvent.ACTION_DOWN:
-					m_oldX = event.getX();
-					m_oldY = event.getY();
-					break;
-				case MotionEvent.ACTION_UP:
+					case MotionEvent.ACTION_DOWN:
+						m_oldX = event.getX();
+						m_oldY = event.getY();
+						break;
+					case MotionEvent.ACTION_UP:
+						ocultarBotones();
+						break;
+					case MotionEvent.ACTION_POINTER_UP:
+						break;
 
-				case MotionEvent.ACTION_POINTER_UP:
-					break;
+					case MotionEvent.ACTION_MOVE:
 
-				case MotionEvent.ACTION_MOVE:
-					m_newX = event.getX();
-					m_newY = event.getY();
-					m_scale = 10;
+						m_absLayout = (RelativeLayout) v.getParent();
 
-					float newDist = m_newX - m_oldX;
-					if (m_newX > m_oldX && m_newY > m_oldY) {
-						if (newDist > 0.0f) {
+						((RelativeLayout) m_absLayout).getChildAt(1).setBackgroundResource(
+								R.drawable.close);
+						((RelativeLayout) m_absLayout).getChildAt(0).setBackgroundResource(
+								R.drawable.recuadro);
+						((RelativeLayout) m_absLayout).getChildAt(2).setBackgroundResource(
+								R.drawable.resize_width);
+						((RelativeLayout) m_absLayout).getChildAt(3).setBackgroundResource(
+								R.drawable.resize_alto);
+						((RelativeLayout) m_absLayout).getChildAt(4).setBackgroundResource(
+								R.drawable.resize);
+
+						m_newX = event.getX();
+						m_scale = 10;
+
+						if (m_newX > m_oldX) {
+							for (int counter = 0; counter < m_arrSignObjects
+									.size(); counter++) {
+								if (v.getId() == m_arrSignObjects.get(
+										counter).getViewId()) {
+									viewVo = m_arrSignObjects.get(
+											counter);
+									break;
+								}
+							}
+
+							int m_heightOfImage = viewVo.getActualBitmap().getHeight();
+							int m_widthOfImage = (int) (viewVo.getActualBitmap().getWidth() + m_scale);
+
+							Bitmap orig = viewVo.getOriginalBitmap();
+							Bitmap newBitmap = Bitmap.createScaledBitmap(orig, m_widthOfImage,
+									m_heightOfImage, true);
+
+							//if (newDist > 0.0f) {
 							m_absLayout = (RelativeLayout) v.getParent();
-							int m_hightOfImage = (int) (m_scale + (((ImageView) ((RelativeLayout) m_absLayout
-									.getChildAt(0)).getChildAt(0)).getHeight()));
-							int m_widthOfImage = (int) (m_scale + (((ImageView) ((RelativeLayout) m_absLayout
-									.getChildAt(0)).getChildAt(0)).getWidth()));
-							m_widthDelete = (int) (m_scale + ((((RelativeLayout) m_absLayout
-									.getChildAt(0))).getWidth()));
-							if (m_absLayout.getBottom() <= (m_ivImage
-									.getBottom())
-									&& (m_absLayout.getRight() + 20) <= (m_DisplayWidth)) {
+
+							if ((m_absLayout.getRight() + 20) <= (m_DisplayWidth)) {
+
 								m_layoutparams = new RelativeLayout.LayoutParams(
-										m_widthOfImage, m_hightOfImage);
+										m_widthOfImage, m_heightOfImage);
 								m_layoutparams.leftMargin = 0;
 								m_layoutparams.topMargin = 0;
 
 								((ImageView) ((RelativeLayout) m_absLayout
-										.getChildAt(0)).getChildAt(0))
-										.setLayoutParams(m_layoutparams);
+										.getChildAt(0)).getChildAt(0)).setImageBitmap(newBitmap);
+
+								(((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setLayoutParams(m_layoutparams);
 
 								m_layoutparams = new RelativeLayout.LayoutParams(
 										RelativeLayout.LayoutParams.WRAP_CONTENT,
 										RelativeLayout.LayoutParams.WRAP_CONTENT);
+
 								m_layoutparams.leftMargin = m_absLayout
 										.getLeft();
 								m_layoutparams.topMargin = m_absLayout.getTop();
 								m_absLayout.setLayoutParams(m_layoutparams);
-
-								RelativeLayout.LayoutParams laParam = new RelativeLayout.LayoutParams(
-										m_deleteEditHeightwidth,
-										m_deleteEditHeightwidth);
-								laParam.leftMargin = 0;
-								laParam.topMargin = 0;
-
-								((Button) m_absLayout.getChildAt(2))
-										.setLayoutParams(laParam);
 
 								RelativeLayout.LayoutParams laParam2 = new RelativeLayout.LayoutParams(
 										m_deleteEditHeightwidth,
@@ -792,19 +859,43 @@ public class EditarResumenLookFragment extends Fragment {
 										.getChildAt(0)).getWidth())
 										- m_deleteEditHeightwidth;
 
-								laParam2.topMargin = (int) (((RelativeLayout) m_absLayout
+								laParam2.topMargin = (int) ((((RelativeLayout) m_absLayout
 										.getChildAt(0)).getHeight())
-										- m_deleteEditHeightwidth;
+										- m_deleteEditHeightwidth) / 2;
 
 								((Button) m_absLayout.getChildAt(2))
 										.setLayoutParams(laParam2);
 
-								m_hightOfImage = (int) (m_scale + (((RelativeLayout) m_absLayout
-										.getChildAt(0)).getHeight()));
-								m_widthOfImage = (int) (m_scale + (((RelativeLayout) m_absLayout
-										.getChildAt(0)).getWidth()));
+								RelativeLayout.LayoutParams laParam3 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam3.leftMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth) / 2;
+
+								laParam3.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(3))
+										.setLayoutParams(laParam3);
+
+								RelativeLayout.LayoutParams laParam4 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam4.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam4.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(4))
+										.setLayoutParams(laParam4);
+
 								m_layoutparams = new RelativeLayout.LayoutParams(
-										m_widthOfImage, m_hightOfImage);
+										m_widthOfImage, m_heightOfImage);
 
 								m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
 										.getChildAt(0)).getLeft();
@@ -818,104 +909,667 @@ public class EditarResumenLookFragment extends Fragment {
 										m_arrSignObjects.get(counter).setAncho(
 												m_widthOfImage);
 										m_arrSignObjects.get(counter).setAlto(
-												m_hightOfImage);
+												m_heightOfImage);
+										m_arrSignObjects.get(counter).setActualBitmap(
+												newBitmap);
 									}
 								}
+								((RelativeLayout) m_absLayout.getChildAt(0))
+										.setLayoutParams(m_layoutparams);
+							}
+						} else if (m_newX < m_oldX) {
+							for (int counter = 0; counter < m_arrSignObjects
+									.size(); counter++) {
+								if (v.getId() == m_arrSignObjects.get(
+										counter).getViewId()) {
+									viewVo = m_arrSignObjects.get(
+											counter);
+									break;
+								}
+							}
 
+							int m_heightOfImage = viewVo.getActualBitmap().getHeight();
+							int m_widthOfImage = (int) (viewVo.getActualBitmap().getWidth() - m_scale);
+
+							Bitmap orig = viewVo.getOriginalBitmap();
+							Bitmap newBitmap = Bitmap.createScaledBitmap(orig, m_widthOfImage,
+									m_heightOfImage, true);
+
+							//if (newDist > 0.0f) {
+							m_absLayout = (RelativeLayout) v.getParent();
+
+							if (m_widthOfImage > 200) {
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+								m_layoutparams.leftMargin = 0;
+								m_layoutparams.topMargin = 0;
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setImageBitmap(newBitmap);
+
+								(((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setLayoutParams(m_layoutparams);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										RelativeLayout.LayoutParams.WRAP_CONTENT,
+										RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+								m_layoutparams.leftMargin = m_absLayout
+										.getLeft();
+								m_layoutparams.topMargin = m_absLayout.getTop();
+								m_absLayout.setLayoutParams(m_layoutparams);
+
+								RelativeLayout.LayoutParams laParam2 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam2.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam2.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth) / 2;
+
+								((Button) m_absLayout.getChildAt(2))
+										.setLayoutParams(laParam2);
+
+								RelativeLayout.LayoutParams laParam3 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam3.leftMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth) / 2;
+
+								laParam3.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(3))
+										.setLayoutParams(laParam3);
+
+								RelativeLayout.LayoutParams laParam4 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam4.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam4.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(4))
+										.setLayoutParams(laParam4);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+
+								m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getLeft();
+								m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getTop();
+
+								for (int counter = 0; counter < m_arrSignObjects
+										.size(); counter++) {
+									if (v.getId() == m_arrSignObjects.get(
+											counter).getViewId()) {
+										m_arrSignObjects.get(counter).setAncho(
+												m_widthOfImage);
+										m_arrSignObjects.get(counter).setAlto(
+												m_heightOfImage);
+										m_arrSignObjects.get(counter).setActualBitmap(
+												newBitmap);
+									}
+								}
 								((RelativeLayout) m_absLayout.getChildAt(0))
 										.setLayoutParams(m_layoutparams);
 							}
 						}
-					}
-					if (m_newX < m_oldX && m_newY < m_oldY) {
-						m_absLayout = (RelativeLayout) view.getParent();
-
-						int m_hightOfImage = (int) (((ImageView) ((RelativeLayout) m_absLayout
-								.getChildAt(0)).getChildAt(0)).getHeight() - m_scale);
-						int m_widthOfImage = (int) (((ImageView) ((RelativeLayout) m_absLayout
-								.getChildAt(0)).getChildAt(0)).getWidth() - m_scale);
-
-						if (m_hightOfImage > 100) {
-
-							m_widthDelete = (int) (((RelativeLayout) m_absLayout
-									.getChildAt(0)).getWidth() - m_scale);
-							m_layoutparams = new RelativeLayout.LayoutParams(
-									m_widthOfImage, m_hightOfImage);
-							m_layoutparams.leftMargin = 0;
-							m_layoutparams.topMargin = 0;
-
-							((ImageView) ((RelativeLayout) m_absLayout
-									.getChildAt(0)).getChildAt(0))
-									.setLayoutParams(m_layoutparams);
-
-							m_layoutparams = new RelativeLayout.LayoutParams(
-									RelativeLayout.LayoutParams.WRAP_CONTENT,
-									RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-							m_layoutparams.leftMargin = m_absLayout.getLeft();
-							m_layoutparams.topMargin = m_absLayout.getTop();
-
-							m_absLayout.setLayoutParams(m_layoutparams);
-
-							RelativeLayout.LayoutParams laParam = new RelativeLayout.LayoutParams(
-									m_deleteEditHeightwidth,
-									m_deleteEditHeightwidth);
-							laParam.leftMargin = 0;
-							laParam.topMargin = 0;
-							((Button) m_absLayout.getChildAt(2))
-									.setLayoutParams(laParam);
-
-							RelativeLayout.LayoutParams laParam2 = new RelativeLayout.LayoutParams(
-									m_deleteEditHeightwidth,
-									m_deleteEditHeightwidth);
-
-							laParam2.leftMargin = (int) (((RelativeLayout) m_absLayout
-									.getChildAt(0)).getWidth())
-									- m_deleteEditHeightwidth - 10;
-
-							laParam2.topMargin = (int) (((RelativeLayout) m_absLayout
-									.getChildAt(0)).getHeight())
-									- m_deleteEditHeightwidth - 10;
-
-							((Button) m_absLayout.getChildAt(2))
-									.setLayoutParams(laParam2);
-
-							m_hightOfImage = (int) ((((RelativeLayout) m_absLayout
-									.getChildAt(0)).getHeight()) - m_scale);
-							m_widthOfImage = (int) ((((RelativeLayout) m_absLayout
-									.getChildAt(0)).getWidth()) - m_scale);
-							m_layoutparams = new RelativeLayout.LayoutParams(
-									m_widthOfImage, m_hightOfImage);
-							m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
-									.getChildAt(0)).getLeft();
-							m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
-									.getChildAt(0)).getTop();
-
-							for (int counter = 0; counter < m_arrSignObjects
-									.size(); counter++) {
-								if (v.getId() == m_arrSignObjects.get(counter)
-										.getViewId()) {
-									m_arrSignObjects.get(counter).setAncho(
-											m_widthOfImage);
-									m_arrSignObjects.get(counter).setAlto(
-											m_hightOfImage);
-								}
-							}
-
-							((RelativeLayout) m_absLayout.getChildAt(0))
-									.setLayoutParams(m_layoutparams);
-
-						}
-					}
-
-					break;
+						break;
 				}
-
 				return false;
 			}
 		};
+
+		// Listener for the arrow ontouch of arrow ZoomIn and ZoomOut the image.
+		altoListener = new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				View view;
+				ViewsVo viewVo = new ViewsVo();
+				// RemoveBorders();
+				view = v;
+				v.setClickable(true);
+				v.setDrawingCacheEnabled(true);
+				//v.bringToFront();
+				RelativeLayout m_absLayout = null;
+				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+					case MotionEvent.ACTION_DOWN:
+						m_oldX = event.getX();
+						m_oldY = event.getY();
+						break;
+					case MotionEvent.ACTION_UP:
+						ocultarBotones();
+						break;
+					case MotionEvent.ACTION_POINTER_UP:
+						break;
+
+					case MotionEvent.ACTION_MOVE:
+						m_absLayout = (RelativeLayout) v.getParent();
+
+						((RelativeLayout) m_absLayout).getChildAt(1).setBackgroundResource(
+								R.drawable.close);
+						((RelativeLayout) m_absLayout).getChildAt(0).setBackgroundResource(
+								R.drawable.recuadro);
+						((RelativeLayout) m_absLayout).getChildAt(2).setBackgroundResource(
+								R.drawable.resize_width);
+						((RelativeLayout) m_absLayout).getChildAt(3).setBackgroundResource(
+								R.drawable.resize_alto);
+						((RelativeLayout) m_absLayout).getChildAt(4).setBackgroundResource(
+								R.drawable.resize);
+
+						m_newY = event.getY();
+						m_scale = 10;
+
+						if (m_newY > m_oldY) {
+							for (int counter = 0; counter < m_arrSignObjects
+									.size(); counter++) {
+								if (v.getId() == m_arrSignObjects.get(
+										counter).getViewId()) {
+									viewVo = m_arrSignObjects.get(
+											counter);
+									break;
+								}
+							}
+
+							int m_heightOfImage = (int) (viewVo.getActualBitmap().getHeight() + m_scale);
+							int m_widthOfImage = viewVo.getActualBitmap().getWidth();
+
+							Bitmap orig = viewVo.getOriginalBitmap();
+							Bitmap newBitmap = Bitmap.createScaledBitmap(orig, m_widthOfImage,
+									m_heightOfImage, true);
+
+							//if (newDist > 0.0f) {
+							m_absLayout = (RelativeLayout) v.getParent();
+
+							if ((m_absLayout.getBottom() + 10) <= m_ivImage
+									.getBottom()) {
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+								m_layoutparams.leftMargin = 0;
+								m_layoutparams.topMargin = 0;
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setImageBitmap(newBitmap);
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setLayoutParams(m_layoutparams);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										RelativeLayout.LayoutParams.WRAP_CONTENT,
+										RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+								m_layoutparams.leftMargin = m_absLayout
+										.getLeft();
+								m_layoutparams.topMargin = m_absLayout.getTop();
+								m_absLayout.setLayoutParams(m_layoutparams);
+
+								RelativeLayout.LayoutParams laParam2 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam2.leftMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth) / 2;
+
+								laParam2.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(3))
+										.setLayoutParams(laParam2);
+
+								RelativeLayout.LayoutParams laParam3 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam3.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam3.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth) / 2;
+
+								((Button) m_absLayout.getChildAt(2))
+										.setLayoutParams(laParam3);
+
+								RelativeLayout.LayoutParams laParam4 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam4.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam4.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(4))
+										.setLayoutParams(laParam4);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+
+								m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getLeft();
+								m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getTop();
+
+								for (int counter = 0; counter < m_arrSignObjects
+										.size(); counter++) {
+									if (v.getId() == m_arrSignObjects.get(
+											counter).getViewId()) {
+										m_arrSignObjects.get(counter).setAncho(
+												m_widthOfImage);
+										m_arrSignObjects.get(counter).setAlto(
+												m_heightOfImage);
+										m_arrSignObjects.get(counter).setActualBitmap(
+												newBitmap);
+									}
+								}
+								((RelativeLayout) m_absLayout.getChildAt(0))
+										.setLayoutParams(m_layoutparams);
+							}
+						} else if (m_newY < m_oldY) {
+							for (int counter = 0; counter < m_arrSignObjects
+									.size(); counter++) {
+								if (v.getId() == m_arrSignObjects.get(
+										counter).getViewId()) {
+									viewVo = m_arrSignObjects.get(
+											counter);
+									break;
+								}
+							}
+
+							int m_heightOfImage = (int) (viewVo.getActualBitmap().getHeight() - m_scale);
+							int m_widthOfImage = viewVo.getActualBitmap().getWidth();
+
+							Bitmap orig = viewVo.getOriginalBitmap();
+							Bitmap newBitmap = Bitmap.createScaledBitmap(orig, m_widthOfImage,
+									m_heightOfImage, true);
+
+							//if (newDist > 0.0f) {
+							m_absLayout = (RelativeLayout) v.getParent();
+
+							if (m_heightOfImage > 200) {
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+								m_layoutparams.leftMargin = 0;
+								m_layoutparams.topMargin = 0;
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setImageBitmap(newBitmap);
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setLayoutParams(m_layoutparams);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										RelativeLayout.LayoutParams.WRAP_CONTENT,
+										RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+								m_layoutparams.leftMargin = m_absLayout
+										.getLeft();
+								m_layoutparams.topMargin = m_absLayout.getTop();
+								m_absLayout.setLayoutParams(m_layoutparams);
+
+								RelativeLayout.LayoutParams laParam2 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam2.leftMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth) / 2;
+
+								laParam2.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(3))
+										.setLayoutParams(laParam2);
+
+								RelativeLayout.LayoutParams laParam3 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam3.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam3.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth) / 2;
+
+								((Button) m_absLayout.getChildAt(2))
+										.setLayoutParams(laParam3);
+
+								RelativeLayout.LayoutParams laParam4 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam4.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam4.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(4))
+										.setLayoutParams(laParam4);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+
+								m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getLeft();
+								m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getTop();
+
+								for (int counter = 0; counter < m_arrSignObjects
+										.size(); counter++) {
+									if (v.getId() == m_arrSignObjects.get(
+											counter).getViewId()) {
+										m_arrSignObjects.get(counter).setAncho(
+												m_widthOfImage);
+										m_arrSignObjects.get(counter).setAlto(
+												m_heightOfImage);
+										m_arrSignObjects.get(counter).setActualBitmap(
+												newBitmap);
+									}
+								}
+								((RelativeLayout) m_absLayout.getChildAt(0))
+										.setLayoutParams(m_layoutparams);
+							}
+						}
+						break;
+				}
+				return false;
+			}
+		};
+
+		// Listener for the arrow ontouch of arrow ZoomIn and ZoomOut the image.
+		zoomListener = new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				View view;
+				ViewsVo viewVo = new ViewsVo();
+				// RemoveBorders();
+				view = v;
+				v.setClickable(true);
+				v.setDrawingCacheEnabled(true);
+				//v.bringToFront();
+				RelativeLayout m_absLayout = null;
+				switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+					case MotionEvent.ACTION_DOWN:
+						m_oldX = event.getX();
+						m_oldY = event.getY();
+						break;
+					case MotionEvent.ACTION_UP:
+						ocultarBotones();
+						break;
+					case MotionEvent.ACTION_POINTER_UP:
+						break;
+
+					case MotionEvent.ACTION_MOVE:
+						m_absLayout = (RelativeLayout) v.getParent();
+
+						((RelativeLayout) m_absLayout).getChildAt(1).setBackgroundResource(
+								R.drawable.close);
+						((RelativeLayout) m_absLayout).getChildAt(0).setBackgroundResource(
+								R.drawable.recuadro);
+						((RelativeLayout) m_absLayout).getChildAt(2).setBackgroundResource(
+								R.drawable.resize_width);
+						((RelativeLayout) m_absLayout).getChildAt(3).setBackgroundResource(
+								R.drawable.resize_alto);
+						((RelativeLayout) m_absLayout).getChildAt(4).setBackgroundResource(
+								R.drawable.resize);
+
+						m_newY = event.getY();
+						m_newX = event.getX();
+						m_scale = 10;
+
+						if ((m_newY > m_oldY) && m_newX > m_oldX) {
+							for (int counter = 0; counter < m_arrSignObjects
+									.size(); counter++) {
+								if (v.getId() == m_arrSignObjects.get(
+										counter).getViewId()) {
+									viewVo = m_arrSignObjects.get(
+											counter);
+									break;
+								}
+							}
+
+							int m_heightOfImage = (int) (viewVo.getActualBitmap().getHeight() + m_scale);
+							int m_widthOfImage = (int) (viewVo.getActualBitmap().getWidth() + m_scale);
+
+							Bitmap orig = viewVo.getOriginalBitmap();
+							Bitmap newBitmap = Bitmap.createScaledBitmap(orig, m_widthOfImage,
+									m_heightOfImage, true);
+
+							//if (newDist > 0.0f) {
+							m_absLayout = (RelativeLayout) v.getParent();
+
+							if ((m_absLayout.getBottom() + 10)<= (m_ivImage
+									.getBottom())
+									&& (m_absLayout.getRight() + 20) <= (m_DisplayWidth)) {
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+								m_layoutparams.leftMargin = 0;
+								m_layoutparams.topMargin = 0;
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setImageBitmap(newBitmap);
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setLayoutParams(m_layoutparams);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										RelativeLayout.LayoutParams.WRAP_CONTENT,
+										RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+								m_layoutparams.leftMargin = m_absLayout
+										.getLeft();
+								m_layoutparams.topMargin = m_absLayout.getTop();
+								m_absLayout.setLayoutParams(m_layoutparams);
+
+								RelativeLayout.LayoutParams laParam2 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam2.leftMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth) / 2;
+
+								laParam2.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(3))
+										.setLayoutParams(laParam2);
+
+								RelativeLayout.LayoutParams laParam3 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam3.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam3.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth) / 2;
+
+								((Button) m_absLayout.getChildAt(2))
+										.setLayoutParams(laParam3);
+
+								RelativeLayout.LayoutParams laParam4 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam4.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam4.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(4))
+										.setLayoutParams(laParam4);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+
+								m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getLeft();
+								m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getTop();
+
+								for (int counter = 0; counter < m_arrSignObjects
+										.size(); counter++) {
+									if (v.getId() == m_arrSignObjects.get(
+											counter).getViewId()) {
+										m_arrSignObjects.get(counter).setAncho(
+												m_widthOfImage);
+										m_arrSignObjects.get(counter).setAlto(
+												m_heightOfImage);
+										m_arrSignObjects.get(counter).setActualBitmap(
+												newBitmap);
+									}
+								}
+								((RelativeLayout) m_absLayout.getChildAt(0))
+										.setLayoutParams(m_layoutparams);
+							}
+						} else if ((m_newY < m_oldY) && (m_newX < m_oldX)) {
+							for (int counter = 0; counter < m_arrSignObjects
+									.size(); counter++) {
+								if (v.getId() == m_arrSignObjects.get(
+										counter).getViewId()) {
+									viewVo = m_arrSignObjects.get(
+											counter);
+									break;
+								}
+							}
+
+							int m_heightOfImage = (int) (viewVo.getActualBitmap().getHeight() - m_scale);
+							int m_widthOfImage = (int) (viewVo.getActualBitmap().getWidth() - m_scale);
+
+							Bitmap orig = viewVo.getOriginalBitmap();
+							Bitmap newBitmap = Bitmap.createScaledBitmap(orig, m_widthOfImage,
+									m_heightOfImage, true);
+
+							//if (newDist > 0.0f) {
+							m_absLayout = (RelativeLayout) v.getParent();
+
+							if (m_heightOfImage > 200) {
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+								m_layoutparams.leftMargin = 0;
+								m_layoutparams.topMargin = 0;
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setImageBitmap(newBitmap);
+
+								((ImageView) ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getChildAt(0)).setLayoutParams(m_layoutparams);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										RelativeLayout.LayoutParams.WRAP_CONTENT,
+										RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+								m_layoutparams.leftMargin = m_absLayout
+										.getLeft();
+								m_layoutparams.topMargin = m_absLayout.getTop();
+								m_absLayout.setLayoutParams(m_layoutparams);
+
+								RelativeLayout.LayoutParams laParam2 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam2.leftMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth) / 2;
+
+								laParam2.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(3))
+										.setLayoutParams(laParam2);
+
+								RelativeLayout.LayoutParams laParam3 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam3.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam3.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth) / 2;
+
+								((Button) m_absLayout.getChildAt(2))
+										.setLayoutParams(laParam3);
+
+								RelativeLayout.LayoutParams laParam4 = new RelativeLayout.LayoutParams(
+										m_deleteEditHeightwidth,
+										m_deleteEditHeightwidth);
+								laParam4.leftMargin = (int) (((RelativeLayout) m_absLayout
+										.getChildAt(0)).getWidth())
+										- m_deleteEditHeightwidth;
+
+								laParam4.topMargin = (int) ((((RelativeLayout) m_absLayout
+										.getChildAt(0)).getHeight())
+										- m_deleteEditHeightwidth);
+
+								((Button) m_absLayout.getChildAt(4))
+										.setLayoutParams(laParam4);
+
+								m_layoutparams = new RelativeLayout.LayoutParams(
+										m_widthOfImage, m_heightOfImage);
+
+								m_layoutparams.leftMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getLeft();
+								m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
+										.getChildAt(0)).getTop();
+
+								for (int counter = 0; counter < m_arrSignObjects
+										.size(); counter++) {
+									if (v.getId() == m_arrSignObjects.get(
+											counter).getViewId()) {
+										m_arrSignObjects.get(counter).setAncho(
+												m_widthOfImage);
+										m_arrSignObjects.get(counter).setAlto(
+												m_heightOfImage);
+										m_arrSignObjects.get(counter).setActualBitmap(
+												newBitmap);
+									}
+								}
+								((RelativeLayout) m_absLayout.getChildAt(0))
+										.setLayoutParams(m_layoutparams);
+							}
+						}
+						break;
+				}
+				return false;
+			}
+		};
+
 		m_absTextlayout.setOnTouchListener(m_touchImagListener);
-		m_btnZoom.setOnTouchListener(m_strecthArrowListener);
+		m_btnZoomLado.setOnTouchListener(anchoListener);
+		m_btnZoomAlto.setOnTouchListener(altoListener);
+		m_btnZoomZoom.setOnTouchListener(zoomListener);
 	}
 
 	// Delete button listener to show the alert and confirmation for deleting
