@@ -39,6 +39,11 @@ import com.agba.closfy.fragments.TestColoridoFragment;
 import com.agba.closfy.fragments.UtilidadesFragment;
 import com.agba.closfy.modelo.Cuenta;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
+import java.util.Calendar;
 
 public class ClosfyActivity extends ActionBarActivity {
 	// Menu navegacion
@@ -50,6 +55,8 @@ public class ClosfyActivity extends ActionBarActivity {
 	private ActionBarDrawerToggle actionBarDrawer;
 	private ListAdapterNavigator mAdapter;
 	TextView textoHeader;
+
+	private InterstitialAd interstitial;
 
 	private final String BD_NOMBRE = "BDClosfy";
 	private SQLiteDatabase db;
@@ -77,6 +84,21 @@ public class ClosfyActivity extends ActionBarActivity {
 
 		navList.addHeaderView(header);
 		navList.addFooterView(footer);
+
+		// Anuncio Inicial
+		interstitial = new InterstitialAd(this);
+		interstitial.setAdUnitId("ca-app-pub-2303483383476811/5599595681");
+
+		AdRequest adRequestCompleto = new AdRequest.Builder().build();
+		interstitial.loadAd(adRequestCompleto);
+
+		interstitial.setAdListener(new AdListener() {
+			@Override
+			public void onAdLoaded() {
+				displayInterstitial();
+				super.onAdLoaded();
+			}
+		});
 
 		textoHeader = (TextView) findViewById(R.id.txtHeader);
 
@@ -331,6 +353,13 @@ public class ClosfyActivity extends ActionBarActivity {
 		super.onResume();
 	}
 
+	// Comprobamos si debemos mostrar la publicidad o no
+	public void displayInterstitial() {
+		if(mostrarAnuncioCompleto()) {
+			interstitial.show();
+		}
+	}
+
 	@Override
 	public void onBackPressed() {
 		Toast onBackPressedToast = Toast.makeText(this, R.string.pulseDosVeces,
@@ -344,5 +373,36 @@ public class ClosfyActivity extends ActionBarActivity {
 			onBackPressedToast.cancel();
 			super.onBackPressed();
 		}
+	}
+
+	// Comprobamos si debemos mostrar el anuncio completo o no
+	public boolean mostrarAnuncioCompleto() {
+		boolean mostrarAnuncio = false;
+
+		final Calendar c = Calendar.getInstance();
+		int mYear = c.get(Calendar.YEAR);
+		int mMonth = c.get(Calendar.MONTH);
+		int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
+		String fechaAct = mDay + "/" + (mMonth + 1) + "/" + mYear;
+		String fechaAnuncio = prefs.getString("fechaAnuncio", "");
+		int contador = prefs.getInt("contadorPubli", 0);
+		contador = contador + 1;
+
+		if (fechaAnuncio.equals(fechaAct) && contador == 2) {
+			mostrarAnuncio = true;
+			editor = prefs.edit();
+			editor.putInt("contadorPubli", contador);
+			editor.commit();
+		} else {
+			editor = prefs.edit();
+			editor.putString("fechaAnuncio", fechaAct);
+			editor.putInt("contadorPubli", contador);
+			//editor.putInt("ultimoNumPubli", 0);
+			editor.commit();
+		}
+
+		return mostrarAnuncio;
 	}
 }
