@@ -30,6 +30,21 @@
         <item>Morphology</item>
         <item>Rate app</item>
     </string-array>
+
+    <string-array name="titlesMayusculas">
+        <item>NEW GARMENT</item>
+        <item>CREATE OUTFIT</item>
+        <item>MY CLOSET</item>
+        <item>MY OUTFITS</item>
+        <item>UTILITIES</item>
+        <item>WHAT CAN I WEAR?</item>
+        <item>CALENDAR</item>
+        <!-- <item>Base de datos</item> -->
+        <item>COLORFUL TEST</item>
+        <item>MORPHOLOGY</item>
+        <item>RATE APP</item>
+    </string-array>
+
     <string-array name="tiposPrendaAdd">
         <item>Add...</item>
         <item>Upper part</item>
@@ -334,4 +349,10 @@
 	<string name="asesoramientoTipoCasual">Casual advice</string>
 	<string name="selectTipoAsesoramiento">Select a type of fashion advice service</string>
 	<string name="mensajeAsesoramiento">Please, write a brief description of your needs to our stylists.</string>
+
+    <string name="gestionarCuentas">ES_Gestionar cuentas</string>
+    <string name="cuentasList">Gestionar cuentas</string>
+    <string name="publicidad">PUBLICIDAD</string>
+    <string name="nombre">Nombre</string>
+    <string name="icono">Icono</string>
 </resources>

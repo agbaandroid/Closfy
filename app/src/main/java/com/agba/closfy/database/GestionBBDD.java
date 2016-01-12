@@ -1,10 +1,5 @@
 package com.agba.closfy.database;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +13,11 @@ import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.PrendaLook;
 import com.agba.closfy.modelo.Utilidad;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class GestionBBDD {
 
@@ -249,23 +249,23 @@ public class GestionBBDD {
 
 	public ArrayList<Prenda> getPrendasFiltros(SQLiteDatabase db, int idTipo,
 			int idTemporada, int favorito, int idCuenta) {
-		ArrayList<Prenda> listaPrendas = new ArrayList<Prenda>();
-		try {
-			StringBuffer sql = new StringBuffer(
-					"select * from Prendas where idCuenta = '" + idCuenta + "'");
+				ArrayList<Prenda> listaPrendas = new ArrayList<Prenda>();
+				try {
+					StringBuffer sql = new StringBuffer(
+							"select * from Prendas where idCuenta = '" + idCuenta + "'");
 
-			if (idTipo != 0) {
-				sql.append(" and tipoPrenda = '" + idTipo + "'");
-			}
-			if (idTemporada != 2) {
-				sql.append(" and (idTemporada = '" + idTemporada
-						+ "' or idTemporada = '2')");
-			}
-			if (favorito != 0) {
-				sql.append(" and favorito = '" + favorito + "'");
-			}
+					if (idTipo != 0) {
+						sql.append(" and tipoPrenda = '" + idTipo + "'");
+					}
+					if (idTemporada != 2) {
+						sql.append(" and (idTemporada = '" + idTemporada
+								+ "' or idTemporada = '2')");
+					}
+					if (favorito != 0) {
+						sql.append(" and favorito = '" + favorito + "'");
+					}
 
-			Cursor c1 = db.rawQuery(sql.toString(), null);
+					Cursor c1 = db.rawQuery(sql.toString(), null);
 			if (c1.moveToFirst()) {
 				do {
 					Prenda prenda = new Prenda();
@@ -857,12 +857,13 @@ public class GestionBBDD {
 	}
 
 	public boolean editCuenta(SQLiteDatabase db, String descripcion,
-			String idCuenta) {
+							  String idCuenta, int idIcon) {
 		try {
 			ContentValues values = new ContentValues();
 			values.put("nombre", descripcion);
+			values.put("idIcon", idIcon);
 			db.update("Cuentas", values, "idCuenta=?",
-					new String[] { idCuenta });
+					new String[]{idCuenta});
 
 			return true;
 		} catch (Exception e) {

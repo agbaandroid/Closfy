@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutNavigator"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/fondo_navigation"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iconNavigator"
-        android:layout_width="23dp"
-        android:layout_height="23dp"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="25dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/paleta" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textNavigator"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="2dp"
-        android:layout_toRightOf="@+id/iconNavigator"
-        android:gravity="left"
-        android:textColor="#000000"
-        android:textSize="14dp" />
+        <ImageView
+            android:id="@+id/iconNavigator"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/textNavigator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="2dp"
+            android:gravity="left"
+            android:textColor="#000000"
+            android:textSize="13dp" />
+    </LinearLayout>
+</LinearLayout>

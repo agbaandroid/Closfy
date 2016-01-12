@@ -32,6 +32,21 @@
         <item>Morfología</item>        
         <item>Valorar app</item>
     </string-array>
+
+    <string-array name="titlesMayusculas">
+        <item>NUEVA PRENDA</item>
+        <item>ELABORAR LOOK</item>
+        <item>MI ARMARIO</item>
+        <item>MIS LOOKS</item>
+        <item>UTILIDADES</item>
+        <item>¿QUÉ ME PONGO?</item>
+        <item>CALENDARIO</item>
+        <!-- <item>Base de datos</item> -->
+        <item>TEST DE COLORIDO</item>
+        <item>MORFOLOGÍA</item>
+        <item>VALORAR APP</item>
+    </string-array>
+
     <string-array name="tiposPrendaAdd">
         <item>Añadir...</item>        
         <item>Parte superior</item>
@@ -339,4 +354,6 @@
 	<string name="asesoramientoTipoCasual">Asesoramiento Casual</string>
 	<string name="selectTipoAsesoramiento">Seleccione un tipo de asesoramiento</string>
 	<string name="mensajeAsesoramiento">Escriba una breve descripción de las necesidades de su asesoramiento para nuestros estilistas.</string>
+
+    <string name="gestionarCuentas">ES_Gestionar cuentas</string>
 </resources>

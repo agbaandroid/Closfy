@@ -1,10 +1,5 @@
 package com.agba.closfy.util;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,9 +11,15 @@ import android.os.Environment;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
+import com.agba.closfy.modelo.Icon;
 import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.PrendaLook;
+
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Util {
 
@@ -2723,5 +2724,43 @@ public class Util {
 		idClass = idClass.replace("&", "");
 		
 		return idClass;
+	}
+
+	public static int obtenerIconoUser(int idIcon) {
+		int icon = 0;
+
+		switch (idIcon) {
+			case 0:
+				icon = R.drawable.user1;
+				break;
+			case 1:
+				icon = R.drawable.user2;
+				break;
+			case 2:
+				icon = R.drawable.user3;
+				break;
+			case 3:
+				icon = R.drawable.user4;
+				break;
+			case 4:
+				icon = R.drawable.user5;
+				break;
+			default:
+				icon = R.drawable.user1;
+				break;
+		}
+		return icon;
+	}
+
+	public static ArrayList<Icon> obtenerIconosCuenta() {
+		ArrayList<Icon> listIcon = new ArrayList<Icon>();
+
+		for (int i = 0; i < 5; i++) {
+			Icon icon = new Icon();
+			icon.setId(i);
+			listIcon.add(icon);
+		}
+
+		return listIcon;
 	}
 }

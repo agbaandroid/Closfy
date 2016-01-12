@@ -85,7 +85,7 @@ public class EditCuentaActivity extends Activity implements OnClickListener {
 				boolean ok = false;
 				db = this.openOrCreateDatabase(BD_NOMBRE, 1, null);
 				if (db != null) {
-					ok = gestion.editCuenta(db, text.trim(), idCuenta);
+					ok = gestion.editCuenta(db, text.trim(), idCuenta, 1);
 				}
 				db.close();
 

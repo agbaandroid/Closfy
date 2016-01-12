@@ -57,11 +57,6 @@
             android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
-            android:name="com.agba.closfy.activities.ResumenLookActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
-        </activity>
-        <activity
             android:name="com.agba.closfy.activities.ResumenLookMainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" >
@@ -210,6 +205,10 @@
             android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name="com.agba.closfy.activities.TerminosCondicionesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme" />
+        <activity
+            android:name="com.agba.closfy.activities.CuentasActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
