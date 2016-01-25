@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,21 +19,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
-import com.agba.closfy.activities.AddEditPrendaActivity;
-import com.agba.closfy.activities.AmpliarPrendaActivity;
+import com.agba.closfy.activities.AmpliarLookActivity;
+import com.agba.closfy.activities.CrearLookPrincipalActivity;
+import com.agba.closfy.activities.EditarLookActivity;
+import com.agba.closfy.activities.VerLookActivity;
 import com.agba.closfy.adapters.ListAdapterSpinner;
 import com.agba.closfy.database.GestionBBDD;
-import com.agba.closfy.modelo.Prenda;
+import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
 import com.google.android.gms.ads.AdRequest;
@@ -40,44 +41,43 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
-public class MiArmarioFragment extends Fragment {
-	private static final String KEY_CONTENT = "MiArmarioFragment:Content";
+public class NuevoMisLooksFragment extends Fragment {
+	private static final String KEY_CONTENT = "MisLooksFragment:Content";
 	private String mContent = "???";
-
-	static final int MENSAJE_CONFIRMAR_ELIMINAR = 1;
-	static final int EDIT_PRENDA = 0;
-	private final int PRENDA = 1;
 
 	private SQLiteDatabase db;
 	private final String BD_NOMBRE = "BDClosfy";
 	final GestionBBDD gestion = new GestionBBDD();
 
+	static final int MENSAJE_CONFIRMAR_ELIMINAR = 1;
+	static final int EDIT_LOOK = 0;
+	private final int LOOK = 1;
+
+	ArrayList<Look> listLooks = new ArrayList<Look>();
 	int cuentaSeleccionada;
-	int estilo;
 
 	private ImageView checkFavoritos;
-	private ImageView opcionesPrenda;
 	int favorito = 0;
 
-	ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
+	int estilo;
+
+	Look lookSeleccionado = new Look();
+
 	GridView gridview;
 	AdView adView;
-	Prenda prendaSeleccionada = new Prenda();
 
-	private Spinner spinnerTipo;
+	SharedPreferences prefs;
+	SharedPreferences.Editor editor;
+
+	/*private Spinner spinnerUtilidades;
 	private Spinner spinnerTemporada;
-	private Spinner spinnerUtilidad;
-	int idTipo = 0;
-	int posiUtilidad = 0;
-	int idTemporada = 2;
+	int idTemporada = 2;*/
 
-	boolean cargaInicialTipo = true;
 	boolean cargaInicialTemporada = true;
 	boolean cargaInicialUtilidad = true;
 	boolean cargado = false;
 
-	SharedPreferences prefs;
-	SharedPreferences.Editor editor;
+	int posiUtilidad = 0;
 
 	ProgressDialog progDailog;
 
@@ -97,7 +97,7 @@ public class MiArmarioFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		return inflater.inflate(R.layout.armario, container, false);
+		return inflater.inflate(R.layout.nuevo_mis_looks, container, false);
 	}
 
 	@Override
@@ -107,33 +107,32 @@ public class MiArmarioFragment extends Fragment {
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		new CargarPrendasTask().execute();
-	}
-
-	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+
+		// Look up the AdView as a resource and load a request.
+		adView = (AdView) this.getView().findViewById(R.id.adView);
+
+		gridview = (GridView) getView().findViewById(R.id.gridLooks);
+		/*spinnerUtilidades = (Spinner) this.getView().findViewById(
+				R.id.spinnerUtilidadesLook);
+
+		spinnerTemporada = (Spinner) this.getView().findViewById(
+				R.id.spinnerTemporadaLook);
+
+		// Rellenamos el spinner tipo
+		obtenerSpinners();
+*/
+		registerForContextMenu(gridview);
 
 		// Cuenta seleccionada
 		prefs = getActivity().getSharedPreferences("ficheroConf",
 				Context.MODE_PRIVATE);
 		cuentaSeleccionada = Util.cuentaSeleccionada(getActivity(), prefs);
 
-		gridview = (GridView) getView().findViewById(R.id.gridArmario);
-		spinnerTipo = (Spinner) this.getView().findViewById(
-				R.id.spinnerTipoPrendaArmario);
-
-		spinnerTemporada = (Spinner) this.getView().findViewById(
-				R.id.spinnerTemporadaArmario);
-
-		spinnerUtilidad = (Spinner) this.getView().findViewById(
-				R.id.spinnerUtilidadArmario);
-
 		checkFavoritos = (ImageView) this.getView().findViewById(
 				R.id.checkFavoritos);
-		adView = (AdView) this.getView().findViewById(R.id.adView);
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
@@ -144,26 +143,16 @@ public class MiArmarioFragment extends Fragment {
 			cambiarEstiloHombre();
 		}
 
-		// Rellenamos el spinner tipo
-		obtenerSpinners();
-
-		// Recuperamos las prendas
-		// obtenerPrendas();
-
-		spinnerTipo
+		/*spinnerUtilidades
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 
-						if (estilo == 1 && position > 2) {
-							idTipo = position + 1;
+						posiUtilidad = position;
+						if (!cargaInicialUtilidad) {
+							new CargarLooksTask().execute();
 						} else {
-							idTipo = position;
-						}
-						if (!cargaInicialTipo) {
-							new CargarPrendasTask().execute();
-						} else {
-							cargaInicialTipo = false;
+							cargaInicialUtilidad = false;
 						}
 					}
 
@@ -178,7 +167,7 @@ public class MiArmarioFragment extends Fragment {
 							View view, int position, long id) {
 						idTemporada = position;
 						if (!cargaInicialTemporada) {
-							new CargarPrendasTask().execute();
+							new CargarLooksTask().execute();
 						} else {
 							cargaInicialTemporada = false;
 						}
@@ -189,24 +178,7 @@ public class MiArmarioFragment extends Fragment {
 					}
 				});
 
-		spinnerUtilidad
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-					public void onItemSelected(AdapterView<?> parent,
-							View view, int position, long id) {
-						posiUtilidad = position;
-						if (!cargaInicialUtilidad) {
-							new CargarPrendasTask().execute();
-						} else {
-							cargaInicialUtilidad = false;
-						}
-					}
-
-					public void onNothingSelected(AdapterView<?> parent) {
-
-					}
-				});
-
-		checkFavoritos.setOnClickListener(new View.OnClickListener() {
+		checkFavoritos.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (favorito == 0) {
@@ -228,105 +200,86 @@ public class MiArmarioFragment extends Fragment {
 								.setBackgroundResource(R.drawable.check_corazon_off);
 					}
 				}
-				new CargarPrendasTask().execute();
-
+				new CargarLooksTask().execute();
 			}
-		});
+		});*/
 	}
 
 	public void obtenerSpinners() {
-		// rellenamos el spinner tipo prenda
-		ArrayAdapter<CharSequence> adapterList;
+		ArrayList<Utilidad> listUtilidades = new ArrayList<Utilidad>();
 		ArrayAdapter<CharSequence> adapterListTemp;
 
-		if (estilo == 1) {
-			adapterList = ArrayAdapter.createFromResource(getActivity(),
-					R.array.tiposPrendaArmarioHombre,
-					android.R.layout.simple_spinner_item);
-			adapterList.setDropDownViewResource(R.layout.spinner);
-			spinnerTipo.setAdapter(adapterList);
-		} else {
-			adapterList = ArrayAdapter.createFromResource(getActivity(),
-					R.array.tiposPrendaArmario,
-					android.R.layout.simple_spinner_item);
-			adapterList.setDropDownViewResource(R.layout.spinner);
-			spinnerTipo.setAdapter(adapterList);
+		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
+		if (db != null) {
+			// Recuperamos el listado del spinner Categorias
+			listUtilidades = (ArrayList<Utilidad>) gestion.getUtilidades(db);
 		}
+		db.close();
+
+		// Creamos el adaptador
+		ListAdapterSpinner spinner_adapterCat = new ListAdapterSpinner(
+				getActivity(), android.R.layout.simple_spinner_item,
+				listUtilidades);
+
+		/*spinnerUtilidades.setAdapter(spinner_adapterCat);
 
 		adapterListTemp = ArrayAdapter.createFromResource(getActivity(),
 				R.array.tiposTemporada, android.R.layout.simple_spinner_item);
 		adapterListTemp.setDropDownViewResource(R.layout.spinner);
 		spinnerTemporada.setAdapter(adapterListTemp);
 
-		spinnerTemporada.setSelection(2);
-
-		ArrayList<Utilidad> listCategorias = new ArrayList<Utilidad>();
-		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
-		if (db != null) {
-			// Recuperamos el listado del spinner Categorias
-			listCategorias = (ArrayList<Utilidad>) gestion
-					.getUtilidadesFiltro(db);
-		}
-		db.close();
-
-		// Creamos el adaptador
-		ListAdapterSpinner spinner_adapterUti = new ListAdapterSpinner(
-				getActivity(), android.R.layout.simple_spinner_item,
-				listCategorias);
-
-		spinnerUtilidad.setAdapter(spinner_adapterUti);
-
+		spinnerTemporada.setSelection(2);*/
 	}
 
-	public ArrayList<Prenda> obtenerPrendas() {
+	public void obtenerLooks() {
 		ArrayList<Utilidad> utilidades = new ArrayList<Utilidad>();
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
-			listPrendas = gestion.getPrendasFiltros(db, idTipo, idTemporada,
-					favorito, cuentaSeleccionada);
+			utilidades = gestion.getUtilidades(db);
+
+			Utilidad utilidad = utilidades.get(posiUtilidad);
+
+			listLooks = gestion.getLooksFiltros(db, cuentaSeleccionada,
+					2, favorito);
+
+			if (utilidad.getIdUtilidad() != -1) {
+				listLooks = Util.filtrarLooksUtilidad(listLooks,
+						utilidad.getIdUtilidad());
+			}
+
 		}
-		utilidades = gestion.getUtilidades(db);
 		db.close();
 
-		Utilidad utilidad = utilidades.get(posiUtilidad);
-		if (utilidad.getIdUtilidad() != -1) {
-			listPrendas = Util.filtrarPrendasUtilidad(listPrendas,
-					utilidad.getIdUtilidad());
-		}
-
-		listPrendas = Util.obtenerImagenesPrendas(getActivity(), listPrendas,
-				2, estilo);
-
-		return listPrendas;
+		Util.obtenerImagenLook(getActivity(), listLooks, 4);
 
 	}
 
-	public void guardarPrendaSeleccionado(String idPrenda) {
+	public void guardarLookSeleccionado(String idLook) {
 		SharedPreferences prefs;
 		SharedPreferences.Editor editor;
 
 		prefs = getActivity().getSharedPreferences("ficheroConf",
 				Context.MODE_PRIVATE);
 		editor = prefs.edit();
-		editor.putString("idPrenda", idPrenda);
+		editor.putString("idLook", idLook);
 		editor.putBoolean("mostrarMenu", true);
 		editor.commit();
 	}
 
-	public Prenda obtenerPrendaSeleccionada() {
-		Prenda mov = new Prenda();
+	public Look obtenerLookSeleccionado() {
+		Look look = new Look();
 		SharedPreferences prefs;
 		prefs = getActivity().getSharedPreferences("ficheroConf",
 				Context.MODE_PRIVATE);
 
-		String idPrenda = prefs.getString("idPrenda", "0");
+		String idLook = prefs.getString("idLook", "0");
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
-			mov = gestion.getPrendaById(db, Integer.parseInt(idPrenda));
+			look = gestion.getLookById(db, Integer.parseInt(idLook));
 		}
 		db.close();
-		return mov;
+		return look;
 	}
 
 	protected Dialog onCreateDialog(int id) {
@@ -336,7 +289,7 @@ public class MiArmarioFragment extends Fragment {
 		case MENSAJE_CONFIRMAR_ELIMINAR:
 			builder.setTitle(getResources().getString(R.string.atencion));
 			builder.setMessage(getResources().getString(
-					R.string.msnEliminarPrenda));
+					R.string.msnEliminarLook));
 			builder.setIcon(R.drawable.ic_delete);
 			builder.setCancelable(false);
 			builder.setPositiveButton(
@@ -348,9 +301,9 @@ public class MiArmarioFragment extends Fragment {
 									1, null);
 
 							if (db != null) {
-								ok = gestion.eliminarPrenda(db,
-										prendaSeleccionada.getIdPrenda(),
-										prendaSeleccionada.getIdFoto());
+								ok = gestion.eliminarLook(db,
+										lookSeleccionado.getIdLook(),
+										lookSeleccionado.getIdFoto());
 							}
 							db.close();
 
@@ -358,18 +311,18 @@ public class MiArmarioFragment extends Fragment {
 								Context context = getActivity()
 										.getApplicationContext();
 								CharSequence text = getResources().getString(
-										R.string.deletePrendaOk);
+										R.string.deleteLookOk);
 								int duration = Toast.LENGTH_SHORT;
 								Toast toast = Toast.makeText(context, text,
 										duration);
 								toast.show();
 
-								new CargarPrendasTask().execute();
+								new CargarLooksTask().execute();
 							} else {
 								Context context = getActivity()
 										.getApplicationContext();
 								CharSequence text = getResources().getString(
-										R.string.deletePrendaError);
+										R.string.deleteLookError);
 								int duration = Toast.LENGTH_SHORT;
 								Toast toast = Toast.makeText(context, text,
 										duration);
@@ -392,7 +345,7 @@ public class MiArmarioFragment extends Fragment {
 		return null;
 	}
 
-	public class CargarPrendasTask extends AsyncTask<Integer, Void, Void> {
+	public class CargarLooksTask extends AsyncTask<Integer, Void, Void> {
 
 		@Override
 		protected void onPreExecute() {
@@ -410,28 +363,30 @@ public class MiArmarioFragment extends Fragment {
 		protected Void doInBackground(Integer... params) {
 
 			// Recuperamos las prendas
-			obtenerPrendas();
+			obtenerLooks();
 			return null;
 		}
 
 		// Once complete, see if ImageView is still around and set bitmap.
 		@Override
 		protected void onPostExecute(Void result) {
-			final GridAdapter gridadapter = new GridAdapter(getActivity(),
-					listPrendas);
+			final GridAdapterLooks gridadapter = new GridAdapterLooks(
+					getActivity(), listLooks, estilo);
 			gridview.setAdapter(gridadapter);
-
-			// Look up the AdView as a resource and load a request.
 			AdRequest adRequest = new AdRequest.Builder().build();
 			adView.loadAd(adRequest);
-
 			progDailog.dismiss();
 		}
 	}
 
 	public void cambiarEstiloHombre() {
-		// spinnerTipo.setBackgroundResource(R.drawable.spinner_azul);
-		checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
+		// spinnerUtilidades.setBackgroundResource(R.drawable.spinner_azul);
+		//checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		new CargarLooksTask().execute();
 	}
 
 	@Override
@@ -444,8 +399,8 @@ public class MiArmarioFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_add:
-				Intent intent = new Intent(getActivity(), AddEditPrendaActivity.class);
-				startActivityForResult(intent, PRENDA);
+				Intent intent = new Intent(getActivity(), CrearLookPrincipalActivity.class);
+				startActivityForResult(intent, LOOK);
 				return true;
 			case android.R.id.home:
 				getActivity().finish();
@@ -455,63 +410,71 @@ public class MiArmarioFragment extends Fragment {
 		}
 	}
 
-	@Override
-	public void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-		if (!cargado) {
-			cargado = true;
-			new CargarPrendasTask().execute();
-		}
-	}
-
-	public class GridAdapter extends BaseAdapter implements OnClickListener {
+	public class GridAdapterLooks extends BaseAdapter implements
+			OnClickListener {
 		private Context context;
-		ArrayList<Prenda> listaPrendas = new ArrayList<Prenda>();
+		ArrayList<Look> listaLooks = new ArrayList<Look>();
+		int estilo;
 
-		public GridAdapter(Context c, ArrayList<Prenda> listPrendas) {
+		public GridAdapterLooks(Context c, ArrayList<Look> listLooks,
+				int estiloAux) {
 			context = c;
-			listaPrendas = listPrendas;
+			listaLooks = listLooks;
+			estilo = estiloAux;
 		}
 
 		public int getCount() {
-			return listaPrendas.size();
+			return listaLooks.size();
 		}
 
 		public Object getItem(int position) {
-			return listaPrendas.get(position);
+			return listaLooks.get(position);
 		}
 
 		public long getItemId(int position) {
 			return 0;
 		}
 
+		@SuppressWarnings("deprecation")
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
+
+			Look look = listaLooks.get(position);
 			View v;
 			if (convertView == null) { // if it's not recycled, initialize some
 										// attributes
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = inflater.inflate(R.layout.armario_adapter, parent, false);
+				v = inflater.inflate(R.layout.mis_looks_adapter_nuevo, parent,
+						false);
 			} else {
 				v = (View) convertView;
 			}
 
+			ImageView opcionesPrenda = (ImageView) v
+					.findViewById(R.id.opcionesLook);
 			opcionesPrenda.setOnClickListener(this);
 			opcionesPrenda.setTag(position);
 
 			LinearLayout layoutImagenPrenda = (LinearLayout) v
-					.findViewById(R.id.layoutImagenPrenda);
+					.findViewById(R.id.layoutImagenLook);
 			layoutImagenPrenda.setOnClickListener(this);
 			layoutImagenPrenda.setTag(position);
 
-			ImageView imagenPrenda = (ImageView) v
-					.findViewById(R.id.imagenPrenda);
+			ImageView imagenLook = (ImageView) v.findViewById(R.id.imagenLook);
+			LinearLayout layoutImage = (LinearLayout) v
+					.findViewById(R.id.layoutImageLook);
+			LinearLayout layoutText = (LinearLayout) v
+					.findViewById(R.id.layoutTextLook);
+			if (look.getFoto() != null) {
+				imagenLook.setBackgroundDrawable(look.getFoto());
+				layoutImage.setVisibility(View.VISIBLE);
+				layoutText.setVisibility(View.GONE);
+			} else {
+				layoutImage.setVisibility(View.GONE);
+				layoutText.setVisibility(View.VISIBLE);
+			}
 
-			imagenPrenda.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			imagenPrenda.setPadding(5, 5, 5, 5);
-
-			imagenPrenda.setImageDrawable(listaPrendas.get(position).getFoto());
 			return v;
 		}
 
@@ -519,18 +482,76 @@ public class MiArmarioFragment extends Fragment {
 		public void onClick(View v) {
 			int position = (Integer) v.getTag();
 
-			Prenda prenda = listPrendas.get(position);
-			guardarPrendaSeleccionado(String.valueOf(prenda.getIdPrenda()));
+			Look look = listLooks.get(position);
+			guardarLookSeleccionado(String.valueOf(look.getIdLook()));
 
 			switch (v.getId()) {
-			case R.id.layoutImagenPrenda:
+			case R.id.layoutImagenLook:
 				Intent intent = new Intent(getActivity(),
-						AmpliarPrendaActivity.class);
-				intent.putExtra("idPrenda", prenda.getIdPrenda());
+						AmpliarLookActivity.class);
+				intent.putExtra("idLook", look.getIdLook());
 				startActivity(intent);
 				break;
+			case R.id.opcionesLook:
+				PopupMenu popup = new PopupMenu(getActivity(), v);
+				MenuInflater inflater = popup.getMenuInflater();
+				inflater.inflate(R.menu.menu_pulsacion_look, popup.getMenu());
 
+				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						switch (item.getItemId()) {
+						case R.id.opc1:
+							lookSeleccionado = obtenerLookSeleccionado();
+							onCreateDialog(MENSAJE_CONFIRMAR_ELIMINAR);
+							return true;
+						case R.id.opc2:
+							// Llamar activity EditarPrenda
+							lookSeleccionado = obtenerLookSeleccionado();
+							Intent intent = new Intent(getActivity(),
+									VerLookActivity.class);
+							intent.putExtra("idLook",
+									lookSeleccionado.getIdLook());
+							intent.putExtra("temporada",
+									lookSeleccionado.getIdTemporada());
+							intent.putExtra("utilidades",
+									lookSeleccionado.getUtilidades());
+							intent.putExtra("favorito",
+									lookSeleccionado.getFavorito());
+							startActivity(intent);
+							return true;
+						case R.id.opc3:
+							// Llamar activity EditarPrenda
+							lookSeleccionado = obtenerLookSeleccionado();
+							Intent intent2 = new Intent(getActivity(),
+									EditarLookActivity.class);
+							intent2.putExtra("idLook",
+									lookSeleccionado.getIdLook());
+							intent2.putExtra("temporada",
+									lookSeleccionado.getIdTemporada());
+							intent2.putExtra("utilidades",
+									lookSeleccionado.getUtilidades());
+							intent2.putExtra("favorito",
+									lookSeleccionado.getFavorito());
+							startActivityForResult(intent2, 0);
+							return true;
+						}
+						return true;
+					}
+				});
+				popup.show();
+				break;
 			}
+		}
+	}
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		if (!cargado) {
+			cargado = true;
+			new CargarLooksTask().execute();
 		}
 	}
 }

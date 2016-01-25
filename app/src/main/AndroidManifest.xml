@@ -145,9 +145,6 @@
             android:name="com.agba.closfy.activities.SelectTemporadaActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name=".activities.AddCuentaActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
             android:name=".activities.SelectCuentaActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
@@ -216,6 +213,24 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" 
             android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name="com.agba.closfy.activities.AddCuentaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"
+            android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
+        <activity
+            android:name="com.agba.closfy.activities.AddEditPrendaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"
+            android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
+
+        <activity
+            android:name="com.agba.closfy.activities.CrearLookPrincipalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"
+            android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
+
+
 
         <!-- Publicidad -->
 

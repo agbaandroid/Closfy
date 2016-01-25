@@ -18,13 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
@@ -40,7 +38,7 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
-public class MiArmarioFragment extends Fragment {
+public class NuevoMiArmarioFragment extends Fragment {
 	private static final String KEY_CONTENT = "MiArmarioFragment:Content";
 	private String mContent = "???";
 
@@ -57,16 +55,16 @@ public class MiArmarioFragment extends Fragment {
 
 	private ImageView checkFavoritos;
 	private ImageView opcionesPrenda;
-	int favorito = 0;
+	//int favorito = 0;
 
 	ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
 	GridView gridview;
 	AdView adView;
 	Prenda prendaSeleccionada = new Prenda();
 
-	private Spinner spinnerTipo;
-	private Spinner spinnerTemporada;
-	private Spinner spinnerUtilidad;
+	//private Spinner spinnerTipo;
+	//private Spinner spinnerTemporada;
+	//private Spinner spinnerUtilidad;
 	int idTipo = 0;
 	int posiUtilidad = 0;
 	int idTemporada = 2;
@@ -97,7 +95,7 @@ public class MiArmarioFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		return inflater.inflate(R.layout.armario, container, false);
+		return inflater.inflate(R.layout.nuevo_armario, container, false);
 	}
 
 	@Override
@@ -122,7 +120,8 @@ public class MiArmarioFragment extends Fragment {
 		cuentaSeleccionada = Util.cuentaSeleccionada(getActivity(), prefs);
 
 		gridview = (GridView) getView().findViewById(R.id.gridArmario);
-		spinnerTipo = (Spinner) this.getView().findViewById(
+
+		/*spinnerTipo = (Spinner) this.getView().findViewById(
 				R.id.spinnerTipoPrendaArmario);
 
 		spinnerTemporada = (Spinner) this.getView().findViewById(
@@ -132,8 +131,9 @@ public class MiArmarioFragment extends Fragment {
 				R.id.spinnerUtilidadArmario);
 
 		checkFavoritos = (ImageView) this.getView().findViewById(
-				R.id.checkFavoritos);
+				R.id.checkFavoritos);*/
 		adView = (AdView) this.getView().findViewById(R.id.adView);
+
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
@@ -150,7 +150,7 @@ public class MiArmarioFragment extends Fragment {
 		// Recuperamos las prendas
 		// obtenerPrendas();
 
-		spinnerTipo
+		/*spinnerTipo
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
@@ -206,7 +206,7 @@ public class MiArmarioFragment extends Fragment {
 					}
 				});
 
-		checkFavoritos.setOnClickListener(new View.OnClickListener() {
+		checkFavoritos.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (favorito == 0) {
@@ -231,7 +231,7 @@ public class MiArmarioFragment extends Fragment {
 				new CargarPrendasTask().execute();
 
 			}
-		});
+		});*/
 	}
 
 	public void obtenerSpinners() {
@@ -244,21 +244,21 @@ public class MiArmarioFragment extends Fragment {
 					R.array.tiposPrendaArmarioHombre,
 					android.R.layout.simple_spinner_item);
 			adapterList.setDropDownViewResource(R.layout.spinner);
-			spinnerTipo.setAdapter(adapterList);
+			//spinnerTipo.setAdapter(adapterList);
 		} else {
 			adapterList = ArrayAdapter.createFromResource(getActivity(),
 					R.array.tiposPrendaArmario,
 					android.R.layout.simple_spinner_item);
 			adapterList.setDropDownViewResource(R.layout.spinner);
-			spinnerTipo.setAdapter(adapterList);
+			//spinnerTipo.setAdapter(adapterList);
 		}
 
 		adapterListTemp = ArrayAdapter.createFromResource(getActivity(),
 				R.array.tiposTemporada, android.R.layout.simple_spinner_item);
 		adapterListTemp.setDropDownViewResource(R.layout.spinner);
-		spinnerTemporada.setAdapter(adapterListTemp);
+		//spinnerTemporada.setAdapter(adapterListTemp);
 
-		spinnerTemporada.setSelection(2);
+		//spinnerTemporada.setSelection(2);
 
 		ArrayList<Utilidad> listCategorias = new ArrayList<Utilidad>();
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
@@ -274,7 +274,7 @@ public class MiArmarioFragment extends Fragment {
 				getActivity(), android.R.layout.simple_spinner_item,
 				listCategorias);
 
-		spinnerUtilidad.setAdapter(spinner_adapterUti);
+		//spinnerUtilidad.setAdapter(spinner_adapterUti);
 
 	}
 
@@ -284,7 +284,7 @@ public class MiArmarioFragment extends Fragment {
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
 			listPrendas = gestion.getPrendasFiltros(db, idTipo, idTemporada,
-					favorito, cuentaSeleccionada);
+					0, cuentaSeleccionada);
 		}
 		utilidades = gestion.getUtilidades(db);
 		db.close();
@@ -431,7 +431,7 @@ public class MiArmarioFragment extends Fragment {
 
 	public void cambiarEstiloHombre() {
 		// spinnerTipo.setBackgroundResource(R.drawable.spinner_azul);
-		checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
+		//checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
 	}
 
 	@Override
@@ -497,8 +497,6 @@ public class MiArmarioFragment extends Fragment {
 				v = (View) convertView;
 			}
 
-			opcionesPrenda.setOnClickListener(this);
-			opcionesPrenda.setTag(position);
 
 			LinearLayout layoutImagenPrenda = (LinearLayout) v
 					.findViewById(R.id.layoutImagenPrenda);
@@ -508,10 +506,13 @@ public class MiArmarioFragment extends Fragment {
 			ImageView imagenPrenda = (ImageView) v
 					.findViewById(R.id.imagenPrenda);
 
-			imagenPrenda.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			imagenPrenda.setPadding(5, 5, 5, 5);
+			//imagenPrenda.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			//imagenPrenda.setPadding(5, 5, 5, 5);
 
 			imagenPrenda.setImageDrawable(listaPrendas.get(position).getFoto());
+			imagenPrenda.getLayoutParams().height = 350;
+			imagenPrenda.getLayoutParams().width = 300;
+			//imagenPrenda.setScaleType(ImageView.ScaleType.MATRIX);
 			return v;
 		}
 
@@ -523,13 +524,12 @@ public class MiArmarioFragment extends Fragment {
 			guardarPrendaSeleccionado(String.valueOf(prenda.getIdPrenda()));
 
 			switch (v.getId()) {
-			case R.id.layoutImagenPrenda:
-				Intent intent = new Intent(getActivity(),
-						AmpliarPrendaActivity.class);
-				intent.putExtra("idPrenda", prenda.getIdPrenda());
-				startActivity(intent);
-				break;
-
+				case R.id.layoutImagenPrenda:
+					Intent intent = new Intent(getActivity(),
+							AmpliarPrendaActivity.class);
+					intent.putExtra("idPrenda", prenda.getIdPrenda());
+					startActivity(intent);
+					break;
 			}
 		}
 	}

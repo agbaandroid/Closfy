@@ -1,9 +1,5 @@
 package com.agba.closfy.fragments;
 
-import java.util.ArrayList;
-
-import org.lucasr.twowayview.TwoWayView;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +24,10 @@ import com.agba.closfy.activities.ResumenLookMainActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
+
+import org.lucasr.twowayview.TwoWayView;
+
+import java.util.ArrayList;
 
 public class CrearLookFragment extends Fragment {
 	private static final String KEY_CONTENT = "CrearLookFragment:Content";
@@ -98,16 +97,14 @@ public class CrearLookFragment extends Fragment {
 
 	}
 
-	public CrearLookFragment(int temporada, boolean mostrarCompl,
-			boolean mostrarAbrigo, boolean mostrarCalzado,
-			ArrayList<Integer> listIds, int favoritoSelec) {
+	public CrearLookFragment(int temporada, ArrayList<Integer> listIds, int favoritoSelec) {
 		idRadioTemporada = temporada;
-		mosCompl = mostrarCompl;
-		mosAbrigo = mostrarAbrigo;
-		mosCalzado = mostrarCalzado;
 		listIdsUtilidad = listIds;
 		favorito = favoritoSelec;
 
+	}
+
+	public CrearLookFragment() {
 	}
 
 	@Override
@@ -149,18 +146,6 @@ public class CrearLookFragment extends Fragment {
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
 			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
-		}
-
-		if (!mosAbrigo) {
-			layoutPrendaAbrigo.setVisibility(8);
-		}
-
-		if (!mosCalzado) {
-			layoutPrendaCalzado.setVisibility(8);
-		}
-
-		if (!mosCompl) {
-			layoutPrendaCompl.setVisibility(8);
 		}
 
 		new CargarPrendasTask().execute();

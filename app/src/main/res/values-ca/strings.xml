@@ -20,8 +20,6 @@
     <string name="msnSugerencias">Por favor, envíenos sus sugerencias para seguir mejorando la aplicación. Muchas gracias.</string>
 
     <string-array name="titles">
-        <item>Nueva prenda</item>
-        <item>Elaborar look</item>
         <item>Mi armario</item>
         <item>Mis looks</item>
         <item>Utilidades</item>
@@ -34,8 +32,6 @@
     </string-array>
 
     <string-array name="titlesMayusculas">
-        <item>NUEVA PRENDA</item>
-        <item>ELABORAR LOOK</item>
         <item>MI ARMARIO</item>
         <item>MIS LOOKS</item>
         <item>UTILIDADES</item>

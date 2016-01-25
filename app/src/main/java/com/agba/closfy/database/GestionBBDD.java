@@ -54,7 +54,8 @@ public class GestionBBDD {
 
 	String sqlCreateCuentas = "CREATE TABLE IF NOT EXISTS [Cuentas] ( "
 			+ "[idCuenta] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
-			+ "[nombre] TEXT NOT NULL, [sexo] INTEGER NOT NULL)";
+			+ "[nombre] TEXT NOT NULL, [sexo] INTEGER NOT NULL, "
+			+ "[idIcon] INTEGER NOT NULL)";
 
 	String sqlCreateAsesoramientos = "CREATE TABLE IF NOT EXISTS [Asesoramientos] ( "
 			+ "[idAsesoramiento] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -112,10 +113,10 @@ public class GestionBBDD {
 			if (languaje.equals("es") || languaje.equals("es-rUS")
 					|| languaje.equals("ca")) {
 				db.execSQL("INSERT INTO Cuentas VALUES(0, 'Cuenta principal', '"
-						+ sexo + "' )");
+						+ sexo + "', 1 )");
 			} else {
 				db.execSQL("INSERT INTO Cuentas VALUES(0, 'Main account', '"
-						+ sexo + "' )");
+						+ sexo + "', 1 )");
 			}
 
 		}
@@ -824,6 +825,7 @@ public class GestionBBDD {
 		if (c1.moveToFirst()) {
 			cuenta.setIdCuenta(c1.getString(0));
 			cuenta.setDescCuenta(c1.getString(1));
+			cuenta.setIdIcon(c1.getInt(3));
 		}
 		return cuenta;
 	}
@@ -871,10 +873,10 @@ public class GestionBBDD {
 		}
 	}
 
-	public boolean addCuenta(SQLiteDatabase db, String cuenta, int sexo) {
+	public boolean addCuenta(SQLiteDatabase db, String cuenta, int sexo, int idIcon) {
 		try {
 			db.execSQL("INSERT INTO Cuentas VALUES(null, '" + cuenta + "', '"
-					+ sexo + "')");
+					+ sexo + "', '" + idIcon + "')");
 			return true;
 		} catch (Exception e) {
 			return false;

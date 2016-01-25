@@ -1,31 +1,33 @@
 package com.agba.closfy.fragments;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.agba.closfy.R;
+import com.agba.closfy.activities.CrearLookPrincipalActivity;
 import com.agba.closfy.activities.InspiracionesActivity;
-import com.agba.closfy.activities.SelectTemporadaActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class CrearLookInicioFragment extends Fragment {
 	private static final String KEY_CONTENT = "CrearLookInicioFragment:Content";
@@ -35,34 +37,17 @@ public class CrearLookInicioFragment extends Fragment {
 	private final String BD_NOMBRE = "BDClosfy";
 	final GestionBBDD gestion = new GestionBBDD();
 
-	private LinearLayout botonCambiarTemp;
-	LinearLayout checkCompl;
-	LinearLayout checkAbrigo;
-	LinearLayout checkCalzado;
-
-	int estilo;
+	private Spinner spinnerTemporada;
+	int idTemporada;
 
 	private ImageView checkFavoritos;
-
-	ImageView imgCompl;
-	ImageView imgAbrigo;
-	ImageView imgCalzado;
-	LinearLayout botonSiguiente;
 
 	TextView textCambiar;
 	TextView textInspiraciones;
 
-	boolean mostrarCompl = true;
-	boolean mostrarAbrigo = true;
-	boolean mostrarCalzado = true;
-
-	int favorito = 0;
-
 	SharedPreferences prefs;
 	int cuentaSeleccionada;
 
-	int idRadioTemporada;
-	ArrayList<Integer> listIdsUtilidad = new ArrayList<Integer>();
 
 	private static final int CHANGE_TEMP = 5;
 
@@ -96,6 +81,8 @@ public class CrearLookInicioFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 
+		((CrearLookPrincipalActivity) getActivity()).cambiarActionBar(1);
+
 		// Cuenta seleccionada
 		prefs = getActivity().getSharedPreferences("ficheroConf",
 				Context.MODE_PRIVATE);
@@ -116,14 +103,9 @@ public class CrearLookInicioFragment extends Fragment {
 				getActivity(), listUtilidades);
 		listUtilidadesView.setAdapter(adapterUtilidad);
 
-		botonCambiarTemp = (LinearLayout) this.getView().findViewById(
-				R.id.botonCambiarTemp);
+		spinnerTemporada = (Spinner) this.getView().findViewById(
+				R.id.spinnerTemporada);
 
-		checkCompl = (LinearLayout) getActivity().findViewById(R.id.checkCompl);
-		checkAbrigo = (LinearLayout) getActivity().findViewById(
-				R.id.checkAbrigo);
-		checkCalzado = (LinearLayout) getActivity().findViewById(
-				R.id.checkCalzado);
 		checkFavoritos = (ImageView) this.getView().findViewById(
 				R.id.checkFavoritos);
 
@@ -131,120 +113,42 @@ public class CrearLookInicioFragment extends Fragment {
 		textInspiraciones = (TextView) getActivity().findViewById(
 				R.id.textInspiraciones);
 
-		imgCompl = (ImageView) getActivity().findViewById(R.id.imgCompl);
-		imgAbrigo = (ImageView) getActivity().findViewById(R.id.imgAbrigo);
-		imgCalzado = (ImageView) getActivity().findViewById(R.id.imgCalzado);
-		botonSiguiente = (LinearLayout) getActivity().findViewById(
-				R.id.botonSiguiente);
-
-		idRadioTemporada = 2;
+		((CrearLookPrincipalActivity) getActivity()).idRadioTemporada = 2;
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
-			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
+			((CrearLookPrincipalActivity) getActivity()).estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
 		}
 
-		if (estilo == 1) {
-//			imgCompl.setBackgroundResource(R.drawable.check_azul_on);
-//			imgAbrigo.setBackgroundResource(R.drawable.check_azul_on);
-//			imgCalzado.setBackgroundResource(R.drawable.check_azul_on);
-
+		if (((CrearLookPrincipalActivity) getActivity()).estilo == 1) {
 			cambiarEstiloHombre();
-		} else {
-//			imgCompl.setBackgroundResource(R.drawable.check_rosa_on);
-//			imgAbrigo.setBackgroundResource(R.drawable.check_rosa_on);
-//			imgCalzado.setBackgroundResource(R.drawable.check_rosa_on);
 		}
 
-		listIdsUtilidad.add(-1);
+		obtenerTemporadas();
+		idTemporada = 2;
+		spinnerTemporada.setSelection(2);
 
-		botonCambiarTemp.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent in = new Intent(getActivity(),
-						SelectTemporadaActivity.class);
-				in.putExtra("Temporada", idRadioTemporada);
-				startActivityForResult(in, CHANGE_TEMP);
-			}
-		});
+		((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.add(-1);
 
-		checkCompl.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mostrarCompl) {
-					mostrarCompl = false;
-					if (estilo == 1) {
-						imgCompl.setBackgroundResource(R.drawable.check_azul_off);
-					} else {
-						imgCompl.setBackgroundResource(R.drawable.check_rosa_off);
-					}
-				} else {
-					mostrarCompl = true;
-					if (estilo == 1) {
-						imgCompl.setBackgroundResource(R.drawable.check_azul_on);
-					} else {
-						imgCompl.setBackgroundResource(R.drawable.check_rosa_on);
-					}
-				}
-			}
-		});
+		spinnerTemporada
+				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+					public void onItemSelected(AdapterView<?> parent,
+											   View view, int position, long id) {
 
-		checkAbrigo.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mostrarAbrigo) {
-					mostrarAbrigo = false;
-					if (estilo == 1) {
-						imgAbrigo
-								.setBackgroundResource(R.drawable.check_azul_off);
-					} else {
-						imgAbrigo
-								.setBackgroundResource(R.drawable.check_rosa_off);
+						idTemporada = position;
 					}
-				} else {
-					mostrarAbrigo = true;
-					if (estilo == 1) {
-						imgAbrigo
-								.setBackgroundResource(R.drawable.check_azul_on);
-					} else {
-						imgAbrigo
-								.setBackgroundResource(R.drawable.check_rosa_on);
-					}
-				}
-			}
-		});
 
-		checkCalzado.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mostrarCalzado) {
-					mostrarCalzado = false;
-					if (estilo == 1) {
-						imgCalzado
-								.setBackgroundResource(R.drawable.check_azul_off);
-					} else {
-						imgCalzado
-								.setBackgroundResource(R.drawable.check_rosa_off);
+					public void onNothingSelected(AdapterView<?> parent) {
+
 					}
-				} else {
-					mostrarCalzado = true;
-					if (estilo == 1) {
-						imgCalzado
-								.setBackgroundResource(R.drawable.check_azul_on);
-					} else {
-						imgCalzado
-								.setBackgroundResource(R.drawable.check_rosa_on);
-					}
-				}
-			}
-		});
+				});
 
 		checkFavoritos.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (favorito == 0) {
-					favorito = 1;
-					if (estilo == 1) {
+				if (((CrearLookPrincipalActivity) getActivity()).favorito == 0) {
+					((CrearLookPrincipalActivity) getActivity()).favorito = 1;
+					if (((CrearLookPrincipalActivity) getActivity()).estilo == 1) {
 						checkFavoritos
 								.setBackgroundResource(R.drawable.check_estrella_on);
 					} else {
@@ -252,38 +156,14 @@ public class CrearLookInicioFragment extends Fragment {
 								.setBackgroundResource(R.drawable.check_corazon_on);
 					}
 				} else {
-					favorito = 0;
-					if (estilo == 1) {
+					((CrearLookPrincipalActivity) getActivity()).favorito = 0;
+					if (((CrearLookPrincipalActivity) getActivity()).estilo == 1) {
 						checkFavoritos
 								.setBackgroundResource(R.drawable.check_estrella_off);
 					} else {
 						checkFavoritos
 								.setBackgroundResource(R.drawable.check_corazon_off);
 					}
-				}
-			}
-		});
-
-		botonSiguiente.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Fragment fragment;
-
-				if (estilo == 1) {
-					fragment = new CrearLookFragmentHombre(idRadioTemporada,
-							mostrarCompl, mostrarAbrigo, mostrarCalzado,
-							listIdsUtilidad, favorito);
-				} else {
-					fragment = new CrearLookFragment(idRadioTemporada,
-							mostrarCompl, mostrarAbrigo, mostrarCalzado,
-							listIdsUtilidad, favorito);
-				}
-
-				if (fragment != null) {
-					FragmentManager fragmentManager = getActivity()
-							.getSupportFragmentManager();
-					fragmentManager.beginTransaction()
-							.replace(R.id.crearlookFragment, fragment).commit();
-
 				}
 			}
 		});
@@ -297,6 +177,16 @@ public class CrearLookInicioFragment extends Fragment {
 			}
 		});
 
+	}
+
+	public void obtenerTemporadas() {
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				getActivity(), R.array.tiposTemporada,
+				android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(R.layout.spinner);
+		spinnerTemporada.setAdapter(adapter);
+
+		spinnerTemporada.setSelection(0);
 	}
 
 	@Override
@@ -313,17 +203,17 @@ public class CrearLookInicioFragment extends Fragment {
 			case 0:
 				textTemporada.setText(getResources().getString(
 						R.string.otonoInvierno));
-				idRadioTemporada = 0;
+				((CrearLookPrincipalActivity) getActivity()).idRadioTemporada = 0;
 				break;
 			case 1:
 				textTemporada.setText(getResources().getString(
 						R.string.primaveraVerano));
-				idRadioTemporada = 1;
+				((CrearLookPrincipalActivity) getActivity()).idRadioTemporada = 1;
 				break;
 			case 2:
 				textTemporada.setText(getResources()
 						.getString(R.string.todoAno));
-				idRadioTemporada = 2;
+				((CrearLookPrincipalActivity) getActivity()).idRadioTemporada = 2;
 				break;
 			default:
 				break;
@@ -389,15 +279,15 @@ public class CrearLookInicioFragment extends Fragment {
 			tic.setTag(listaUtilidad.get(position).getIdUtilidad());
 
 			boolean encontrado = false;
-			for (int i = 0; i < listIdsUtilidad.size(); i++) {
-				if (listaUtilidad.get(position).getIdUtilidad() == listIdsUtilidad
+			for (int i = 0; i < ((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.size(); i++) {
+				if (listaUtilidad.get(position).getIdUtilidad() == ((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad
 						.get(i)) {
 					encontrado = true;
 				}
 			}
 
 			if (encontrado) {
-				if (estilo == 1) {
+				if (((CrearLookPrincipalActivity) getActivity()).estilo == 1) {
 					tic.setBackgroundResource(R.drawable.tic_azul);
 				} else {
 					tic.setBackgroundResource(R.drawable.tic);
@@ -415,23 +305,23 @@ public class CrearLookInicioFragment extends Fragment {
 		public void onClick(View view) {
 			Integer id = (Integer) view.getTag();
 
-			if (id == -1 & !listIdsUtilidad.contains(id)) {
-				listIdsUtilidad.clear();
+			if (id == -1 & !((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.contains(id)) {
+				((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.clear();
 			}
 
-			if (listIdsUtilidad.contains(id)) {
+			if (((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.contains(id)) {
 				if (id != -1) {
-					listIdsUtilidad.remove(id);
+					((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.remove(id);
 				}
 			} else {
-				if (id != 0 & listIdsUtilidad.contains(-1)) {
-					listIdsUtilidad.remove(0);
+				if (id != 0 & ((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.contains(-1)) {
+					((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.remove(0);
 				}
-				listIdsUtilidad.add(id);
+				((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.add(id);
 			}
 
-			if (listIdsUtilidad.size() == 0) {
-				listIdsUtilidad.add(-1);
+			if (((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.size() == 0) {
+				((CrearLookPrincipalActivity) getActivity()).listIdsUtilidad.add(-1);
 			}
 
 			notifyDataSetChanged();
@@ -442,8 +332,6 @@ public class CrearLookInicioFragment extends Fragment {
 
 	public void cambiarEstiloHombre() {
 		checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
-		textCambiar.setBackgroundResource(R.color.azul);
-		textInspiraciones.setBackgroundResource(R.color.azul);
 	}
 
 }

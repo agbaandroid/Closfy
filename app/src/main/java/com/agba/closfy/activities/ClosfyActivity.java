@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,12 +30,11 @@ import com.agba.closfy.R;
 import com.agba.closfy.adapters.ListAdapterNavigator;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.fragments.CalendarioFragment;
-import com.agba.closfy.fragments.CrearLookPrincipalFragment;
-import com.agba.closfy.fragments.MiArmarioFragment;
-import com.agba.closfy.fragments.MisLooksFragment;
 import com.agba.closfy.fragments.MorfologiaFragment;
 import com.agba.closfy.fragments.MorfologiaHombreFragment;
 import com.agba.closfy.fragments.NuevaPrendaFragment;
+import com.agba.closfy.fragments.NuevoMiArmarioFragment;
+import com.agba.closfy.fragments.NuevoMisLooksFragment;
 import com.agba.closfy.fragments.QueMePongoInicialFragment;
 import com.agba.closfy.fragments.TestColoridoFragment;
 import com.agba.closfy.fragments.UtilidadesFragment;
@@ -49,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class ClosfyActivity extends ActionBarActivity {
+public class ClosfyActivity extends AppCompatActivity {
 	// Menu navegacion
 	private String[] titlesMenu;
 	private String[] titlesMenuMayusculas;
@@ -262,38 +261,31 @@ public class ClosfyActivity extends ActionBarActivity {
 				}
 				break;
 		case 0:
-			fragment = new NuevaPrendaFragment();
-			// isCategoriaPremium);
+			fragment = new NuevoMiArmarioFragment();
 			break;
 		case 1:
-			fragment = new CrearLookPrincipalFragment();
+			fragment = new NuevoMisLooksFragment();
 			break;
 		case 2:
-			fragment = new MiArmarioFragment();
-			break;
-		case 3:
-			fragment = new MisLooksFragment();
-			break;
-		case 4:
 			fragment = new UtilidadesFragment();
 			break;
-		case 5:
+		case 3:
 			fragment = new QueMePongoInicialFragment();
 			break;
-		case 6:
+		case 4:
 			fragment = new CalendarioFragment();
 			break;
-		case 7:
+		case 5:
 			fragment = new TestColoridoFragment();
 			break;
-		case 8:
+		case 6:
 			if (estilo == 1) {
 				fragment = new MorfologiaHombreFragment();
 			} else {
 				fragment = new MorfologiaFragment();
 			}
 			break;		
-		case 9:
+		case 7:
 			Intent intent1 = new Intent(
 					"android.intent.action.VIEW",
 					Uri.parse("https://play.google.com/store/apps/details?id=com.agba.closfy"));
