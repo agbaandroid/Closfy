@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.agba.closfy.R;
 import com.agba.closfy.activities.AddNotasActivity;
+import com.agba.closfy.activities.ResumenLookMainActivity;
 import com.agba.closfy.adapters.ListAdapterAddPrendasLook;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
@@ -77,7 +78,7 @@ public class ResumenLookFragment extends Fragment {
             m_deleteEditHeightwidth;
     private Dialog m_dialog;
     private OnTouchListener m_touchImagListener, m_strecthArrowListener, anchoListener, altoListener, zoomListener;
-    private RelativeLayout m_RelativeLayout, m_RelativeLayoutAux,
+    private RelativeLayout m_RelativeLayoutAux,
             m_absTextlayout, m_absZoomlayout;
     private int m_widthDelete = 0, m_totalTextViewCount = 0;
     private float m_oldDist = 1f, m_scale, m_oldX = 0, m_oldY = 0, m_dX, m_dY,
@@ -85,7 +86,7 @@ public class ResumenLookFragment extends Fragment {
     ViewTreeObserver m_vtoTree;
     private RelativeLayout.LayoutParams m_layoutparams, m_layoutparamsDelete,
             m_layoutParamsEdit, m_layoutParamsLado, m_layoutParamsAlto, m_layoutParamsZoom;
-    private ArrayList<ViewsVo> m_arrSignObjects;
+
 
     private ImageView checkFavoritos;
 
@@ -101,13 +102,6 @@ public class ResumenLookFragment extends Fragment {
     int estilo;
 
     int cuentaSeleccionada;
-
-    String prendas = "";
-    String utilidades = "";
-    int temporada = 0;
-    int favorito = 0;
-
-    String notasString = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -144,18 +138,18 @@ public class ResumenLookFragment extends Fragment {
         db.close();
 
         Bundle bundle = getActivity().getIntent().getExtras();
-        prendas = bundle.getString("cadenaPrendas");
-        utilidades = bundle.getString("utilidades");
-        temporada = bundle.getInt("temporada");
+        ((ResumenLookMainActivity) getActivity()).prendas = bundle.getString("cadenaPrendas");
+        ((ResumenLookMainActivity) getActivity()).utilidades = bundle.getString("utilidades");
+        ((ResumenLookMainActivity) getActivity()).temporada = bundle.getInt("temporada");
 
-        idPrendas = prendas.split(";");
+        idPrendas = ((ResumenLookMainActivity) getActivity()).prendas.split(";");
 
         notas = (LinearLayout) getView().findViewById(R.id.notas);
         checkFavoritos = (ImageView) getView()
                 .findViewById(R.id.checkFavoritos);
         botonGuardar = (TextView) getView().findViewById(R.id.botonGuardar);
         m_ivImage = (ImageView) getView().findViewById(R.id.ivCardView);
-        m_RelativeLayout = (RelativeLayout) getView().findViewById(
+        ((ResumenLookMainActivity) getActivity()).m_RelativeLayout = (RelativeLayout) getView().findViewById(
                 R.id.relative1);
         m_llTopLayout = (LinearLayout) getView().findViewById(
                 R.id.llBottomLayout);
@@ -167,7 +161,7 @@ public class ResumenLookFragment extends Fragment {
 
         navList.setOnItemClickListener(new DrawerItemClickListener());
 
-        m_arrSignObjects = new ArrayList<ViewsVo>();
+        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects = new ArrayList<ViewsVo>();
 
         // Set the layout parameters to the Absolute layout for adding images.
         RelativeLayout.LayoutParams rl_pr = new LayoutParams(
@@ -176,7 +170,7 @@ public class ResumenLookFragment extends Fragment {
         rl_pr.addRule(RelativeLayout.ABOVE, R.id.llBottomLayout);
         rl_pr.addRule(RelativeLayout.BELOW, R.id.layout_title);
 
-        m_RelativeLayout.setLayoutParams(rl_pr);
+        ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.setLayoutParams(rl_pr);
 
         m_screen = ((WindowManager) getActivity().getSystemService(
                 getActivity().WINDOW_SERVICE)).getDefaultDisplay();
@@ -204,14 +198,14 @@ public class ResumenLookFragment extends Fragment {
 
         // Get the absoulte layout height according to the device screen density
         // to set the layout.
-        m_vtoTree = m_RelativeLayout.getViewTreeObserver();
+        m_vtoTree = ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getViewTreeObserver();
         m_vtoTree.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
             @Override
             public void onGlobalLayout() {
 
-                m_absHeight = m_RelativeLayout.getHeight();
-                m_RelativeLayout.getViewTreeObserver()
+                m_absHeight = ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getHeight();
+                ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getViewTreeObserver()
                         .removeGlobalOnLayoutListener(this);
 
                 int posiX = 0;
@@ -226,13 +220,13 @@ public class ResumenLookFragment extends Fragment {
                                 getActivity(), prenda, 0, estilo);
                         getImageLayout(m_bitmap, prenda, posiX, posiY);
 
-                        m_arrSignObjects.get(i).setxValue(posiX);
-                        m_arrSignObjects.get(i).setyValue(posiY);
+                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).setxValue(posiX);
+                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).setyValue(posiY);
 
-                        if ((posiX + 610) < m_RelativeLayout.getWidth()) {
+                        if ((posiX + 610) < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getWidth()) {
                             posiX = posiX + 310;
                         } else {
-                            if ((posiY + 610) < m_RelativeLayout.getHeight()) {
+                            if ((posiY + 610) < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getHeight()) {
                                 posiX = 0;
                                 posiY = posiY + 310;
                             } else {
@@ -245,8 +239,8 @@ public class ResumenLookFragment extends Fragment {
 
                 }
 
-                for (int i = 1; i < m_RelativeLayout.getChildCount(); i++) {
-                    RelativeLayout rel = (RelativeLayout) m_RelativeLayout
+                for (int i = 1; i < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getChildCount(); i++) {
+                    RelativeLayout rel = (RelativeLayout) ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
                             .getChildAt(i);
                     for (int j = 0; j < rel.getChildCount(); j++) {
                         rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
@@ -263,16 +257,16 @@ public class ResumenLookFragment extends Fragment {
         botonGuardar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 1; i < m_RelativeLayout.getChildCount(); i++) {
-                    RelativeLayout rel = (RelativeLayout) m_RelativeLayout
+                for (int i = 1; i < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getChildCount(); i++) {
+                    RelativeLayout rel = (RelativeLayout) ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
                             .getChildAt(i);
                     for (int j = 0; j < rel.getChildCount(); j++) {
                         rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
 
-                m_RelativeLayout.setDrawingCacheEnabled(true);
-                Bitmap b = m_RelativeLayout.getDrawingCache();
+                ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.setDrawingCacheEnabled(true);
+                Bitmap b = ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getDrawingCache();
 
                 // Carpeta dnde guardamos la captura
                 // En este caso, la raz de la SD Card
@@ -299,27 +293,27 @@ public class ResumenLookFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                m_RelativeLayout.setDrawingCacheEnabled(false);
+                ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.setDrawingCacheEnabled(false);
 
                 boolean ok = false;
                 db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
                 if (db != null) {
-                    ok = gestion.insertarLook(db, temporada, prendas,
-                            utilidades, favorito, notasString,
+                    ok = gestion.insertarLook(db, ((ResumenLookMainActivity) getActivity()).temporada, ((ResumenLookMainActivity) getActivity()).prendas,
+                            ((ResumenLookMainActivity) getActivity()).utilidades, ((ResumenLookMainActivity) getActivity()).favorito, ((ResumenLookMainActivity) getActivity()).notasString,
                             cuentaSeleccionada, url, "255;255;255");
                 }
 
                 if (ok) {
                     Look lastLook = gestion.getUltimoLook(db);
 
-                    for (int i = 0; i < m_arrSignObjects.size(); i++) {
+                    for (int i = 0; i < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size(); i++) {
                         gestion.insertarLookPrendas(db, lastLook.getIdLook(),
-                                m_arrSignObjects.get(i).getIdPrenda(),
-                                m_arrSignObjects.get(i).getxValue(),
-                                m_arrSignObjects.get(i).getyValue(),
-                                m_arrSignObjects.get(i).getAncho(),
-                                m_arrSignObjects.get(i).getAlto(),
-                                m_arrSignObjects.get(i).getPos());
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getIdPrenda(),
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getxValue(),
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getyValue(),
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getAncho(),
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getAlto(),
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getPos());
                     }
                 }
                 db.close();
@@ -340,7 +334,7 @@ public class ResumenLookFragment extends Fragment {
             public void onClick(View v) {
                 Intent inNota = new Intent(getActivity(),
                         AddNotasActivity.class);
-                inNota.putExtra("notas", notasString);
+                inNota.putExtra("notas", ((ResumenLookMainActivity) getActivity()).notasString);
                 inNota.putExtra("isEdicion", true);
                 ResumenLookFragment.this.startActivityForResult(inNota, NOTAS);
             }
@@ -349,8 +343,8 @@ public class ResumenLookFragment extends Fragment {
         checkFavoritos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (favorito == 0) {
-                    favorito = 1;
+                if (((ResumenLookMainActivity) getActivity()).favorito == 0) {
+                    ((ResumenLookMainActivity) getActivity()).favorito = 1;
                     if (estilo == 1) {
                         checkFavoritos
                                 .setBackgroundResource(R.drawable.check_estrella_on);
@@ -359,7 +353,7 @@ public class ResumenLookFragment extends Fragment {
                                 .setBackgroundResource(R.drawable.check_corazon_on);
                     }
                 } else {
-                    favorito = 0;
+                    ((ResumenLookMainActivity) getActivity()).favorito = 0;
                     if (estilo == 1) {
                         checkFavoritos
                                 .setBackgroundResource(R.drawable.check_estrella_off);
@@ -406,8 +400,8 @@ public class ResumenLookFragment extends Fragment {
 
             Bitmap m_bitmap = Util.obtenerPrendaBitmap(getActivity(), prenda,
                     0, estilo);
-            getImageLayout(m_bitmap, prenda, (m_RelativeLayout.getWidth() / 4),
-                    (m_RelativeLayout.getHeight() / 4));
+            getImageLayout(m_bitmap, prenda, (((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getWidth() / 4),
+                    (((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getHeight() / 4));
         }
     }
 
@@ -524,23 +518,23 @@ public class ResumenLookFragment extends Fragment {
         m_btnSDeleteImage.setLayoutParams(m_layoutparamsDelete);
         m_btnSDeleteImage.setBackgroundDrawable(getResources().getDrawable(
                 R.drawable.close));
-        m_btnSDeleteImage.setId(m_arrSignObjects.size());
+        m_btnSDeleteImage.setId(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
         m_btnSDeleteImage.setOnClickListener(new ImageDeleteListener());
 
         m_btnZoomLado.setLayoutParams(m_layoutParamsLado);
         m_btnZoomLado.setBackgroundDrawable(getResources().getDrawable(
                 R.drawable.resize_width));
-        m_btnZoomLado.setId(m_arrSignObjects.size());
+        m_btnZoomLado.setId(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
 
         m_btnZoomAlto.setLayoutParams(m_layoutParamsAlto);
         m_btnZoomAlto.setBackgroundDrawable(getResources().getDrawable(
                 R.drawable.resize_alto));
-        m_btnZoomAlto.setId(m_arrSignObjects.size());
+        m_btnZoomAlto.setId(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
 
         m_btnZoomZoom.setLayoutParams(m_layoutParamsZoom);
         m_btnZoomZoom.setBackgroundDrawable(getResources().getDrawable(
                 R.drawable.resize));
-        m_btnZoomZoom.setId(m_arrSignObjects.size());
+        m_btnZoomZoom.setId(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
 
         m_absZoomlayout.setBackgroundResource(R.drawable.recuadro);
         m_absZoomlayout.addView(m_ivtmpImage);
@@ -553,8 +547,8 @@ public class ResumenLookFragment extends Fragment {
 
         m_absTextlayout.setDrawingCacheEnabled(true);
         m_absTextlayout.setClickable(true);
-        m_absTextlayout.setId(m_arrSignObjects.size());
-        m_ivtmpImage.setId(m_arrSignObjects.size());
+        m_absTextlayout.setId(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
+        m_ivtmpImage.setId(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
 
         m_vtoTree = m_absTextlayout.getViewTreeObserver();
         m_vtoTree.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -576,13 +570,13 @@ public class ResumenLookFragment extends Fragment {
         m_signVo.setyValue(posiY);
         m_signVo.setAncho(300);
         m_signVo.setAlto(300);
-        m_signVo.setPos(m_arrSignObjects.size());
-        m_signVo.setViewId(m_arrSignObjects.size());
+        m_signVo.setPos(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
+        m_signVo.setViewId(((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size());
         m_signVo.setActualBitmap(Bitmap.createScaledBitmap(p_bitmap, 300,
                 300, true));
         m_signVo.setOriginalBitmap(p_bitmap);
-        m_arrSignObjects.add(m_signVo);
-        m_RelativeLayout.addView(m_absTextlayout);
+        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.add(m_signVo);
+        ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.addView(m_absTextlayout);
 
         // Image touch listener to move image onTouch event on screen.
         m_touchImagListener = new OnTouchListener() {
@@ -600,11 +594,11 @@ public class ResumenLookFragment extends Fragment {
                         v.bringToFront();
                         int posicion = 0;
                         int posiOld = 0;
-                        for (int counter = 0; counter < m_arrSignObjects.size(); counter++) {
-                            if (v.getId() == m_arrSignObjects.get(counter)
+                        for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size(); counter++) {
+                            if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter)
                                     .getViewId()) {
-                                posiOld = m_arrSignObjects.get(counter).getPos();
-                                m_arrSignObjects.get(counter).setPos(0);
+                                posiOld = ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).getPos();
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setPos(0);
                                 posicion = counter;
 
                                 break;
@@ -612,11 +606,11 @@ public class ResumenLookFragment extends Fragment {
                         }
 
                         // colocamos las posiciones
-                        for (int counter = 0; counter < m_arrSignObjects.size(); counter++) {
+                        for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size(); counter++) {
                             if ((counter != posicion)
-                                    && (m_arrSignObjects.get(counter).getPos() <= posiOld)) {
-                                m_arrSignObjects.get(counter).setPos(
-                                        m_arrSignObjects.get(counter).getPos() + 1);
+                                    && (((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).getPos() <= posiOld)) {
+                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setPos(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).getPos() + 1);
                             }
                         }
 
@@ -653,9 +647,9 @@ public class ResumenLookFragment extends Fragment {
 
                         if (m_posX > 0
                                 && m_posY > 0
-                                && (m_posX + v.getWidth()) < m_RelativeLayout
+                                && (m_posX + v.getWidth()) < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
                                 .getWidth()
-                                && (m_posY + v.getHeight()) < m_RelativeLayout
+                                && (m_posY + v.getHeight()) < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
                                 .getHeight()) {
 
                             RelativeLayout.LayoutParams laParam = new RelativeLayout.LayoutParams(
@@ -665,11 +659,11 @@ public class ResumenLookFragment extends Fragment {
 
                             v.setLayoutParams(laParam);
 
-                            for (int counter = 0; counter < m_arrSignObjects.size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(counter)
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size(); counter++) {
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter)
                                         .getViewId()) {
-                                    m_arrSignObjects.get(counter).setxValue(m_posX);
-                                    m_arrSignObjects.get(counter).setyValue(m_posY);
+                                    ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setxValue(m_posX);
+                                    ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setyValue(m_posY);
                                 }
                             }
 
@@ -683,13 +677,13 @@ public class ResumenLookFragment extends Fragment {
                             if (m_posY < 0) {
                                 m_posY = 0;
                             }
-                            if ((m_posX + v.getWidth()) > m_RelativeLayout
+                            if ((m_posX + v.getWidth()) > ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
                                     .getWidth()) {
-                                m_posX = m_RelativeLayout.getWidth() - v.getWidth();
+                                m_posX = ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getWidth() - v.getWidth();
                             }
-                            if ((m_posY + v.getHeight()) > m_RelativeLayout
+                            if ((m_posY + v.getHeight()) > ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
                                     .getHeight()) {
-                                m_posY = m_RelativeLayout.getHeight()
+                                m_posY = ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getHeight()
                                         - v.getHeight();
                             }
 
@@ -700,11 +694,11 @@ public class ResumenLookFragment extends Fragment {
 
                             v.setLayoutParams(laParam2);
 
-                            for (int counter = 0; counter < m_arrSignObjects.size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(counter)
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size(); counter++) {
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter)
                                         .getViewId()) {
-                                    m_arrSignObjects.get(counter).setxValue(m_posX);
-                                    m_arrSignObjects.get(counter).setyValue(m_posY);
+                                    ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setxValue(m_posX);
+                                    ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setyValue(m_posY);
                                 }
                             }
 
@@ -761,11 +755,11 @@ public class ResumenLookFragment extends Fragment {
                         m_scale = 10;
 
                         if (m_newX > m_oldX) {
-                            for (int counter = 0; counter < m_arrSignObjects
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                     .size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                         counter).getViewId()) {
-                                    viewVo = m_arrSignObjects.get(
+                                    viewVo = ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter);
                                     break;
                                 }
@@ -853,15 +847,15 @@ public class ResumenLookFragment extends Fragment {
                                 m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
                                         .getChildAt(0)).getTop();
 
-                                for (int counter = 0; counter < m_arrSignObjects
+                                for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                         .size(); counter++) {
-                                    if (v.getId() == m_arrSignObjects.get(
+                                    if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter).getViewId()) {
-                                        m_arrSignObjects.get(counter).setAncho(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAncho(
                                                 m_widthOfImage);
-                                        m_arrSignObjects.get(counter).setAlto(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAlto(
                                                 m_heightOfImage);
-                                        m_arrSignObjects.get(counter).setActualBitmap(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setActualBitmap(
                                                 newBitmap);
                                     }
                                 }
@@ -869,11 +863,11 @@ public class ResumenLookFragment extends Fragment {
                                         .setLayoutParams(m_layoutparams);
                             }
                         } else if (m_newX < m_oldX) {
-                            for (int counter = 0; counter < m_arrSignObjects
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                     .size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                         counter).getViewId()) {
-                                    viewVo = m_arrSignObjects.get(
+                                    viewVo = ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter);
                                     break;
                                 }
@@ -961,15 +955,15 @@ public class ResumenLookFragment extends Fragment {
                                 m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
                                         .getChildAt(0)).getTop();
 
-                                for (int counter = 0; counter < m_arrSignObjects
+                                for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                         .size(); counter++) {
-                                    if (v.getId() == m_arrSignObjects.get(
+                                    if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter).getViewId()) {
-                                        m_arrSignObjects.get(counter).setAncho(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAncho(
                                                 m_widthOfImage);
-                                        m_arrSignObjects.get(counter).setAlto(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAlto(
                                                 m_heightOfImage);
-                                        m_arrSignObjects.get(counter).setActualBitmap(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setActualBitmap(
                                                 newBitmap);
                                     }
                                 }
@@ -1026,11 +1020,11 @@ public class ResumenLookFragment extends Fragment {
                         m_scale = 10;
 
                         if (m_newY > m_oldY) {
-                            for (int counter = 0; counter < m_arrSignObjects
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                     .size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                         counter).getViewId()) {
-                                    viewVo = m_arrSignObjects.get(
+                                    viewVo = ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter);
                                     break;
                                 }
@@ -1119,15 +1113,15 @@ public class ResumenLookFragment extends Fragment {
                                 m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
                                         .getChildAt(0)).getTop();
 
-                                for (int counter = 0; counter < m_arrSignObjects
+                                for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                         .size(); counter++) {
-                                    if (v.getId() == m_arrSignObjects.get(
+                                    if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter).getViewId()) {
-                                        m_arrSignObjects.get(counter).setAncho(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAncho(
                                                 m_widthOfImage);
-                                        m_arrSignObjects.get(counter).setAlto(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAlto(
                                                 m_heightOfImage);
-                                        m_arrSignObjects.get(counter).setActualBitmap(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setActualBitmap(
                                                 newBitmap);
                                     }
                                 }
@@ -1135,11 +1129,11 @@ public class ResumenLookFragment extends Fragment {
                                         .setLayoutParams(m_layoutparams);
                             }
                         } else if (m_newY < m_oldY) {
-                            for (int counter = 0; counter < m_arrSignObjects
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                     .size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                         counter).getViewId()) {
-                                    viewVo = m_arrSignObjects.get(
+                                    viewVo = ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter);
                                     break;
                                 }
@@ -1227,15 +1221,15 @@ public class ResumenLookFragment extends Fragment {
                                 m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
                                         .getChildAt(0)).getTop();
 
-                                for (int counter = 0; counter < m_arrSignObjects
+                                for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                         .size(); counter++) {
-                                    if (v.getId() == m_arrSignObjects.get(
+                                    if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter).getViewId()) {
-                                        m_arrSignObjects.get(counter).setAncho(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAncho(
                                                 m_widthOfImage);
-                                        m_arrSignObjects.get(counter).setAlto(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAlto(
                                                 m_heightOfImage);
-                                        m_arrSignObjects.get(counter).setActualBitmap(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setActualBitmap(
                                                 newBitmap);
                                     }
                                 }
@@ -1293,11 +1287,11 @@ public class ResumenLookFragment extends Fragment {
                         m_scale = 10;
 
                         if ((m_newY > m_oldY) && m_newX > m_oldX) {
-                            for (int counter = 0; counter < m_arrSignObjects
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                     .size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                         counter).getViewId()) {
-                                    viewVo = m_arrSignObjects.get(
+                                    viewVo = ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter);
                                     break;
                                 }
@@ -1387,15 +1381,15 @@ public class ResumenLookFragment extends Fragment {
                                 m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
                                         .getChildAt(0)).getTop();
 
-                                for (int counter = 0; counter < m_arrSignObjects
+                                for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                         .size(); counter++) {
-                                    if (v.getId() == m_arrSignObjects.get(
+                                    if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter).getViewId()) {
-                                        m_arrSignObjects.get(counter).setAncho(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAncho(
                                                 m_widthOfImage);
-                                        m_arrSignObjects.get(counter).setAlto(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAlto(
                                                 m_heightOfImage);
-                                        m_arrSignObjects.get(counter).setActualBitmap(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setActualBitmap(
                                                 newBitmap);
                                     }
                                 }
@@ -1403,11 +1397,11 @@ public class ResumenLookFragment extends Fragment {
                                         .setLayoutParams(m_layoutparams);
                             }
                         } else if ((m_newY < m_oldY) && (m_newX < m_oldX)) {
-                            for (int counter = 0; counter < m_arrSignObjects
+                            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                     .size(); counter++) {
-                                if (v.getId() == m_arrSignObjects.get(
+                                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                         counter).getViewId()) {
-                                    viewVo = m_arrSignObjects.get(
+                                    viewVo = ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter);
                                     break;
                                 }
@@ -1495,15 +1489,15 @@ public class ResumenLookFragment extends Fragment {
                                 m_layoutparams.topMargin = ((RelativeLayout) m_absLayout
                                         .getChildAt(0)).getTop();
 
-                                for (int counter = 0; counter < m_arrSignObjects
+                                for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects
                                         .size(); counter++) {
-                                    if (v.getId() == m_arrSignObjects.get(
+                                    if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(
                                             counter).getViewId()) {
-                                        m_arrSignObjects.get(counter).setAncho(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAncho(
                                                 m_widthOfImage);
-                                        m_arrSignObjects.get(counter).setAlto(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setAlto(
                                                 m_heightOfImage);
-                                        m_arrSignObjects.get(counter).setActualBitmap(
+                                        ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).setActualBitmap(
                                                 newBitmap);
                                     }
                                 }
@@ -1530,17 +1524,17 @@ public class ResumenLookFragment extends Fragment {
         public void onClick(final View v) {
 
             m_ImageCount--;
-            for (int counter = 0; counter < m_arrSignObjects.size(); counter++) {
-                if (v.getId() == m_arrSignObjects.get(counter).getViewId()) {
+            for (int counter = 0; counter < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size(); counter++) {
+                if (v.getId() == ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).getViewId()) {
                     if (m_totalTextViewCount <= 0) {
                         m_AddedViewsHeightText = m_AddedViewsHeightText
-                                - m_arrSignObjects.get(counter).getViewHeight();
+                                - ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(counter).getViewHeight();
                     } else {
                         m_totalTextViewCount--;
                     }
 
-                    m_RelativeLayout.removeView((View) v.getParent());
-                    m_arrSignObjects.remove(counter);
+                    ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.removeView((View) v.getParent());
+                    ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.remove(counter);
 
                     break;
                 }
@@ -1560,8 +1554,8 @@ public class ResumenLookFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             public void run() {
 
-				for (int i = 1; i < m_RelativeLayout.getChildCount(); i++) {
-                    RelativeLayout rel = (RelativeLayout) m_RelativeLayout
+				for (int i = 1; i < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getChildCount(); i++) {
+                    RelativeLayout rel = (RelativeLayout) ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
 							.getChildAt(i);
 					for (int j = 0; j < rel.getChildCount(); j++) {
 						rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
@@ -1618,7 +1612,7 @@ public class ResumenLookFragment extends Fragment {
 
         switch (requestCode) {
             case NOTAS:
-                notasString = data.getExtras().getString("notas");
+                ((ResumenLookMainActivity) getActivity()).notasString = data.getExtras().getString("notas");
                 break;
         }
 

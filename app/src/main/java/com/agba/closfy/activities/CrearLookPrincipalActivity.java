@@ -1,5 +1,6 @@
 package com.agba.closfy.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,8 +13,10 @@ import android.widget.LinearLayout;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
+import com.agba.closfy.fragments.CrearLookFragment;
 import com.agba.closfy.fragments.CrearLookFragmentHombre;
 import com.agba.closfy.fragments.CrearLookInicioFragment;
+import com.agba.closfy.util.Util;
 
 import java.util.ArrayList;
 
@@ -29,8 +32,8 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
     public ArrayList<Integer> listIdsUtilidad = new ArrayList<Integer>();
     public int favorito = 0;
     public int idRadioTemporada;
-
-
+    public ArrayList<Integer> listaPrendasSeleccionadas = new ArrayList<Integer>();
+    private static final int CREAR_LOOK = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,28 +67,37 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
         doneActionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(paso == 1) {
+                    if (estilo == 0) {
+                        fragment = new CrearLookFragmentHombre(idRadioTemporada,
+                                listIdsUtilidad, favorito);
+                    } else {
+                        fragment = new CrearLookFragment(idRadioTemporada,
+                                listIdsUtilidad, favorito);
+                    }
 
-               /* if (estilo == 0){
-                    fragment = new CrearLookFragmentHombre(idRadioTemporada,
-                            listIdsUtilidad, favorito);
-                } else {
-                    fragment = new CrearLookFragment(idRadioTemporada,
-                            listIdsUtilidad, favorito);
-                }
+                    if (fragment != null) {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.crearlookFragment, fragment).commit();
 
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.crearlookFragment, fragment).commit();
+                    }
+                }else{
+                    String prendas = obtenerCadenaPrendas();
 
-                }*/
-                fragment = new CrearLookFragmentHombre(idRadioTemporada,
-                        listIdsUtilidad, favorito);
+                    // obtenemos la cadena de utilidades
+                    String utilidades = Util
+                            .obtenerCadenaUtilidades(listIdsUtilidad);
 
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.crearlookFragment, fragment).commit();
+                    Intent intent = new Intent(CrearLookPrincipalActivity.this,
+                            ResumenLookMainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("cadenaPrendas", prendas);
+                    bundle.putString("utilidades", utilidades);
+                    bundle.putInt("temporada", idRadioTemporada);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, CREAR_LOOK);
+                    //inicializar();
                 }
             }
         });
@@ -109,7 +121,39 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
         }
     }
 
+    public String obtenerCadenaPrendas() {
+        String cadena = "";
+
+        for (int i = 0; i < listaPrendasSeleccionadas.size(); i++) {
+            cadena = cadena + String.valueOf(listaPrendasSeleccionadas.get(i)) + ";";
+        }
+
+        if(!cadena.equals("")){
+            cadena.substring(0, cadena.length() - 1);
+        }
+        return cadena;
+    }
+
     public void cambiarActionBar(int pasoAux){
         paso = pasoAux;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK)
+            return;
+
+        switch (requestCode) {
+            case CREAR_LOOK:
+                Fragment fragment = new CrearLookInicioFragment();
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.crearlookFragment, fragment).commit();
+
+                }
+                break;
+        }
+
     }
 }

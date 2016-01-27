@@ -8,16 +8,16 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1.5"
-        android:background="@drawable/fondo_cuadros"
+        android:background="@drawable/rounded_layout"
         android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/buttonlayout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:gravity="center_horizontal|center_vertical"
@@ -29,17 +29,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="right|center_vertical"
                 android:orientation="horizontal" >
 
                 <ImageView
                     android:id="@+id/prevMonth"
-                    android:layout_width="20dp"
-                    android:layout_height="50dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginRight="15dp"
                     android:gravity="right|center_vertical"
-                    android:src="@drawable/arrow_left" >
+                    android:src="@drawable/arrow_leftb" >
                 </ImageView>
             </LinearLayout>
 
@@ -48,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_weight="2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal" >
 
@@ -57,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:gravity="center_vertical|center_horizontal"
-                    android:textColor="#000000"
+                    android:textColor="@color/txtAzulMes"
                     android:textSize="18dp" >
                 </TextView>
             </LinearLayout>
@@ -67,16 +71,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal" >
 
                 <ImageView
                     android:id="@+id/nextMonth"
-                    android:layout_width="20dp"
-                    android:layout_height="60dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:gravity="center_vertical"
-                    android:src="@drawable/arrow_right" />
+                    android:src="@drawable/arrow_rightb" />
             </LinearLayout>
         </LinearLayout>
 
@@ -113,12 +119,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
-        android:background="@drawable/fondo_cuadros"
+        android:background="@drawable/rounded_layout"
         android:gravity="bottom"
         android:orientation="vertical" >
 
@@ -178,7 +184,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
-                    android:background="@color/actionBarColor"
+                    android:background="@drawable/rounded_layout_green"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/aniadir"
                     android:textColor="#FFFFFF"
@@ -189,8 +195,8 @@
                     android:id="@+id/botonEditManiana"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/actionBarColor"
                     android:layout_marginRight="15dp"
+                    android:background="@drawable/rounded_layout_green"
                     android:visibility="gone" >
 
                     <TextView                        
@@ -201,10 +207,9 @@
                         android:layout_marginTop="1dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="#FFFFFF"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/verLook"
-                        android:textColor="#000000"
+                        android:textColor="#FFFFFF"
                         android:textSize="12dp"
                         android:textStyle="bold"/>
                 </LinearLayout>
@@ -255,7 +260,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
-                    android:background="@color/actionBarColor"
+                    android:background="@drawable/rounded_layout_green"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/aniadir"
                     android:textColor="#FFFFFF"
@@ -278,7 +283,7 @@
                         android:layout_marginTop="1dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="#FFFFFF"
+                        android:background="@drawable/rounded_layout_green"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/verLook"
                         android:textColor="#000000"
@@ -332,7 +337,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
-                    android:background="@color/actionBarColor"
+                    android:background="@drawable/rounded_layout_green"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/aniadir"
                     android:textColor="#FFFFFF"
@@ -355,7 +360,7 @@
                         android:layout_marginTop="1dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="#FFFFFF"
+                        android:background="@drawable/rounded_layout_green"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="@string/verLook"
                         android:textColor="#000000"

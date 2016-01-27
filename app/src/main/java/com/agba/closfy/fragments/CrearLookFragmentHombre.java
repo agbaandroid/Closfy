@@ -2,13 +2,11 @@ package com.agba.closfy.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
+import com.agba.closfy.activities.CrearLookPrincipalActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
@@ -43,8 +42,6 @@ public class CrearLookFragmentHombre extends Fragment {
 
 	ProgressDialog progDailog;
 
-	private static final int CREAR_LOOK = 1;
-
 	int idRadioTemporada;
 	boolean mosCompl;
 	boolean mosAbrigo;
@@ -67,8 +64,6 @@ public class CrearLookFragmentHombre extends Fragment {
 	ArrayList<Prenda> listPrendasAbrigo = new ArrayList<Prenda>();
 	ArrayList<Prenda> listPrendasCalzado = new ArrayList<Prenda>();
 	ArrayList<Prenda> listPrendasComplemento = new ArrayList<Prenda>();
-
-	private ArrayList<Integer> listaPrendasSeleccionadas = new ArrayList<Integer>();
 
 	TextView botonGuardar;
 	TextView botonCancelar;
@@ -125,14 +120,12 @@ public class CrearLookFragmentHombre extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 
+		((CrearLookPrincipalActivity) getActivity()).cambiarActionBar(2);
+
 		// Cuenta seleccionada
 		prefs = getActivity().getSharedPreferences("ficheroConf",
 				Context.MODE_PRIVATE);
 		cuentaSeleccionada = Util.cuentaSeleccionada(getActivity(), prefs);
-
-		botonGuardar = (TextView) this.getView().findViewById(R.id.botonCrear);
-
-		botonCancelar = (TextView) getView().findViewById(R.id.botonCancelar);
 
 		layoutPrendaAbrigo = (LinearLayout) this.getView().findViewById(
 				R.id.layoutPrendaAbrigo);
@@ -150,52 +143,6 @@ public class CrearLookFragmentHombre extends Fragment {
 
 		new CargarPrendasTask().execute();
 
-		/*botonGuardar.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				String prendas = obtenerCadenaPrendas();
-
-				// obtenemos la cadena de utilidades
-				String utilidades = Util
-						.obtenerCadenaUtilidades(listIdsUtilidad);
-
-				Intent intent = new Intent(getActivity(),
-						ResumenLookMainActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("cadenaPrendas", prendas);
-				bundle.putString("utilidades", utilidades);
-				bundle.putInt("temporada", idRadioTemporada);
-				intent.putExtras(bundle);
-				startActivityForResult(intent, CREAR_LOOK);
-				inicializar();
-			}
-		});
-
-		botonCancelar.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Fragment fragment = new CrearLookInicioFragment();
-				if (fragment != null) {
-					FragmentManager fragmentManager = getActivity()
-							.getSupportFragmentManager();
-					fragmentManager.beginTransaction()
-							.replace(R.id.crearlookFragment, fragment).commit();
-
-				}
-			}
-		});*/
-
-	}
-
-	public String obtenerCadenaPrendas() {
-		String cadena = "";
-
-		for (int i = 0; i < listaPrendasSeleccionadas.size(); i++) {
-			cadena = cadena + String.valueOf(listaPrendasSeleccionadas.get(i)) + ";";
-		}
-		
-		if(!cadena.equals("")){
-			cadena.substring(0, cadena.length() - 1);
-		}
-		return cadena;
 	}
 
 	public void mostrarMensaje(String texto) {
@@ -207,7 +154,7 @@ public class CrearLookFragmentHombre extends Fragment {
 	}
 
 	public void inicializar() {
-		listaPrendasSeleccionadas.clear();
+		((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.clear();
 
 		adapterSup = new ListAdapterLooks(getActivity(), listPrendasSup, 0);
 		listPrendaSup.setAdapter(adapterSup);
@@ -230,26 +177,6 @@ public class CrearLookFragmentHombre extends Fragment {
 		adapterComplemento = new ListAdapterLooks(getActivity(),
 				listPrendasComplemento, 5);
 		listPrendaComplemento.setAdapter(adapterComplemento);
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode != getActivity().RESULT_OK)
-			return;
-
-		switch (requestCode) {
-		case CREAR_LOOK:
-			Fragment fragment = new CrearLookInicioFragment();
-			if (fragment != null) {
-				FragmentManager fragmentManager = getActivity()
-						.getSupportFragmentManager();
-				fragmentManager.beginTransaction()
-						.replace(R.id.crearlookFragment, fragment).commit();
-
-			}
-			break;
-		}
-
 	}
 
 	public void obtenerPrendas() {
@@ -367,7 +294,7 @@ public class CrearLookFragmentHombre extends Fragment {
 
 			ImageView imagenCheck = (ImageView) v.findViewById(R.id.imagecheck);
 
-			if (listaPrendasSeleccionadas.contains(prenda.getIdPrenda())) {
+			if (((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.contains(prenda.getIdPrenda())) {
 				if (estilo == 1) {
 					imagenCheck.setBackgroundResource(R.drawable.tic_azul);
 				} else {
@@ -386,11 +313,11 @@ public class CrearLookFragmentHombre extends Fragment {
 		public void onClick(View view) {
 			int idPrenda = (Integer) view.getTag();
 
-			if (listaPrendasSeleccionadas.contains(idPrenda)) {
-				int posi = listaPrendasSeleccionadas.indexOf(idPrenda);
-				listaPrendasSeleccionadas.remove(posi);
+			if (((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.contains(idPrenda)) {
+				int posi = ((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.indexOf(idPrenda);
+				((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.remove(posi);
 			}else{
-				listaPrendasSeleccionadas.add(idPrenda);
+				((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.add(idPrenda);
 			}
 
 			adapterSup.notifyDataSetChanged();
