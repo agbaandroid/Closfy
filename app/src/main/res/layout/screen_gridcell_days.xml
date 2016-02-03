@@ -5,7 +5,7 @@
     android:layout_gravity="center_vertical|center_horizontal"
     android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical"
-    android:background="#727171" >
+    android:background="#FFFFFF" >
 
     <!-- android:background="@drawable/calendar_tile_small" -->
 
@@ -17,7 +17,7 @@
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
         android:textSize="14dp"
-        android:textColor="#FFFFFF" >
+        android:textColor="#000000" >
     </TextView>
 
 </LinearLayout>

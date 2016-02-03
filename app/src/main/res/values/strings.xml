@@ -353,8 +353,8 @@
     <string name="icono">Icono</string>
 
     <string-array name="arraySexo">
-        <item>ES_Man</item>
         <item>ES_Woman</item>
+        <item>ES_Man</item>
     </string-array>
 
 </resources>

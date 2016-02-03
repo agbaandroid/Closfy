@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,10 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
-import com.agba.closfy.activities.AmpliarLookActivity;
 import com.agba.closfy.activities.CrearLookPrincipalActivity;
-import com.agba.closfy.activities.EditarLookActivity;
-import com.agba.closfy.activities.VerLookActivity;
 import com.agba.closfy.adapters.ListAdapterSpinner;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
@@ -451,10 +447,10 @@ public class NuevoMisLooksFragment extends Fragment {
 				v = (View) convertView;
 			}
 
-			ImageView opcionesPrenda = (ImageView) v
-					.findViewById(R.id.opcionesLook);
-			opcionesPrenda.setOnClickListener(this);
-			opcionesPrenda.setTag(position);
+			//ImageView opcionesPrenda = (ImageView) v
+			//		.findViewById(R.id.opcionesLook);
+			//opcionesPrenda.setOnClickListener(this);
+			//opcionesPrenda.setTag(position);
 
 			LinearLayout layoutImagenPrenda = (LinearLayout) v
 					.findViewById(R.id.layoutImagenLook);
@@ -480,7 +476,7 @@ public class NuevoMisLooksFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			int position = (Integer) v.getTag();
+			/*int position = (Integer) v.getTag();
 
 			Look look = listLooks.get(position);
 			guardarLookSeleccionado(String.valueOf(look.getIdLook()));
@@ -541,7 +537,7 @@ public class NuevoMisLooksFragment extends Fragment {
 				});
 				popup.show();
 				break;
-			}
+			}*/
 		}
 	}
 

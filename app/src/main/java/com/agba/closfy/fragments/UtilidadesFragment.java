@@ -1,10 +1,6 @@
 package com.agba.closfy.fragments;
 
-import java.util.ArrayList;
-
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,29 +11,27 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupExpandListener;
-import android.widget.ImageView;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.agba.closfy.R;
 import com.agba.closfy.activities.AddUtilidadActivity;
-import com.agba.closfy.adapters.ListaAdapterUtilidadExpandibleAdapter;
+import com.agba.closfy.activities.EditUtilidadActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+
+import java.util.ArrayList;
 
 public class UtilidadesFragment extends Fragment {
 	private static final String KEY_CONTENT = "PestanaCategoriaFragment:Content";
 	private final String BD_NOMBRE = "BDClosfy";
 	final GestionBBDD gestion = new GestionBBDD();
 	private SQLiteDatabase db;
-	protected ExpandableListView listUtiView;
-	private LinearLayout linearLayoutAdd;
-	private ImageView imagenAdd;
+	protected ListView listUtiView;
 
 	int estilo;
 
@@ -75,11 +69,8 @@ public class UtilidadesFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 
-		listUtiView = (ExpandableListView) this.getView().findViewById(
+		listUtiView = (ListView) this.getView().findViewById(
 				R.id.listaPestanaUtilidad);
-		linearLayoutAdd = (LinearLayout) this.getView().findViewById(
-				R.id.layoutAddUtilidad);
-		imagenAdd = (ImageView) this.getView().findViewById(R.id.imagenAdd);
 
 		// Cuenta seleccionada
 		prefs = getActivity().getSharedPreferences("ficheroConf",
@@ -91,44 +82,11 @@ public class UtilidadesFragment extends Fragment {
 			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
 		}
 
-		if (estilo == 1) {
-			cambiarEstiloHombre();
-		}
-
-		rellenarListaExpansibleCategorias();
-
-		listUtiView.setOnGroupExpandListener(new OnGroupExpandListener() {
-			int previousGroup = -1;
-
-			@Override
-			public void onGroupExpand(int groupPosition) {
-				if (groupPosition != previousGroup)
-					listUtiView.collapseGroup(previousGroup);
-				previousGroup = groupPosition;
-			}
-		});
-
-		linearLayoutAdd.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent inUti = new Intent(getActivity(),
-						AddUtilidadActivity.class);
-				getActivity().startActivityForResult(inUti, 0);
-			}
-		});
-
-		imagenAdd.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent inUti = new Intent(getActivity(),
-						AddUtilidadActivity.class);
-				getActivity().startActivityForResult(inUti, 0);
-			}
-		});
+		rellenarListaUtilidades();
 
 	}
 
-	public void rellenarListaExpansibleCategorias() {
+	public void rellenarListaUtilidades() {
 
 		ArrayList<Utilidad> utilidades = new ArrayList<Utilidad>();
 		ArrayList<Object> opciones = new ArrayList<Object>();
@@ -136,12 +94,8 @@ public class UtilidadesFragment extends Fragment {
 
 		utilidades = obtenerUtilidades();
 
-		listUtiView.setDividerHeight(2);
-		listUtiView.setGroupIndicator(null);
-		listUtiView.setClickable(true);
-
-		ListaAdapterUtilidadExpandibleAdapter listAdapter = new ListaAdapterUtilidadExpandibleAdapter(
-				getActivity(), utilidades, estilo);
+		ListAdapterUtilidades listAdapter = new ListAdapterUtilidades(
+				getActivity(), utilidades);
 		listUtiView.setAdapter(listAdapter);
 
 	}
@@ -162,60 +116,108 @@ public class UtilidadesFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		rellenarListaExpansibleCategorias();
-	}
-
-	public void cambiarEstiloHombre() {
-		imagenAdd.setBackgroundResource(R.drawable.nuevo_azul);
+		rellenarListaUtilidades();
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_setting, menu);
+		inflater.inflate(R.menu.menu_setting_mas, menu);
 	}
 
 	// Aadiendo funcionalidad a las opciones de men
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		LayoutInflater li = LayoutInflater.from(getActivity());
-		View view = null;
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		AlertDialog alert;
 		switch (item.getItemId()) {
-		case R.id.btInfo:
-			view = li.inflate(R.layout.info, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.informacion));
-			builder.setIcon(R.drawable.ic_info_azul);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		case R.id.btAcerca:
-			view = li.inflate(R.layout.acerca, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setIcon(R.drawable.icon_app);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case R.id.action_add:
+				Intent inUti = new Intent(getActivity(),
+						AddUtilidadActivity.class);
+				getActivity().startActivityForResult(inUti, 0);
+				return true;
+			case android.R.id.home:
+				getActivity().finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	public class ListAdapterUtilidades extends BaseAdapter {
+		private LayoutInflater mInflater;
+		private ArrayList<Utilidad> listaUti = new ArrayList<Utilidad>();
+		private Context context;
+
+		public ListAdapterUtilidades(Context context, ArrayList<Utilidad> lista) {
+			listaUti = lista;
+			mInflater = LayoutInflater.from(context);
+			this.context = context;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return listaUti.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return listaUti.get(position);
+		}
+
+		public int getPositionById(String id) {
+			int posi = 0;
+			for (int i = 0; i < listaUti.size(); i++) {
+				Utilidad uti = listaUti.get(i);
+				if (String.valueOf(uti.getIdUtilidad()).equals(id)) {
+					posi = i;
+					break;
+				}
+			}
+			return posi;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LinearLayout layoutUtilidad;
+
+			Utilidad uti = listaUti.get(position);
+
+			String headerTitle = uti.getNombre();
+
+			if (convertView == null) {
+				convertView = mInflater.inflate(R.layout.lista_utilidad, null);
+			}
+
+			TextView lblListHeader = (TextView) convertView
+					.findViewById(R.id.textUtilidades);
+			lblListHeader.setText(headerTitle);
+
+			layoutUtilidad = (LinearLayout) convertView.findViewById(R.id.layoutUtilidad);
+
+			layoutUtilidad.setTag(position);
+
+			layoutUtilidad.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+
+					int posiSel = (int) v.getTag();
+					Utilidad uti = listaUti.get(posiSel);
+
+					Intent intent = new Intent(getActivity(), EditUtilidadActivity.class);
+					intent.putExtra("id", uti.getIdUtilidad());
+					intent.putExtra("textEdit", uti.getNombre());
+					getActivity().startActivity(intent);
+				}
+			});
+
+			return convertView;
+		}
+
 	}
 }

@@ -2,300 +2,332 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/toolbar" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:id="@+id/layout1Asesoramiento"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/fondo_cuadros"
-        android:orientation="horizontal" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/layoutPubli"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/publicidad"
+                android:textColor="@color/txtGris"
+                android:textSize="14dp" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-2303483383476811/9842504084" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1Asesoramiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_layout"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="3"
+                    android:background="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textTitulo1Ase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/asesoramientox1"
+                        android:textColor="#000000"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textPrecio1Ase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/precio"
+                            android:textColor="#000000"
+                            android:textSize="14dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/impuestosIncluidos"
+                            android:textColor="#000000"
+                            android:textSize="11dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="1dp"
+                        android:background="#FFFFFF"
+                        android:gravity="center_vertical|center_horizontal">
+
+                        <TextView
+                            android:id="@+id/botonComprarAse1"
+                            android:layout_width="70dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:background="@drawable/rounded_layout_green"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="@string/comprar"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/layout3Asesoramiento"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_weight="3"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/textTitulo1Ase"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/asesoramientox1"
-                    android:textColor="#000000"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_layout"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="3"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textPrecio1Ase"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/precio"
-                        android:textColor="#000000"
-                        android:textSize="14dp" />
-
-                    <TextView
+                        android:id="@+id/textTitulo3Ase"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="@string/impuestosIncluidos"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/asesoramientox3"
                         android:textColor="#000000"
-                        android:textSize="11dp"
-                        android:textStyle="italic" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:layout_marginRight="5dp"
-                android:background="#828182"
-                android:gravity="center_vertical" >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textPrecio3Ase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/precio"
+                            android:textColor="#000000"
+                            android:textSize="14dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/impuestosIncluidos"
+                            android:textColor="#000000"
+                            android:textSize="11dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_margin="1dp"
-                    android:background="#FFFFFF"
-                    android:gravity="center_vertical|center_horizontal" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/botonComprarAse1"
-                        android:layout_width="65dp"
-                        android:layout_height="30dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="1dp"
                         android:background="#FFFFFF"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/comprar"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical|center_horizontal">
+
+                        <TextView
+                            android:id="@+id/botonComprarAse3"
+                            android:layout_width="70dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:background="@drawable/rounded_layout_green"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="@string/comprar"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical" >
 
         <LinearLayout
-            android:id="@+id/layout3Asesoramiento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/fondo_cuadros"
-            android:orientation="horizontal" >
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/layout5Asesoramiento"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_weight="3"
-                android:background="#FFFFFF"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/textTitulo3Ase"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/asesoramientox3"
-                    android:textColor="#000000"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_layout"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="3"
+                    android:background="#FFFFFF"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textPrecio3Ase"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/precio"
-                        android:textColor="#000000"
-                        android:textSize="14dp" />
-
-                    <TextView
+                        android:id="@+id/textTitulo5Ase"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="@string/impuestosIncluidos"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/asesoramientox5"
                         android:textColor="#000000"
-                        android:textSize="11dp"
-                        android:textStyle="italic" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:layout_marginRight="5dp"
-                android:background="#828182"
-                android:gravity="center_vertical" >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textPrecio5Ase"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/precio"
+                            android:textColor="#000000"
+                            android:textSize="14dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/impuestosIncluidos"
+                            android:textColor="#000000"
+                            android:textSize="11dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_margin="1dp"
-                    android:background="#FFFFFF"
-                    android:gravity="center_vertical|center_horizontal" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/botonComprarAse3"
-                        android:layout_width="65dp"
-                        android:layout_height="30dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="1dp"
                         android:background="#FFFFFF"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/comprar"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical|center_horizontal">
+
+                        <TextView
+                            android:id="@+id/botonComprarAse5"
+                            android:layout_width="70dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:background="@drawable/rounded_layout_green"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="@string/comprar"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical" >
-
-        <LinearLayout
-            android:id="@+id/layout5Asesoramiento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/fondo_cuadros"
-            android:orientation="horizontal" >
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_weight="3"
-                android:background="#FFFFFF"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/textTitulo5Ase"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/asesoramientox5"
-                    android:textColor="#000000"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:id="@+id/textPrecio5Ase"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/precio"
-                        android:textColor="#000000"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="@string/impuestosIncluidos"
-                        android:textColor="#000000"
-                        android:textSize="11dp"
-                        android:textStyle="italic" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:layout_marginRight="5dp"
-                android:background="#828182"
-                android:gravity="center_vertical" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_margin="1dp"
-                    android:background="#FFFFFF"
-                    android:gravity="center_vertical|center_horizontal" >
-
-                    <TextView
-                        android:id="@+id/botonComprarAse5"
-                        android:layout_width="65dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:background="#FFFFFF"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/comprar"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>

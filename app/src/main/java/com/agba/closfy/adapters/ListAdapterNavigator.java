@@ -70,36 +70,30 @@ public class ListAdapterNavigator extends BaseAdapter {
 
 		switch (position) {
 			case 0:
-				icon.setBackgroundResource(R.drawable.add);
-				break;
-			case 1:
-				icon.setBackgroundResource(R.drawable.look);
-				break;
-			case 2:
 				icon.setBackgroundResource(R.drawable.armario);
 				break;
-			case 3:
+			case 1:
 				icon.setBackgroundResource(R.drawable.mislooks);
 				break;
-			case 4:
+			case 2:
 				icon.setBackgroundResource(R.drawable.utilidades);
 				break;
-			case 5:
+			case 3:
 				icon.setBackgroundResource(R.drawable.percha);
 				break;
-			case 6:
+			case 4:
 				icon.setBackgroundResource(R.drawable.calendar);
 				break;
 //		case 6:
 //			icon.setBackgroundResource(R.drawable.database);
 //			break;
-			case 7:
+			case 5:
 				icon.setBackgroundResource(R.drawable.test);
 				break;
-			case 8:
+			case 6:
 				icon.setBackgroundResource(R.drawable.morfologia);
 				break;
-			case 9:
+			case 7:
 				icon.setBackgroundResource(R.drawable.valorar);
 				break;
 		}

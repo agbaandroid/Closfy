@@ -1,7 +1,5 @@
 package com.agba.closfy.activities;
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,8 +8,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,16 +20,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
+
+import java.util.ArrayList;
 
 public class PrendaBasicaActivity extends ActionBarActivity {
 
@@ -41,8 +41,6 @@ public class PrendaBasicaActivity extends ActionBarActivity {
 	GridView gridview;
 	int posi = -1;
 	int tipoPrenda;
-	TextView botonAceptar;
-	TextView botonCancelar;
 	ProgressDialog progDailog;
 	ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
 
@@ -63,31 +61,30 @@ public class PrendaBasicaActivity extends ActionBarActivity {
 		}
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setContentInsetsAbsolute(0, 0);
+		setSupportActionBar(toolbar);
 
 		if (estilo == 1) {
 			toolbar.setBackgroundResource(R.color.azul);
 		}
 
-		setSupportActionBar(toolbar);
+		// Inflate the custom view and add click handlers for the buttons
+		View actionBarButtons = getLayoutInflater().inflate(R.layout.accept_cancel_actionbar,
+				new LinearLayout(this), false);
 
-		setSupportActionBar(toolbar);
-		getSupportActionBar().setTitle(
-				getResources().getString(R.string.prendaBasica));
+		ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		View cancelActionView = actionBarButtons.findViewById(R.id.action_cancel);
+		cancelActionView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 
-		botonAceptar = (TextView) findViewById(R.id.botonAceptar);
-		botonCancelar = (TextView) findViewById(R.id.botonCancelar);
-
-		Bundle bundle = getIntent().getExtras();
-		tipoPrenda = bundle.getInt("tipoPrenda");
-
-		gridview = (GridView) findViewById(R.id.gridPrendaBasica);
-
-		new CargarPrendasBasicasTask().execute();
-
-		botonAceptar.setOnClickListener(new View.OnClickListener() {
+		View doneActionView = actionBarButtons.findViewById(R.id.action_done);
+		doneActionView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				getIntent().putExtra("prendaBasicaSeleccionada", posi);
@@ -96,12 +93,26 @@ public class PrendaBasicaActivity extends ActionBarActivity {
 			}
 		});
 
-		botonCancelar.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		// Hide the icon, title and home/up button
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+		// Set the custom view and allow the bar to show it
+		layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_HORIZONTAL;
+		getSupportActionBar().setCustomView(actionBarButtons, layoutParams);
+
+		Bundle bundle = getIntent().getExtras();
+		tipoPrenda = bundle.getInt("tipoPrenda");
+
+		gridview = (GridView) findViewById(R.id.gridPrendaBasica);
+
+		new CargarPrendasBasicasTask().execute();
+
 	}
 
 	public void obtenerPrendas() {

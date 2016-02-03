@@ -1,12 +1,5 @@
 package com.agba.closfy.fragments;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -42,10 +35,17 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
 import com.agba.closfy.util.Util;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 public class CalendarioFragment extends Fragment implements OnClickListener {
 	private static final String tag = "MyCalendarActivity";
 
-	private TextView currentMonth;
+	private TextView currentMonthText;
 	private TextView fecha;
 
 	int cuentaSeleccionada;
@@ -158,9 +158,9 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 				.findViewById(R.id.layoutPrev);
 		layoutPrev.setOnClickListener(this);
 
-		currentMonth = (TextView) this.getView()
+		currentMonthText = (TextView) this.getView()
 				.findViewById(R.id.currentMonth);
-		currentMonth.setText(DateFormat.format(dateTemplate,
+		currentMonthText.setText(DateFormat.format(dateTemplate,
 				_calendar.getTime()));
 		nextMonth = (ImageView) this.getView().findViewById(R.id.nextMonth);
 		nextMonth.setOnClickListener(this);
@@ -188,10 +188,6 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
 		}
 
-		if (estilo == 1) {
-			cambiarEstiloHombre();
-		}
-
 	}
 
 	/** * * @param month * @param year */
@@ -199,7 +195,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 		adapter = new GridCellAdapter(getActivity(),
 				R.id.calendar_day_gridcell, month, year);
 		_calendar.set(year, month - 1, _calendar.get(Calendar.DAY_OF_MONTH));
-		currentMonth.setText(DateFormat.format(dateTemplate,
+		currentMonthText.setText(DateFormat.format(dateTemplate,
 				_calendar.getTime()));
 		adapter.notifyDataSetChanged();
 		calendarView.setAdapter(adapter);
@@ -327,27 +323,27 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 		db.close();
 
 		if (!manianaLibre) {
-			addManiana.setVisibility(8);
-			editManiana.setVisibility(0);
+			addManiana.setVisibility(View.GONE);
+			editManiana.setVisibility(View.VISIBLE);
 		} else {
-			addManiana.setVisibility(0);
-			editManiana.setVisibility(8);
+			addManiana.setVisibility(View.VISIBLE);
+			editManiana.setVisibility(View.GONE);
 		}
 
 		if (!tardeLibre) {
-			addTarde.setVisibility(8);
-			editTarde.setVisibility(0);
+			addTarde.setVisibility(View.GONE);
+			editTarde.setVisibility(View.VISIBLE);
 		} else {
-			addTarde.setVisibility(0);
-			editTarde.setVisibility(8);
+			addTarde.setVisibility(View.VISIBLE);
+			editTarde.setVisibility(View.GONE);
 		}
 
 		if (!nocheLibre) {
-			addNoche.setVisibility(8);
-			editNoche.setVisibility(0);
+			addNoche.setVisibility(View.GONE);
+			editNoche.setVisibility(View.VISIBLE);
 		} else {
-			addNoche.setVisibility(0);
-			editNoche.setVisibility(8);
+			addNoche.setVisibility(View.VISIBLE);
+			editNoche.setVisibility(View.GONE);
 		}
 	}
 
@@ -604,7 +600,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 			if (day_color[1].equals("RED")) {
 				gridcell.setTextColor(getResources().getColor(R.color.orrange));
 				if (diaLibre) {
-					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_marcado);
+					gridcell.setBackgroundResource(R.drawable.circulo_gris_sin);
 				} else {
 					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_marcado_prenda);
 				}
@@ -617,7 +613,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 			if (Integer.parseInt(themonth) != mes
 					&& Integer.parseInt(theday) == 1 && !isGrey) {
 				if (diaLibre) {
-					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_marcado);
+					gridcell.setBackgroundResource(R.drawable.circulo_gris_sin);
 				} else {
 					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_marcado_prenda);
 				}
@@ -694,7 +690,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 				}
 
 				if (diaLibre) {
-					view.setBackgroundResource(R.drawable.fondo_day_calendar_marcado);
+					view.setBackgroundResource(R.drawable.circulo_gris_sin);
 				} else {
 					view.setBackgroundResource(R.drawable.fondo_day_calendar_marcado_prenda);
 				}
@@ -810,39 +806,30 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 		db.close();
 
 		if (!manianaLibre) {
-			addManiana.setVisibility(8);
-			editManiana.setVisibility(0);
+			addManiana.setVisibility(View.GONE);
+			editManiana.setVisibility(View.VISIBLE);
 		} else {
-			addManiana.setVisibility(0);
-			editManiana.setVisibility(8);
+			addManiana.setVisibility(View.VISIBLE);
+			editManiana.setVisibility(View.GONE);
 		}
 
 		if (!tardeLibre) {
-			addTarde.setVisibility(8);
-			editTarde.setVisibility(0);
+			addTarde.setVisibility(View.GONE);
+			editTarde.setVisibility(View.VISIBLE);
 		} else {
-			addTarde.setVisibility(0);
-			editTarde.setVisibility(8);
+			addTarde.setVisibility(View.VISIBLE);
+			editTarde.setVisibility(View.GONE);
 		}
 
 		if (!nocheLibre) {
-			addNoche.setVisibility(8);
-			editNoche.setVisibility(0);
+			addNoche.setVisibility(View.GONE);
+			editNoche.setVisibility(View.VISIBLE);
 		} else {
-			addNoche.setVisibility(0);
-			editNoche.setVisibility(8);
+			addNoche.setVisibility(View.VISIBLE);
+			editNoche.setVisibility(View.GONE);
 		}
 
 		rellenarFecha(day, month, year);
-	}
-
-	public void cambiarEstiloHombre() {
-		addManiana.setBackgroundResource(R.color.azul);
-		addTarde.setBackgroundResource(R.color.azul);
-		addNoche.setBackgroundResource(R.color.azul);
-		editManiana.setBackgroundResource(R.color.azul);
-		editTarde.setBackgroundResource(R.color.azul);
-		editNoche.setBackgroundResource(R.color.azul);
 	}
 
 	@Override

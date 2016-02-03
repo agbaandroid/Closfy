@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -42,6 +43,7 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
 
     EditText nombre;
     Spinner spinnerIconUser;
+    Spinner spinnerSexo;
     private RelativeLayout layoutPubli;
 
     String idCuenta;
@@ -67,6 +69,7 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
 
         nombre = (EditText) findViewById(R.id.nombre);
         spinnerIconUser = (Spinner) findViewById(R.id.spinnerIconCuenta);
+        spinnerSexo = (Spinner) findViewById(R.id.spinnerSexoCuenta);
 
         cargarSpinners();
 
@@ -85,6 +88,7 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
 
         nombre.setText(cuenta.getDescCuenta());
         spinnerIconUser.setSelection(cuenta.getIdIcon());
+        spinnerSexo.setSelection(cuenta.getSexo());
 
         // Inflate the custom view and add click handlers for the buttons
         View actionBarButtons = getLayoutInflater().inflate(R.layout.edit_delete_actionbar,
@@ -285,6 +289,13 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
         ListAdapterIconCuenta spinner_adapterIcont = new ListAdapterIconCuenta(
                 this, listIcon);
         spinnerIconUser.setAdapter(spinner_adapterIcont);
+
+        ArrayAdapter<CharSequence> adapterList;
+        adapterList = ArrayAdapter.createFromResource(this,
+                R.array.arraySexo,
+                android.R.layout.simple_spinner_item);
+        adapterList.setDropDownViewResource(R.layout.spinner);
+        spinnerSexo.setAdapter(adapterList);
     }
 
     public void cuentaDefecto() {

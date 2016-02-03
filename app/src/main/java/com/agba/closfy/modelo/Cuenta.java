@@ -3,6 +3,7 @@ package com.agba.closfy.modelo;
 public class Cuenta {
 	String idCuenta;
 	String descCuenta;
+	int sexo;
 	int idIcon;
 
 	public String getIdCuenta() {
@@ -24,5 +25,13 @@ public class Cuenta {
 
 	public void setIdIcon(int idIcon) {
 		this.idIcon = idIcon;
+	}
+
+	public int getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(int sexo) {
+		this.sexo = sexo;
 	}
 }

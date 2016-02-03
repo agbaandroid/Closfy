@@ -32,7 +32,6 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.fragments.CalendarioFragment;
 import com.agba.closfy.fragments.MorfologiaFragment;
 import com.agba.closfy.fragments.MorfologiaHombreFragment;
-import com.agba.closfy.fragments.NuevaPrendaFragment;
 import com.agba.closfy.fragments.NuevoMiArmarioFragment;
 import com.agba.closfy.fragments.NuevoMisLooksFragment;
 import com.agba.closfy.fragments.QueMePongoInicialFragment;
@@ -340,34 +339,22 @@ public class ClosfyActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
-		boolean actualizar = prefs.getBoolean("actualizaCuenta", false);
+		TextView textoHeader = (TextView) findViewById(R.id.nombreCuenta);
+		ImageView idIcon = (ImageView) findViewById(R.id.iconCuenta);
 
-		if (actualizar) {
-			textoHeader = (TextView) findViewById(R.id.nombreCuenta);
-			int cuen = Util.cuentaSeleccionada(this, prefs);
-			db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-			if (db != null) {
-				Cuenta cuenta = gestion.getCuentaSeleccionada(db, cuen);
-				textoHeader.setText(cuenta.getDescCuenta());
+		TextView textoHeader2 = (TextView) findViewById(R.id.nombreCuenta2);
+		ImageView idIcon2 = (ImageView) findViewById(R.id.iconCuenta2);
 
-				estilo = gestion.getEstiloCuenta(db, cuen);
-			}
-			db.close();
-
-			if (estilo == 1) {
-				toolbar.setBackgroundResource(R.color.azul);
-				textoHeader.setTextColor(getResources().getColor(R.color.azul));
-			} else {
-				toolbar.setBackgroundResource(R.color.actionBarColor);
-				textoHeader.setTextColor(getResources().getColor(
-						R.color.actionBarColor));
-			}
-
-			editor = prefs.edit();
-			editor.putBoolean("actualizaCuenta", false);
-			editor.commit();
+		int cuen = cuentaSeleccionada();
+		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+		if (db != null) {
+			Cuenta cuenta = gestion.getCuentaSeleccionada(db, cuen);
+			textoHeader.setText(cuenta.getDescCuenta());
+			idIcon.setBackgroundResource(Util.obtenerIconoUser(cuenta.getIdIcon()));
+			textoHeader2.setText(cuenta.getDescCuenta());
+			idIcon2.setBackgroundResource(Util.obtenerIconoUser(cuenta.getIdIcon()));
 		}
-
+		db.close();
 		super.onResume();
 	}
 
@@ -488,7 +475,7 @@ public class ClosfyActivity extends AppCompatActivity {
 					Cuenta cuenta = listCuentas.get(posiSel);
 					seleccionarCuenta(cuenta.getIdCuenta());
 
-					Fragment fragment = new NuevaPrendaFragment();
+					Fragment fragment = new NuevoMiArmarioFragment();
 
 					FragmentManager fragmentManager = getSupportFragmentManager();
 					fragmentManager.beginTransaction()
@@ -549,5 +536,15 @@ public class ClosfyActivity extends AppCompatActivity {
 
 		int idCuenta = prefs.getInt("cuenta", 0);
 		return idCuenta;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		listCuentas = obtenerCuentas();
+
+		mAdapterCuentas = new ListAdapterCuentasNavigator(this, listCuentas);
+		left_cuentas.setAdapter(mAdapterCuentas);
 	}
 }

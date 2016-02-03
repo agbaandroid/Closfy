@@ -9,7 +9,6 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/llBottomLayout"
-        android:layout_below="@+id/layout_title"
         android:layout_marginTop="5dp"
         android:background="#FFFFFF" >
 
@@ -47,7 +46,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8" >
+            android:layout_weight="1" >
 
             <Spinner
                 android:id="@+id/spinnerAddPrenda"
@@ -62,15 +61,16 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="center_vertical|right"
             android:layout_marginLeft="20dp"
-            android:layout_weight="1.2" >
+            android:layout_weight="1" >
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1" >
+                android:layout_marginRight="30dp"
+                android:layout_gravity="center_vertical|right">
 
                 <ImageView
                     android:id="@+id/checkFavoritos"
@@ -83,10 +83,10 @@
 
             <LinearLayout
                 android:id="@+id/notas"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
                 android:layout_gravity="center_vertical|right"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -100,37 +100,6 @@
                     android:textColor="#FFFFFF"
                     android:textSize="12dp"
                     android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1.2"
-                android:background="#828182"
-                android:gravity="center_vertical" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_margin="1dp"
-                    android:background="#FFFFFF"
-                    android:gravity="center_vertical|center_horizontal" >
-
-                    <TextView
-                        android:id="@+id/botonGuardar"
-                        android:layout_width="65dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:background="#FFFFFF"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:text="@string/guardar"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

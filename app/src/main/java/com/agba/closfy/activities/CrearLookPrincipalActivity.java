@@ -145,14 +145,7 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case CREAR_LOOK:
-                Fragment fragment = new CrearLookInicioFragment();
-                if (fragment != null) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.crearlookFragment, fragment).commit();
-
-                }
-                break;
+                finish();
         }
 
     }

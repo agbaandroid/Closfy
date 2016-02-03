@@ -1,7 +1,5 @@
 package com.agba.closfy.fragments;
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -13,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,8 +29,6 @@ import android.widget.Toast;
 
 import com.agba.closfy.R;
 import com.agba.closfy.activities.AmpliarLookActivity;
-import com.agba.closfy.activities.EditarLookActivity;
-import com.agba.closfy.activities.VerLookActivity;
 import com.agba.closfy.adapters.ListAdapterSpinner;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
@@ -41,6 +36,8 @@ import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import java.util.ArrayList;
 
 public class MisLooksFragment extends Fragment {
 	private static final String KEY_CONTENT = "MiArmarioFragment:Content";
@@ -480,10 +477,10 @@ public class MisLooksFragment extends Fragment {
 				v = (View) convertView;
 			}
 
-			ImageView opcionesPrenda = (ImageView) v
-					.findViewById(R.id.opcionesLook);
-			opcionesPrenda.setOnClickListener(this);
-			opcionesPrenda.setTag(position);
+			//ImageView opcionesPrenda = (ImageView) v
+			//		.findViewById(R.id.opcionesLook);
+			//opcionesPrenda.setOnClickListener(this);
+			//opcionesPrenda.setTag(position);
 
 			LinearLayout layoutImagenPrenda = (LinearLayout) v
 					.findViewById(R.id.layoutImagenLook);
@@ -521,7 +518,7 @@ public class MisLooksFragment extends Fragment {
 				intent.putExtra("idLook", look.getIdLook());
 				startActivity(intent);
 				break;
-			case R.id.opcionesLook:
+			/*case R.id.opcionesLook:
 				PopupMenu popup = new PopupMenu(getActivity(), v);
 				MenuInflater inflater = popup.getMenuInflater();
 				inflater.inflate(R.menu.menu_pulsacion_look, popup.getMenu());
@@ -569,7 +566,7 @@ public class MisLooksFragment extends Fragment {
 					}
 				});
 				popup.show();
-				break;
+				break;*/
 			}
 		}
 	}

@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -34,7 +33,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
@@ -42,23 +40,19 @@ import com.agba.closfy.activities.AddNotasActivity;
 import com.agba.closfy.activities.ResumenLookMainActivity;
 import com.agba.closfy.adapters.ListAdapterAddPrendasLook;
 import com.agba.closfy.database.GestionBBDD;
-import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.ViewsVo;
 import com.agba.closfy.util.Util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class ResumenLookFragment extends Fragment {
 
     private Button m_btnSDeleteImage, m_btnZoomLado, m_btnZoomAlto, m_btnZoomZoom;
     private Context m_context;
-    private TextView botonGuardar;
     DrawerLayout drawer;
     ListView navList;
     ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
@@ -147,7 +141,6 @@ public class ResumenLookFragment extends Fragment {
         notas = (LinearLayout) getView().findViewById(R.id.notas);
         checkFavoritos = (ImageView) getView()
                 .findViewById(R.id.checkFavoritos);
-        botonGuardar = (TextView) getView().findViewById(R.id.botonGuardar);
         m_ivImage = (ImageView) getView().findViewById(R.id.ivCardView);
         ((ResumenLookMainActivity) getActivity()).m_RelativeLayout = (RelativeLayout) getView().findViewById(
                 R.id.relative1);
@@ -168,7 +161,6 @@ public class ResumenLookFragment extends Fragment {
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT);
         rl_pr.addRule(RelativeLayout.ABOVE, R.id.llBottomLayout);
-        rl_pr.addRule(RelativeLayout.BELOW, R.id.layout_title);
 
         ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.setLayoutParams(rl_pr);
 
@@ -253,81 +245,6 @@ public class ResumenLookFragment extends Fragment {
 
         m_dialog = new Dialog(getActivity(), R.style.Dialog);
         m_dialog.setCancelable(true);
-
-        botonGuardar.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 1; i < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getChildCount(); i++) {
-                    RelativeLayout rel = (RelativeLayout) ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
-                            .getChildAt(i);
-                    for (int j = 0; j < rel.getChildCount(); j++) {
-                        rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }
-
-                ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.setDrawingCacheEnabled(true);
-                Bitmap b = ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getDrawingCache();
-
-                // Carpeta dnde guardamos la captura
-                // En este caso, la raz de la SD Card
-                File dbFile = new File(Environment
-                        .getExternalStorageDirectory(), "/Closfy/Looks");
-
-                crearDirectorio(dbFile);
-
-                // El archivo que contendr la captura
-                String url = "look_"
-                        + String.valueOf(System.currentTimeMillis()) + ".jpg";
-                File f = new File(dbFile, url);
-
-                try {
-                    if (dbFile.canWrite()) {
-                        f.createNewFile();
-                        OutputStream os = new FileOutputStream(f);
-                        b.compress(Bitmap.CompressFormat.JPEG, 90, os);
-                        os.close();
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.setDrawingCacheEnabled(false);
-
-                boolean ok = false;
-                db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
-                if (db != null) {
-                    ok = gestion.insertarLook(db, ((ResumenLookMainActivity) getActivity()).temporada, ((ResumenLookMainActivity) getActivity()).prendas,
-                            ((ResumenLookMainActivity) getActivity()).utilidades, ((ResumenLookMainActivity) getActivity()).favorito, ((ResumenLookMainActivity) getActivity()).notasString,
-                            cuentaSeleccionada, url, "255;255;255");
-                }
-
-                if (ok) {
-                    Look lastLook = gestion.getUltimoLook(db);
-
-                    for (int i = 0; i < ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.size(); i++) {
-                        gestion.insertarLookPrendas(db, lastLook.getIdLook(),
-                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getIdPrenda(),
-                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getxValue(),
-                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getyValue(),
-                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getAncho(),
-                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getAlto(),
-                                ((ResumenLookMainActivity) getActivity()).m_arrSignObjects.get(i).getPos());
-                    }
-                }
-                db.close();
-
-                if (ok) {
-                    mostrarMensaje(getResources().getString(R.string.lookOK));
-                    getActivity().setResult(getActivity().RESULT_OK,
-                            getActivity().getIntent());
-                    getActivity().finish();
-                } else {
-                    mostrarMensaje(getResources().getString(R.string.lookKO));
-                }
-            }
-        });
 
         notas.setOnClickListener(new OnClickListener() {
             @Override

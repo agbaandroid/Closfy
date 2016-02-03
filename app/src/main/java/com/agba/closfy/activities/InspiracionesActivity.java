@@ -1,7 +1,5 @@
 package com.agba.closfy.activities;
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -30,6 +28,8 @@ import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import java.util.ArrayList;
 
 public class InspiracionesActivity extends ActionBarActivity {
 
@@ -196,7 +196,6 @@ public class InspiracionesActivity extends ActionBarActivity {
 			OnClickListener {
 		private Context context;
 		ArrayList<Prenda> listaPrendas = new ArrayList<Prenda>();
-		View viewAnterior;
 
 		public GridAdapterInspiraciones(Context c, ArrayList<Prenda> listPrendas) {
 			context = c;
@@ -223,13 +222,13 @@ public class InspiracionesActivity extends ActionBarActivity {
 										// attributes
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = inflater.inflate(R.layout.armario_adapter, parent, false);
+				v = inflater.inflate(R.layout.mis_looks_adapter_nuevo, parent, false);
 			} else {
 				v = (View) convertView;
 			}
 
 			ImageView imagenPrenda = (ImageView) v
-					.findViewById(R.id.imagenPrenda);
+					.findViewById(R.id.imagenLook);
 
 			imagenPrenda.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			imagenPrenda.setPadding(5, 5, 5, 5);

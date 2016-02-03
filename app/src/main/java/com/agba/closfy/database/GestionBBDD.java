@@ -825,6 +825,7 @@ public class GestionBBDD {
 		if (c1.moveToFirst()) {
 			cuenta.setIdCuenta(c1.getString(0));
 			cuenta.setDescCuenta(c1.getString(1));
+			cuenta.setSexo(c1.getInt(2));
 			cuenta.setIdIcon(c1.getInt(3));
 		}
 		return cuenta;
@@ -845,13 +846,16 @@ public class GestionBBDD {
 
 	public List<Cuenta> getCuentas(SQLiteDatabase db) {
 		List<Cuenta> listaCuentas = new ArrayList<Cuenta>();
-		Cursor c1 = db.query("Cuentas", new String[] { "idCuenta", "nombre" },
-				null, null, null, null, "idCuenta asc");
+		Cursor c1 = db.rawQuery("select * from Cuentas", null);
+
 		if (c1.moveToFirst()) {
 			do {
 				Cuenta cuenta = new Cuenta();
 				cuenta.setIdCuenta(c1.getString(0));
 				cuenta.setDescCuenta(c1.getString(1));
+				cuenta.setSexo(c1.getInt(2));
+				cuenta.setIdIcon(c1.getInt(3));
+
 				listaCuentas.add(cuenta);
 			} while (c1.moveToNext());
 		}

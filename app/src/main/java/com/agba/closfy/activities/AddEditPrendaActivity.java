@@ -577,7 +577,7 @@ public class AddEditPrendaActivity extends AppCompatActivity {
             adapterList = ArrayAdapter.createFromResource(this,
                     R.array.tiposPrenda, android.R.layout.simple_spinner_item);
             adapterList.setDropDownViewResource(R.layout.spinner);
-            spinnerTemporada.setAdapter(adapterList);
+            spinnerTipo.setAdapter(adapterList);
         }
     }
 

@@ -121,7 +121,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:background="@drawable/rounded_layout"
@@ -180,8 +180,8 @@
 
                 <TextView
                     android:id="@+id/botonAddManiana"
-                    android:layout_width="65dp"
-                    android:layout_height="25dp"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/rounded_layout_green"
@@ -199,9 +199,9 @@
                     android:background="@drawable/rounded_layout_green"
                     android:visibility="gone" >
 
-                    <TextView                        
-                        android:layout_width="65dp"
-                        android:layout_height="25dp"
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="1dp"
                         android:layout_marginTop="1dp"
@@ -256,8 +256,8 @@
 
                 <TextView
                     android:id="@+id/botonAddTarde"
-                    android:layout_width="65dp"
-                    android:layout_height="25dp"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/rounded_layout_green"
@@ -275,9 +275,9 @@
                     android:layout_marginRight="15dp"
                     android:visibility="gone" >
 
-                    <TextView                        
-                        android:layout_width="65dp"
-                        android:layout_height="25dp"
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="1dp"
                         android:layout_marginTop="1dp"
@@ -333,8 +333,8 @@
 
                 <TextView
                     android:id="@+id/botonAddNoche"
-                    android:layout_width="65dp"
-                    android:layout_height="25dp"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/rounded_layout_green"
@@ -352,9 +352,9 @@
                     android:layout_marginRight="15dp"
                     android:visibility="gone" >
 
-                    <TextView                        
-                        android:layout_width="65dp"
-                        android:layout_height="25dp"
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="1dp"
                         android:layout_marginTop="1dp"

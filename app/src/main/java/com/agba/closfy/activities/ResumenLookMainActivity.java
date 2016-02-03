@@ -99,76 +99,76 @@ public class ResumenLookMainActivity extends ActionBarActivity {
 		doneActionView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				for (int i = 1; i < m_RelativeLayout.getChildCount(); i++) {
-					RelativeLayout rel = (RelativeLayout) m_RelativeLayout
-							.getChildAt(i);
-					for (int j = 0; j < rel.getChildCount(); j++) {
-						rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
-					}
-				}
+                for (int i = 1; i < m_RelativeLayout.getChildCount(); i++) {
+                    RelativeLayout rel = (RelativeLayout) m_RelativeLayout
+                            .getChildAt(i);
+                    for (int j = 0; j < rel.getChildCount(); j++) {
+                        rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
 
-				m_RelativeLayout.setDrawingCacheEnabled(true);
-				Bitmap b = m_RelativeLayout.getDrawingCache();
+                m_RelativeLayout.setDrawingCacheEnabled(true);
+                Bitmap b = m_RelativeLayout.getDrawingCache();
 
-				// Carpeta dnde guardamos la captura
-				// En este caso, la raz de la SD Card
-				File dbFile = new File(Environment
-						.getExternalStorageDirectory(), "/Closfy/Looks");
+                // Carpeta dnde guardamos la captura
+                // En este caso, la raz de la SD Card
+                File dbFile = new File(Environment
+                        .getExternalStorageDirectory(), "/Closfy/Looks");
 
-				crearDirectorio(dbFile);
+                crearDirectorio(dbFile);
 
-				// El archivo que contendr la captura
-				String url = "look_"
-						+ String.valueOf(System.currentTimeMillis()) + ".jpg";
-				File f = new File(dbFile, url);
+                // El archivo que contendr la captura
+                String url = "look_"
+                        + String.valueOf(System.currentTimeMillis()) + ".jpg";
+                File f = new File(dbFile, url);
 
-				try {
-					if (dbFile.canWrite()) {
-						f.createNewFile();
-						OutputStream os = new FileOutputStream(f);
-						b.compress(Bitmap.CompressFormat.JPEG, 90, os);
-						os.close();
-					}
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+                try {
+                    if (dbFile.canWrite()) {
+                        f.createNewFile();
+                        OutputStream os = new FileOutputStream(f);
+                        b.compress(Bitmap.CompressFormat.JPEG, 90, os);
+                        os.close();
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-				m_RelativeLayout.setDrawingCacheEnabled(false);
+                m_RelativeLayout.setDrawingCacheEnabled(false);
 
-				boolean ok = false;
-				db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-				if (db != null) {
-					ok = gestion.insertarLook(db, temporada, prendas,
-							utilidades, favorito, notasString,
-							cuentaSeleccionada, url, "255;255;255");
-				}
+                boolean ok = false;
+                db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+                if (db != null) {
+                    ok = gestion.insertarLook(db, temporada, prendas,
+                            utilidades, favorito, notasString,
+                            cuentaSeleccionada, url, "255;255;255");
 
-				if (ok) {
-					Look lastLook = gestion.getUltimoLook(db);
 
-					for (int i = 0; i < m_arrSignObjects.size(); i++) {
-						gestion.insertarLookPrendas(db, lastLook.getIdLook(),
-								m_arrSignObjects.get(i).getIdPrenda(),
-								m_arrSignObjects.get(i).getxValue(),
-								m_arrSignObjects.get(i).getyValue(),
-								m_arrSignObjects.get(i).getAncho(),
-								m_arrSignObjects.get(i).getAlto(),
-								m_arrSignObjects.get(i).getPos());
-					}
-				}
-				db.close();
+                    if (ok) {
+                        Look lastLook = gestion.getUltimoLook(db);
 
-				if (ok) {
-					mostrarMensaje(getResources().getString(R.string.lookOK));
-					setResult(RESULT_OK,
-							getIntent());
-					finish();
-				} else {
-					mostrarMensaje(getResources().getString(R.string.lookKO));
-				}
-			}
+                        for (int i = 0; i < m_arrSignObjects.size(); i++) {
+                            gestion.insertarLookPrendas(db, lastLook.getIdLook(),
+                                    m_arrSignObjects.get(i).getIdPrenda(),
+                                    m_arrSignObjects.get(i).getxValue(),
+                                    m_arrSignObjects.get(i).getyValue(),
+                                    m_arrSignObjects.get(i).getAncho(),
+                                    m_arrSignObjects.get(i).getAlto(),
+                                    m_arrSignObjects.get(i).getPos());
+                        }
+                    }
+                    db.close();
+
+                    if (ok) {
+                        mostrarMensaje(getResources().getString(R.string.lookOK));
+                        setResult(RESULT_OK, getIntent());
+                        finish();
+                    } else {
+                        mostrarMensaje(getResources().getString(R.string.lookKO));
+                    }
+                }
+            }
 		});
 
 		// Hide the icon, title and home/up button
