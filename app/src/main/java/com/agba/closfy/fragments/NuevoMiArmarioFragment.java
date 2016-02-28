@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
-import com.agba.closfy.activities.AddEditPrendaActivity;
+import com.agba.closfy.activities.AddPrendaActivity;
 import com.agba.closfy.activities.AmpliarPrendaActivity;
 import com.agba.closfy.adapters.ListAdapterSpinner;
 import com.agba.closfy.database.GestionBBDD;
@@ -73,6 +73,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 	boolean cargaInicialTemporada = true;
 	boolean cargaInicialUtilidad = true;
 	boolean cargado = false;
+	int[] prendas;
 
 	SharedPreferences prefs;
 	SharedPreferences.Editor editor;
@@ -314,6 +315,17 @@ public class NuevoMiArmarioFragment extends Fragment {
 		editor.commit();
 	}
 
+	public int[] obtenerCadenaPrendas(){
+		prendas = new int[listPrendas.size()];
+
+		for(int i=0;i<listPrendas.size();i++){
+			Prenda prenda = listPrendas.get(i);
+			prendas[i] = prenda.getIdPrenda();
+		}
+
+		return prendas;
+	}
+
 	public Prenda obtenerPrendaSeleccionada() {
 		Prenda mov = new Prenda();
 		SharedPreferences prefs;
@@ -444,7 +456,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_add:
-				Intent intent = new Intent(getActivity(), AddEditPrendaActivity.class);
+				Intent intent = new Intent(getActivity(), AddPrendaActivity.class);
 				startActivityForResult(intent, PRENDA);
 				return true;
 			case android.R.id.home:
@@ -494,9 +506,8 @@ public class NuevoMiArmarioFragment extends Fragment {
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = inflater.inflate(R.layout.armario_adapter, parent, false);
 			} else {
-				v = (View) convertView;
+				v = convertView;
 			}
-
 
 			LinearLayout layoutImagenPrenda = (LinearLayout) v
 					.findViewById(R.id.layoutImagenPrenda);
@@ -506,13 +517,9 @@ public class NuevoMiArmarioFragment extends Fragment {
 			ImageView imagenPrenda = (ImageView) v
 					.findViewById(R.id.imagenPrenda);
 
-			//imagenPrenda.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			//imagenPrenda.setPadding(5, 5, 5, 5);
-
 			imagenPrenda.setImageDrawable(listaPrendas.get(position).getFoto());
 			imagenPrenda.getLayoutParams().height = 350;
 			imagenPrenda.getLayoutParams().width = 300;
-			//imagenPrenda.setScaleType(ImageView.ScaleType.MATRIX);
 			return v;
 		}
 
@@ -528,6 +535,8 @@ public class NuevoMiArmarioFragment extends Fragment {
 					Intent intent = new Intent(getActivity(),
 							AmpliarPrendaActivity.class);
 					intent.putExtra("idPrenda", prenda.getIdPrenda());
+					intent.putExtra("prendas", obtenerCadenaPrendas());
+					intent.putExtra("posicion", position);
 					startActivity(intent);
 					break;
 			}

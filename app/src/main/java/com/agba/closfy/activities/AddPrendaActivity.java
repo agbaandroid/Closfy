@@ -51,7 +51,7 @@ import java.util.Locale;
 
 import eu.janmuller.android.simplecropimage.CropImage;
 
-public class AddEditPrendaActivity extends AppCompatActivity {
+public class AddPrendaActivity extends AppCompatActivity {
 
     private Uri mImageCaptureUri;
     private String urlAux = "";
@@ -101,7 +101,7 @@ public class AddEditPrendaActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_edit_prenda);
+        setContentView(R.layout.add_prenda);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
@@ -249,7 +249,7 @@ public class AddEditPrendaActivity extends AppCompatActivity {
                     if (idTipo == 0) {
                         onCreateDialog(MENSAJE_ERROR_TIPO_BASICA);
                     } else {
-                        Intent intent = new Intent(AddEditPrendaActivity.this,
+                        Intent intent = new Intent(AddPrendaActivity.this,
                                 PrendaBasicaActivity.class);
                         intent.putExtra("tipoPrenda", idTipo);
                         startActivityForResult(intent, PRENDA_BASICA);

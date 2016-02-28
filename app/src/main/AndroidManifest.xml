@@ -134,21 +134,17 @@
             android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name="com.agba.closfy.activities.AddUtilidadActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name="com.agba.closfy.activities.EditUtilidadActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name="com.agba.closfy.activities.DeleteUtilidadActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme" />
         <activity
             android:name="com.agba.closfy.activities.SelectTemporadaActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".activities.SelectCuentaActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name=".activities.DeleteCuentaActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".activities.EditCuentaActivity"
@@ -219,7 +215,7 @@
             android:theme="@style/CustomActionBarTheme"
             android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
         <activity
-            android:name="com.agba.closfy.activities.AddEditPrendaActivity"
+            android:name=".activities.AddPrendaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme"
             android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
@@ -235,7 +231,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme"
             android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
-
 
         <!-- Publicidad -->
 

@@ -248,7 +248,7 @@ public class ClosfyActivity extends AppCompatActivity {
 
 		switch (position - 1) {
 			case -1:
-				//fragment = new CuentasFragment();
+
 				if (listaCuentas) {
 					listaCuentas = false;
 					navList.setVisibility(View.VISIBLE);

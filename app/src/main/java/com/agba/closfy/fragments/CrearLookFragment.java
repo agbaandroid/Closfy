@@ -72,8 +72,6 @@ public class CrearLookFragment extends Fragment {
 	static TwoWayView listPrendaCalzado = null;
 	static TwoWayView listPrendaComplemento = null;
 
-	private ArrayList<Integer> listaPrendasSeleccionadas = new ArrayList<Integer>();
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -138,7 +136,7 @@ public class CrearLookFragment extends Fragment {
 	}
 
 	public void inicializar() {
-		listaPrendasSeleccionadas.clear();
+		((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.clear();
 
 		adapterSup = new ListAdapterLooks(getActivity(), listPrendasSup, 0);
 		listPrendaSup.setAdapter(adapterSup);
@@ -298,7 +296,7 @@ public class CrearLookFragment extends Fragment {
 
 			ImageView imagenCheck = (ImageView) v.findViewById(R.id.imagecheck);
 
-			if (listaPrendasSeleccionadas.contains(prenda.getIdPrenda())) {
+			if (((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.contains(prenda.getIdPrenda())) {
 				if (estilo == 1) {
 					imagenCheck.setBackgroundResource(R.drawable.tic_azul);
 				} else {
@@ -316,11 +314,11 @@ public class CrearLookFragment extends Fragment {
 		public void onClick(View view) {
 			int idPrenda = (Integer) view.getTag();
 
-			if (listaPrendasSeleccionadas.contains(idPrenda)) {
-				int posi = listaPrendasSeleccionadas.indexOf(idPrenda);
-				listaPrendasSeleccionadas.remove(posi);
+			if (((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.contains(idPrenda)) {
+				int posi = ((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.indexOf(idPrenda);
+				((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.remove(posi);
 			} else {
-				listaPrendasSeleccionadas.add(idPrenda);
+				((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.add(idPrenda);
 			}
 
 			adapterSup.notifyDataSetChanged();

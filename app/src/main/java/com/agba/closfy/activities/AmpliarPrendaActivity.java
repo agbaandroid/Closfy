@@ -1,155 +1,148 @@
 package com.agba.closfy.activities;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
+import com.agba.closfy.fragments.PrendaAmpliadaSlideFragment;
 import com.agba.closfy.modelo.Prenda;
-import com.agba.closfy.util.Util;
 
-public class AmpliarPrendaActivity extends ActionBarActivity {
-	private static final String KEY_CONTENT = "NuevaPrendaFragment:Content";
-	private String mContent = "???";
+public class AmpliarPrendaActivity extends AppCompatActivity {
+    private static final String KEY_CONTENT = "NuevaPrendaFragment:Content";
+    private String mContent = "???";
 
-	private ImageView imagenAmpliada;
-	private LinearLayout botonVolver;
-	int idPrenda;
+    int idPrenda;
+    int[] prendas;
+    int posi;
 
-	SharedPreferences prefs;
-	int estilo;
-	int cuentaSeleccionada;
+    private static final int EDIT_PRENDA = 1;
 
-	private SQLiteDatabase db;
-	private final String BD_NOMBRE = "BDClosfy";
-	final GestionBBDD gestion = new GestionBBDD();
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private SQLiteDatabase db;
+    private final String BD_NOMBRE = "BDClosfy";
+    final GestionBBDD gestion = new GestionBBDD();
 
-		setContentView(R.layout.prenda_ampliada);
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		// Cuenta seleccionada
-		prefs = this.getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
-		cuentaSeleccionada = Util.cuentaSeleccionada(this, prefs);
+        setContentView(R.layout.prenda_ampliada);
 
-		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-		if (db != null) {
-			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
-		}
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Hide the icon, title and home/up button
+        getSupportActionBar().setTitle(R.string.prendas);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().show();
 
-		if (estilo == 1) {
-			toolbar.setBackgroundResource(R.color.azul);
-		}
+        Bundle extras = getIntent().getExtras();
+        idPrenda = extras.getInt("idPrenda");
+        prendas = extras.getIntArray("prendas");
+        posi = extras.getInt("posicion");
 
-		setSupportActionBar(toolbar);
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(posi);
+        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                // When changing pages, reset the action bar actions since they are dependent
+                // on which page is currently active. An alternative approach is to have each
+                // fragment expose actions itself (rather than the activity exposing actions),
+                // but for simplicity, the activity provides the actions in this sample.
+                invalidateOptionsMenu();
+                posi = position;
+            }
+        });
 
-		getSupportActionBar().setTitle(
-				getResources().getString(R.string.editarPrenda));
+    }
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    // Anadiendo las opciones de menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_setting_edit, menu);
+        return true;
+    }
 
-		Bundle extras = getIntent().getExtras();
-		idPrenda = extras.getInt("idPrenda");
+    // Aadiendo funcionalidad a las opciones de men
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                // Llamar activity EditarPrenda
 
-		imagenAmpliada = (ImageView) this.findViewById(R.id.prendaAmpliada);
-		botonVolver = (LinearLayout) this.findViewById(R.id.botonVolver);
+                Prenda prendaSeleccionada = new Prenda();
+                db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+                if (db != null) {
+                    prendaSeleccionada = gestion.getPrendaById(db, prendas[posi]);
+                }
+                db.close();
 
-		Prenda prenda = new Prenda();
-		db = this.openOrCreateDatabase(BD_NOMBRE, 1, null);
-		if (db != null) {
-			prenda = gestion.getPrendaById(db, idPrenda);
-		}
-		db.close();
+                Intent intent = new Intent(this,
+                        EditarPrendaActivity.class);
+                intent.putExtra("idPrenda",
+                        prendaSeleccionada.getIdPrenda());
+                intent.putExtra("tipo",
+                        prendaSeleccionada.getIdTipo());
+                intent.putExtra("temporada",
+                        prendaSeleccionada.getIdTemporada());
+                intent.putExtra("utilidades",
+                        prendaSeleccionada.getUtilidades());
+                intent.putExtra("favorito",
+                        prendaSeleccionada.getFavorito());
+                intent.putExtra("categoria",
+                        prendaSeleccionada.getIdFoto());
 
-		prenda = Util.obtenerImagenesPrendas(this, prenda, 0, estilo);
+                startActivityForResult(intent,
+                        EDIT_PRENDA);
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-		imagenAmpliada.setImageDrawable(prenda.getFoto());
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_CONTENT, mContent);
+    }
 
-		botonVolver.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				finish();
-			}
-		});
-	}
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-	// Anadiendo las opciones de menu
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_setting, menu);
-		return true;
-	}
+        public ScreenSlidePagerAdapter(android.support.v4.app.FragmentManager fm) {
+            super(fm);
+        }
 
-	// Anadiendo funcionalidad a las opciones de menu
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		LayoutInflater li = LayoutInflater.from(this);
-		View view = null;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		AlertDialog alert;
-		switch (item.getItemId()) {
-		case R.id.btInfo:
-			view = li.inflate(R.layout.info, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.informacion));
-			builder.setIcon(R.drawable.ic_info_azul);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		case R.id.btAcerca:
-			view = li.inflate(R.layout.acerca, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setIcon(R.drawable.icon_app);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		case android.R.id.home:
-			finish();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            return PrendaAmpliadaSlideFragment.create(position, prendas);
+        }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(KEY_CONTENT, mContent);
-	}
+        @Override
+        public int getCount() {
+            return prendas.length;
+        }
+    }
 }

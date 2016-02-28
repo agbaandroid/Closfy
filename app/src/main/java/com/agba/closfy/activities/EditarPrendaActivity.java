@@ -1,11 +1,5 @@
 package com.agba.closfy.activities;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -29,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -41,6 +34,12 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class EditarPrendaActivity extends ActionBarActivity {
 	private static final String KEY_CONTENT = "NuevaPrendaFragment:Content";
@@ -161,7 +160,7 @@ public class EditarPrendaActivity extends ActionBarActivity {
 		listUtilidadesView.setAdapter(adapterUtilidad);
 
 		textTemporada = (TextView) this.findViewById(R.id.textTemporada);
-		textoCambiar = (TextView) this.findViewById(R.id.textCambiar);
+		textoCambiar = (TextView) this. findViewById(R.id.textCambiar);
 
 		if (estilo == 1) {
 			cambiarEstiloHombre();

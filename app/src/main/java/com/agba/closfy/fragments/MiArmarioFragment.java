@@ -28,7 +28,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
-import com.agba.closfy.activities.AddEditPrendaActivity;
+import com.agba.closfy.activities.AddPrendaActivity;
 import com.agba.closfy.activities.AmpliarPrendaActivity;
 import com.agba.closfy.adapters.ListAdapterSpinner;
 import com.agba.closfy.database.GestionBBDD;
@@ -444,7 +444,7 @@ public class MiArmarioFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_add:
-				Intent intent = new Intent(getActivity(), AddEditPrendaActivity.class);
+				Intent intent = new Intent(getActivity(), AddPrendaActivity.class);
 				startActivityForResult(intent, PRENDA);
 				return true;
 			case android.R.id.home:
