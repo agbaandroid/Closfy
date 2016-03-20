@@ -3,25 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEEEEE"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/llBottomLayout"
         android:layout_marginTop="5dp"
-        android:background="#FFFFFF" >
+        android:background="#FFFFFF">
 
         <RelativeLayout
             android:id="@+id/ec_rltabselected"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent">
 
             <RelativeLayout
                 android:id="@+id/relative1"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#FFFFFF" >
+                android:background="#FFFFFF">
 
                 <ImageView
                     android:id="@+id/ivCardView"
@@ -41,20 +41,23 @@
         android:background="@drawable/fondo_cuadros"
         android:orientation="horizontal"
         android:padding="5dp"
-        android:weightSum="0" >
+        android:weightSum="0">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_weight="1">
 
             <Spinner
                 android:id="@+id/spinnerAddPrenda"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/spinner"
+                android:background="@drawable/spinner_simple"
                 android:prompt="@string/selectType"
                 android:textColor="#000000" />
         </LinearLayout>
@@ -63,29 +66,27 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="40dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="0.8"
-            android:background="#828182"
-            android:gravity="center_vertical" >
+            android:background="@drawable/rounded_layout_green"
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="1dp"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical|center_horizontal" >
+                android:gravity="center_vertical|center_horizontal">
 
                 <TextView
                     android:id="@+id/botonGuardar"
                     android:layout_width="75dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:background="#FFFFFF"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/guardar"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     android:textSize="12dp"
                     android:textStyle="bold" />
             </LinearLayout>

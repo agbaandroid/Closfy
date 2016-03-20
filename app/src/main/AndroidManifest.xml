@@ -232,6 +232,19 @@
             android:theme="@style/CustomActionBarTheme"
             android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
 
+        <activity
+            android:name="com.agba.closfy.activities.EditPrendaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"
+            android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
+
+        <activity
+            android:name="com.agba.closfy.activities.NuevoAmpliarLookActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme"
+            android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
+
+
         <!-- Publicidad -->
 
         <activity

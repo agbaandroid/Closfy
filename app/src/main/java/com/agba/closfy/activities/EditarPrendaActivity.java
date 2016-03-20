@@ -231,7 +231,7 @@ public class EditarPrendaActivity extends ActionBarActivity {
 
 				if (db != null) {
 					ok = gestion.editarPrenda(db, String.valueOf(idPrenda),
-							idRadioTemporada, favorito, idFoto, utilidades,
+							idRadioTemporada, favorito, idFoto, utilidades, 0, 0,
 							cuentaSeleccionada);
 				}
 				db.close();

@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.agba.closfy.R;
 import com.agba.closfy.activities.CrearLookPrincipalActivity;
+import com.agba.closfy.activities.NuevoAmpliarLookActivity;
 import com.agba.closfy.adapters.ListAdapterSpinner;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
@@ -74,6 +75,7 @@ public class NuevoMisLooksFragment extends Fragment {
 	boolean cargado = false;
 
 	int posiUtilidad = 0;
+	int[] looks;
 
 	ProgressDialog progDailog;
 
@@ -452,10 +454,10 @@ public class NuevoMisLooksFragment extends Fragment {
 			//opcionesPrenda.setOnClickListener(this);
 			//opcionesPrenda.setTag(position);
 
-			LinearLayout layoutImagenPrenda = (LinearLayout) v
+			LinearLayout layoutImagenLook = (LinearLayout) v
 					.findViewById(R.id.layoutImagenLook);
-			layoutImagenPrenda.setOnClickListener(this);
-			layoutImagenPrenda.setTag(position);
+			layoutImagenLook.setOnClickListener(this);
+			layoutImagenLook.setTag(position);
 
 			ImageView imagenLook = (ImageView) v.findViewById(R.id.imagenLook);
 			LinearLayout layoutImage = (LinearLayout) v
@@ -476,7 +478,7 @@ public class NuevoMisLooksFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			/*int position = (Integer) v.getTag();
+			int position = (Integer) v.getTag();
 
 			Look look = listLooks.get(position);
 			guardarLookSeleccionado(String.valueOf(look.getIdLook()));
@@ -484,61 +486,25 @@ public class NuevoMisLooksFragment extends Fragment {
 			switch (v.getId()) {
 			case R.id.layoutImagenLook:
 				Intent intent = new Intent(getActivity(),
-						AmpliarLookActivity.class);
+						NuevoAmpliarLookActivity.class);
 				intent.putExtra("idLook", look.getIdLook());
+				intent.putExtra("looks", obtenerCadenaLooks());
+				intent.putExtra("posicion", position);
 				startActivity(intent);
 				break;
-			case R.id.opcionesLook:
-				PopupMenu popup = new PopupMenu(getActivity(), v);
-				MenuInflater inflater = popup.getMenuInflater();
-				inflater.inflate(R.menu.menu_pulsacion_look, popup.getMenu());
-
-				popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						switch (item.getItemId()) {
-						case R.id.opc1:
-							lookSeleccionado = obtenerLookSeleccionado();
-							onCreateDialog(MENSAJE_CONFIRMAR_ELIMINAR);
-							return true;
-						case R.id.opc2:
-							// Llamar activity EditarPrenda
-							lookSeleccionado = obtenerLookSeleccionado();
-							Intent intent = new Intent(getActivity(),
-									VerLookActivity.class);
-							intent.putExtra("idLook",
-									lookSeleccionado.getIdLook());
-							intent.putExtra("temporada",
-									lookSeleccionado.getIdTemporada());
-							intent.putExtra("utilidades",
-									lookSeleccionado.getUtilidades());
-							intent.putExtra("favorito",
-									lookSeleccionado.getFavorito());
-							startActivity(intent);
-							return true;
-						case R.id.opc3:
-							// Llamar activity EditarPrenda
-							lookSeleccionado = obtenerLookSeleccionado();
-							Intent intent2 = new Intent(getActivity(),
-									EditarLookActivity.class);
-							intent2.putExtra("idLook",
-									lookSeleccionado.getIdLook());
-							intent2.putExtra("temporada",
-									lookSeleccionado.getIdTemporada());
-							intent2.putExtra("utilidades",
-									lookSeleccionado.getUtilidades());
-							intent2.putExtra("favorito",
-									lookSeleccionado.getFavorito());
-							startActivityForResult(intent2, 0);
-							return true;
-						}
-						return true;
-					}
-				});
-				popup.show();
-				break;
-			}*/
+			}
 		}
+	}
+
+	public int[] obtenerCadenaLooks(){
+		looks = new int[listLooks.size()];
+
+		for(int i=0;i<listLooks.size();i++){
+			Look look = listLooks.get(i);
+			looks[i] = look.getIdLook();
+		}
+
+		return looks;
 	}
 
 	@Override

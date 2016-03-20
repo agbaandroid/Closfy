@@ -43,7 +43,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 	private String mContent = "???";
 
 	static final int MENSAJE_CONFIRMAR_ELIMINAR = 1;
-	static final int EDIT_PRENDA = 0;
+	static final int AMPLIAR_PRENDA = 0;
 	private final int PRENDA = 1;
 
 	private SQLiteDatabase db;
@@ -537,7 +537,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 					intent.putExtra("idPrenda", prenda.getIdPrenda());
 					intent.putExtra("prendas", obtenerCadenaPrendas());
 					intent.putExtra("posicion", position);
-					startActivity(intent);
+					startActivityForResult(intent, AMPLIAR_PRENDA);
 					break;
 			}
 		}

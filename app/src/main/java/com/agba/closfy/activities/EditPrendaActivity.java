@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -60,19 +61,18 @@ public class EditPrendaActivity extends AppCompatActivity {
     private Uri tmpImgUri;
     private LinearLayout layoutImagen;
     private ImageView imagenSeleccionada;
-    private Spinner spinnerTipo, spinnerTemporada;
-    private LinearLayout botonGuardar;
+    private Spinner spinnerTemporada;
     private ImageView checkFavoritos;
+    ListAdapterUtilidad adapterUtilidad;
+
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
     private ListView listUtilidadesView;
     private LinearLayout botonCambiarTemp;
     TextView textTemporada;
     int estilo;
     private TextView textoCambiar;
 
-    ListAdapterUtilidad adapterUtilidad;
-
-    SharedPreferences prefs;
-    SharedPreferences.Editor editor;
 
     int cuentaSeleccionada;
 
@@ -83,7 +83,6 @@ public class EditPrendaActivity extends AppCompatActivity {
     int prendaBasica = 0;
     int idPrendaBasica;
     int favoritoSelec;
-    int idTemporadaSelec;
     String utilidades = "";
     TextView textTipo;
     ArrayList<Integer> listIdsUtilidad = new ArrayList<Integer>();
@@ -94,11 +93,13 @@ public class EditPrendaActivity extends AppCompatActivity {
 
     String idFoto = "";
 
+    Prenda prendaSeleccionada;
+
     private static final int PICK_FROM_CAMERA = 1;
     private static final int REQUEST_CODE_CROP_IMAGE = 2;
     private static final int PICK_FROM_FILE = 3;
     private static final int ADD_UTILIDAD = 4;
-    private static final int CHANGE_TEMP = 5;
+    private static final int MENSAJE_CONFIRMAR_ELIMINAR = 5;
     private static final int PRENDA_BASICA = 6;
     private static final int MENSAJE_ERROR_FOTO = 1;
     private static final int MENSAJE_ERROR_TIPO = 2;
@@ -107,7 +108,7 @@ public class EditPrendaActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_prenda);
+        setContentView(R.layout.edit_prenda);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
@@ -149,7 +150,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         cancelActionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onCreateDialog(MENSAJE_CONFIRMAR_ELIMINAR);
             }
         });
 
@@ -178,21 +179,20 @@ public class EditPrendaActivity extends AppCompatActivity {
                 // Si no hay error insertamos la prenda
                 if (!errorFoto && !errorTipo) {
                     if (db != null) {
-                        ok = gestion.insertarPrenda(db, idTipo, prendaBasica,
-                                idPrendaBasica, idTemporada, favorito,
-                                idFoto, utilidades, cuentaSeleccionada);
+                        ok = gestion.editarPrenda(db, String.valueOf(idPrenda),
+                                idTemporada, favorito, idFoto, utilidades, prendaBasica, idPrendaBasica,
+                                cuentaSeleccionada);
                     }
                     db.close();
 
                     if (ok) {
-                        inicializar();
                         mostrarMensaje(getResources().getString(
-                                R.string.prendaOK));
+                                R.string.editPrendaOK));
+                        setResult(RESULT_OK, getIntent());
                         finish();
                     } else {
                         mostrarMensaje(getResources().getString(
-                                R.string.prendaKO));
-                        finish();
+                                R.string.editPrendaKO));
                     }
                 } else {
                     if (errorFoto) {
@@ -201,14 +201,23 @@ public class EditPrendaActivity extends AppCompatActivity {
                         onCreateDialog(MENSAJE_ERROR_TIPO);
                     }
                 }
+
+                if (ok) {
+                    mostrarMensaje(getResources().getString(
+                            R.string.editPrendaOK));
+                    finish();
+                } else {
+                    mostrarMensaje(getResources().getString(
+                            R.string.editPrendaKO));
+                }
             }
         });
 
         // Hide the icon, title and home/up button
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -297,8 +306,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         imagenSeleccionada = (ImageView) findViewById(R.id.marcoIcon);
         botonCambiarTemp = (LinearLayout) findViewById(R.id.botonCambiarTemp);
         checkFavoritos = (ImageView) findViewById(R.id.checkFavoritos);
-        botonGuardar = (LinearLayout) findViewById(R.id.botonGuardar);
-        textTipo = (TextView) this.findViewById(R.id.textTipoPrenda);
+        textTipo = (TextView) findViewById(R.id.textTipoPrenda);
         spinnerTemporada = (Spinner) findViewById(R.id.spinnerTemporada);
         listUtilidadesView = (ListView) findViewById(R.id.listUtilidades);
         textTemporada = (TextView) findViewById(R.id.textTemporada);
@@ -315,11 +323,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         adapterUtilidad = new ListAdapterUtilidad(this, listUtilidades);
         listUtilidadesView.setAdapter(adapterUtilidad);
 
-        obtenerTiposPrenda();
         obtenerTemporadas();
-
-        idTemporada = 2;
-        spinnerTemporada.setSelection(idTemporada);
 
         if (estilo == 1) {
             cambiarEstiloHombre();
@@ -333,23 +337,6 @@ public class EditPrendaActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
-        spinnerTipo
-                .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> parent,
-                                               View view, int position, long id) {
-
-                        if (estilo == 1 && position > 2) {
-                            idTipo = position + 1;
-                        } else {
-                            idTipo = position;
-                        }
-                    }
-
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
 
         spinnerTemporada
                 .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -398,7 +385,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         idTemporada = extras.getInt("temporada");
         listIdsUtilidad = Util.obtenerListaUtilidades(extras
                 .getString("utilidades"));
-        favorito = extras.getInt("favorito");
+        favoritoSelec = extras.getInt("favorito");
 
         rellenarDatos();
     }
@@ -407,7 +394,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         String[] tiposPrendas = getResources().getStringArray(
                 R.array.tiposPrenda);
 
-        //textTipo.setText(tiposPrendas[tipo]);
+        textTipo.setText(tiposPrendas[idTipo]);
 
         if (favoritoSelec == 1) {
             favorito = 1;
@@ -429,33 +416,16 @@ public class EditPrendaActivity extends AppCompatActivity {
             }
         }
 
-        switch (idTemporadaSelec) {
-            case 0:
-                textTemporada.setText(getResources().getString(
-                        R.string.otonoInvierno));
-                idTemporada = 0;
-                break;
-            case 1:
-                textTemporada.setText(getResources().getString(
-                        R.string.primaveraVerano));
-                idTemporada = 1;
-                break;
-            case 2:
-                textTemporada.setText(getResources().getString(R.string.todoAno));
-                idTemporada = 2;
-                break;
-            default:
-                break;
-        }
+        spinnerTemporada.setSelection(idTemporada);
 
-        Prenda prenda = new Prenda();
+        prendaSeleccionada = new Prenda();
         db = openOrCreateDatabase(BD_NOMBRE, 1, null);
         if (db != null) {
-            prenda = gestion.getPrendaById(db, idPrenda);
+            prendaSeleccionada = gestion.getPrendaById(db, idPrenda);
         }
         db.close();
 
-        Bitmap original = Util.obtenerPrendaBitmap(this, prenda, 0, estilo);
+        Bitmap original = Util.obtenerPrendaBitmap(this, prendaSeleccionada, 0, estilo);
 
         Matrix matrix = new Matrix();
         matrix.postRotate(-3.0f);
@@ -464,9 +434,9 @@ public class EditPrendaActivity extends AppCompatActivity {
                 original.getWidth(), original.getHeight(), matrix, true);
 
         imagenSeleccionada.setImageBitmap(rotateFoto);
-
-        idFoto = prenda.getIdFoto();
-
+        prendaBasica = prendaSeleccionada.getPrendaBasica();
+        idPrendaBasica = prendaSeleccionada.getIdPrendaBasica();
+        idFoto = prendaSeleccionada.getIdFoto();
     }
 
     @Override
@@ -651,31 +621,12 @@ public class EditPrendaActivity extends AppCompatActivity {
         }
     }
 
-    public void obtenerTiposPrenda() {
-        ArrayAdapter<CharSequence> adapterList;
-        // rellenamos el spinner tipo prenda
-        if (estilo == 1) {
-            adapterList = ArrayAdapter.createFromResource(this,
-                    R.array.tiposPrendaHombre,
-                    android.R.layout.simple_spinner_item);
-            adapterList.setDropDownViewResource(R.layout.spinner);
-            spinnerTipo.setAdapter(adapterList);
-        } else {
-            adapterList = ArrayAdapter.createFromResource(this,
-                    R.array.tiposPrenda, android.R.layout.simple_spinner_item);
-            adapterList.setDropDownViewResource(R.layout.spinner);
-            spinnerTipo.setAdapter(adapterList);
-        }
-    }
-
     public void obtenerTemporadas() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.tiposTemporada,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner);
         spinnerTemporada.setAdapter(adapter);
-
-        spinnerTemporada.setSelection(0);
     }
 
     public void crearDirectorio(File dbFile) {
@@ -756,31 +707,58 @@ public class EditPrendaActivity extends AppCompatActivity {
                 alert = builder.create();
                 alert.show();
                 break;
+            case MENSAJE_CONFIRMAR_ELIMINAR:
+                builder.setTitle(getResources().getString(R.string.atencion));
+                builder.setMessage(getResources().getString(
+                        R.string.msnEliminarPrenda));
+                builder.setIcon(R.drawable.ic_delete);
+                builder.setCancelable(false);
+                builder.setPositiveButton(
+                        getResources().getString(R.string.aceptar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                boolean ok = false;
+                                db = openOrCreateDatabase(BD_NOMBRE,
+                                        1, null);
+
+                                if (db != null) {
+                                    ok = gestion.eliminarPrenda(db,
+                                            prendaSeleccionada.getIdPrenda(),
+                                            prendaSeleccionada.getIdFoto());
+                                }
+                                db.close();
+
+                                if (ok) {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = getResources().getString(
+                                            R.string.deletePrendaOk);
+                                    int duration = Toast.LENGTH_SHORT;
+                                    Toast toast = Toast.makeText(context, text,
+                                            duration);
+                                    toast.show();
+                                } else {
+                                    Context context = getApplicationContext();
+                                    CharSequence text = getResources().getString(
+                                            R.string.deletePrendaError);
+                                    int duration = Toast.LENGTH_SHORT;
+                                    Toast toast = Toast.makeText(context, text,
+                                            duration);
+                                    toast.show();
+                                }
+                                dialog.cancel();
+                            }
+                        }).setNegativeButton(
+                        getResources().getString(R.string.cancelar),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                alert = builder.create();
+                alert.show();
+                break;
         }
         return null;
-    }
-
-    public void inicializar() {
-        tmpImgUri = null;
-
-        imagenSeleccionada.setImageResource(android.R.color.transparent);
-        spinnerTipo.setSelection(0);
-        idFoto = "";
-        listIdsUtilidad.clear();
-        listIdsUtilidad.add(-1);
-
-        adapterUtilidad.notifyDataSetChanged();
-        idTemporada = 2;
-
-        favorito = 0;
-        prendaBasica = 0;
-
-        if (estilo == 0) {
-            checkFavoritos.setBackgroundResource(R.drawable.check_corazon_off);
-        } else {
-            checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
-        }
-
     }
 
     @Override
@@ -916,5 +894,17 @@ public class EditPrendaActivity extends AppCompatActivity {
 
     public void cambiarEstiloHombre() {
         checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
+    }
+
+    // Aadiendo funcionalidad a las opciones de men
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
