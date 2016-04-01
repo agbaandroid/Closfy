@@ -1,9 +1,7 @@
 package com.agba.closfy.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,7 +12,6 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -584,7 +581,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 				if (diaLibre) {
 					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar);
 				} else {
-					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_prenda);
+					gridcell.setBackgroundResource(R.drawable.circulo_blanco_con);
 				}
 				isGrey = true;
 			}
@@ -593,7 +590,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 				if (diaLibre) {
 					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar);
 				} else {
-					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_prenda);
+					gridcell.setBackgroundResource(R.drawable.circulo_blanco_con);
 				}
 				isGrey = false;
 			}
@@ -602,7 +599,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 				if (diaLibre) {
 					gridcell.setBackgroundResource(R.drawable.circulo_gris_sin);
 				} else {
-					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_marcado_prenda);
+					gridcell.setBackgroundResource(R.drawable.circulo_gris_con);
 				}
 				viewAnterior = gridcell;
 				isGrey = false;
@@ -615,7 +612,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 				if (diaLibre) {
 					gridcell.setBackgroundResource(R.drawable.circulo_gris_sin);
 				} else {
-					gridcell.setBackgroundResource(R.drawable.fondo_day_calendar_marcado_prenda);
+					gridcell.setBackgroundResource(R.drawable.circulo_gris_con);
 				}
 				viewAnterior = gridcell;
 			}
@@ -685,14 +682,14 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 								.setBackgroundResource(R.drawable.fondo_day_calendar);
 					} else {
 						viewAnterior
-								.setBackgroundResource(R.drawable.fondo_day_calendar_prenda);
+								.setBackgroundResource(R.drawable.circulo_blanco_con);
 					}
 				}
 
 				if (diaLibre) {
 					view.setBackgroundResource(R.drawable.circulo_gris_sin);
 				} else {
-					view.setBackgroundResource(R.drawable.fondo_day_calendar_marcado_prenda);
+					view.setBackgroundResource(R.drawable.circulo_gris_con);
 				}
 				viewAnterior = view;
 
@@ -830,56 +827,6 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 		}
 
 		rellenarFecha(day, month, year);
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_setting, menu);
-	}
-
-	// Anadiendo funcionalidad a las opciones de menu
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		LayoutInflater li = LayoutInflater.from(getActivity());
-		View view = null;
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		AlertDialog alert;
-		switch (item.getItemId()) {
-		case R.id.btInfo:
-			view = li.inflate(R.layout.info, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.informacion));
-			builder.setIcon(R.drawable.ic_info_azul);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		case R.id.btAcerca:
-			view = li.inflate(R.layout.acerca, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setIcon(R.drawable.icon_app);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 }

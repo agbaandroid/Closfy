@@ -7,16 +7,12 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.agba.closfy.R;
-import com.agba.closfy.activities.CargandoActivity.MyLoadingAsyncTask;
 import com.agba.closfy.database.GestionBBDD;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 public class ConfiguracionInicialActivity extends ActionBarActivity {
 

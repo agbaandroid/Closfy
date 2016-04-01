@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -1224,7 +1225,7 @@ public class ResumenLookFragment extends Fragment {
                             //if (newDist > 0.0f) {
                             m_absLayout = (RelativeLayout) v.getParent();
 
-                            if ((m_absLayout.getBottom() + 10)<= (m_ivImage
+                            if ((m_absLayout.getBottom() + 10) <= (m_ivImage
                                     .getBottom())
                                     && (m_absLayout.getRight() + 20) <= (m_DisplayWidth)) {
 
@@ -1468,25 +1469,24 @@ public class ResumenLookFragment extends Fragment {
      */
     public boolean ocultarBotones() {
         Handler handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             public void run() {
-
-				for (int i = 1; i < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getChildCount(); i++) {
-                    RelativeLayout rel = (RelativeLayout) ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
-							.getChildAt(i);
-					for (int j = 0; j < rel.getChildCount(); j++) {
-						rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
-					}
-				}
-
-                // m_RelativeLayoutAux.getChildAt(0).setBackgroundColor(
-                // Color.TRANSPARENT);
-                // m_RelativeLayoutAux.getChildAt(1).setBackgroundColor(
-                // Color.TRANSPARENT);
-                // m_RelativeLayoutAux.getChildAt(2).setBackgroundColor(
-                // Color.TRANSPARENT);
+                try {
+                    for (int i = 1; i < ((ResumenLookMainActivity) getActivity()).m_RelativeLayout.getChildCount(); i++) {
+                        RelativeLayout rel = (RelativeLayout) ((ResumenLookMainActivity) getActivity()).m_RelativeLayout
+                                .getChildAt(i);
+                        for (int j = 0; j < rel.getChildCount(); j++) {
+                            rel.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("ERROR", "Error al ocultar los botones al crear Look");
+                }
             }
         }, 1500);
+
+
         return true;
     }
 

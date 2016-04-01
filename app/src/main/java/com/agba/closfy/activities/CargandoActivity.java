@@ -22,9 +22,11 @@ public class CargandoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cargando);
 
+
 		// Asignamos el tipo de fuente
 		Typeface miPropiaTypeFace = Typeface.createFromAsset(this.getAssets(),
 				"fonts/Pacifico.ttf");
+
 
 		TextView txtCargando = (TextView) findViewById(R.id.textCargando);
 		txtCargando.setTypeface(miPropiaTypeFace);

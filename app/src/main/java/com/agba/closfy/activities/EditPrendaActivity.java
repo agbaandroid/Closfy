@@ -2,7 +2,6 @@ package com.agba.closfy.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -226,69 +224,6 @@ public class EditPrendaActivity extends AppCompatActivity {
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_HORIZONTAL;
         getSupportActionBar().setCustomView(actionBarButtons, layoutParams);
 
-        builder.setTitle("Seleccionar imagen");
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) { // pick from
-                // camera
-                if (item == 0) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    File dbFileTmp = new File(Environment
-                            .getExternalStorageDirectory(), "/Closfy/Tmp");
-
-                    crearDirectorio(dbFileTmp);
-
-                    mImageCaptureUri = Uri.fromFile(new File(
-                            dbFileTmp,
-                            "prenda_"
-                                    + String.valueOf(System.currentTimeMillis())
-                                    + ".jpg"));
-
-                    urlAux = mImageCaptureUri.getPath();
-
-                    editor = prefs.edit();
-                    editor.putString("urlImagen", urlAux);
-                    editor.commit();
-
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                            mImageCaptureUri);
-
-                    try {
-                        intent.putExtra("return-data", true);
-
-                        startActivityForResult(intent, PICK_FROM_CAMERA);
-                    } catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } else if (item == 2) {
-                    if (idTipo == 0) {
-                        onCreateDialog(MENSAJE_ERROR_TIPO_BASICA);
-                    } else {
-                        Intent intent = new Intent(EditPrendaActivity.this,
-                                PrendaBasicaActivity.class);
-                        intent.putExtra("tipoPrenda", idTipo);
-                        startActivityForResult(intent, PRENDA_BASICA);
-                    }
-                } else { // pick from file
-                    File dbFileTmp = new File(Environment
-                            .getExternalStorageDirectory(), "/Closfy/Tmp");
-
-                    crearDirectorio(dbFileTmp);
-
-                    mImageCaptureUri = Uri.fromFile(new File(
-                            dbFileTmp,
-                            "prenda_"
-                                    + String.valueOf(System.currentTimeMillis())
-                                    + ".jpg"));
-
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, PICK_FROM_FILE);
-                }
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
         layoutImagen = (LinearLayout) findViewById(
                 R.id.layoutImagen);
 
@@ -330,13 +265,6 @@ public class EditPrendaActivity extends AppCompatActivity {
         }
 
         obtenerDatos();
-
-        layoutImagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
 
         spinnerTemporada
                 .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -736,6 +664,8 @@ public class EditPrendaActivity extends AppCompatActivity {
                                     Toast toast = Toast.makeText(context, text,
                                             duration);
                                     toast.show();
+                                    setResult(RESULT_OK, getIntent());
+                                    finish();
                                 } else {
                                     Context context = getApplicationContext();
                                     CharSequence text = getResources().getString(
@@ -780,8 +710,6 @@ public class EditPrendaActivity extends AppCompatActivity {
         private LayoutInflater mInflater;
         private ArrayList<Utilidad> listaUtilidad = new ArrayList<Utilidad>();
         Locale locale = Locale.getDefault();
-        String languaje = locale.getLanguage();
-        ArrayList<View> listViews = new ArrayList<View>();
 
         public ListAdapterUtilidad(Context context, ArrayList<Utilidad> lista) {
             listaUtilidad = lista;

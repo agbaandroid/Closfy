@@ -1,6 +1,9 @@
 package com.agba.closfy.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,8 +24,10 @@ import com.agba.closfy.util.Util;
 import java.util.ArrayList;
 
 public class CrearLookPrincipalActivity extends AppCompatActivity {
-
+    private SQLiteDatabase db;
+    private final String BD_NOMBRE = "BDClosfy";
     final GestionBBDD gestion = new GestionBBDD();
+
     View cancelActionView;
     View doneActionView;
     View actionBarButtons;
@@ -35,6 +40,9 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
     public ArrayList<Integer> listaPrendasSeleccionadas = new ArrayList<Integer>();
     private static final int CREAR_LOOK = 1;
 
+    SharedPreferences prefs;
+    int cuentaSeleccionada;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crear_look_principal);
@@ -42,6 +50,16 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
+
+        // Cuenta seleccionada
+        prefs = getSharedPreferences("ficheroConf",
+                Context.MODE_PRIVATE);
+        cuentaSeleccionada = Util.cuentaSeleccionada(this, prefs);
+
+        db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+        if (db != null) {
+            estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
+        }
 
         // Inflate the custom view and add click handlers for the buttons
         actionBarButtons = getLayoutInflater().inflate(R.layout.next_cancel_actionbar,

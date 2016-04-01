@@ -48,6 +48,7 @@ public class NuevoMisLooksFragment extends Fragment {
 
 	static final int MENSAJE_CONFIRMAR_ELIMINAR = 1;
 	static final int EDIT_LOOK = 0;
+	static final int AMPLIAR_LOOK = 0;
 	private final int LOOK = 1;
 
 	ArrayList<Look> listLooks = new ArrayList<Look>();
@@ -490,7 +491,7 @@ public class NuevoMisLooksFragment extends Fragment {
 				intent.putExtra("idLook", look.getIdLook());
 				intent.putExtra("looks", obtenerCadenaLooks());
 				intent.putExtra("posicion", position);
-				startActivity(intent);
+				startActivityForResult(intent, AMPLIAR_LOOK);
 				break;
 			}
 		}

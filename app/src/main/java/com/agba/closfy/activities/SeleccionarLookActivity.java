@@ -1,7 +1,5 @@
 package com.agba.closfy.activities;
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -11,23 +9,19 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
@@ -37,7 +31,9 @@ import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
 
-public class SeleccionarLookActivity extends ActionBarActivity {
+import java.util.ArrayList;
+
+public class SeleccionarLookActivity extends AppCompatActivity {
 
 	private SQLiteDatabase db;
 	private final String BD_NOMBRE = "BDClosfy";
@@ -69,8 +65,6 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 	private Spinner spinnerUtilidades;
 	int posiUtilidad = 0;
 
-	private TextView botonAceptar;
-	private TextView botonCancelar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -89,22 +83,67 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-		if (estilo == 1) {
-			toolbar.setBackgroundResource(R.color.azul);
-		}
-
 		setSupportActionBar(toolbar);
 
 		getSupportActionBar().setTitle(
 				getResources().getString(R.string.seleccionarLook));
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		// Inflate the custom view and add click handlers for the buttons
+		View actionBarButtons = getLayoutInflater().inflate(R.layout.accept_cancel_actionbar,
+				new LinearLayout(this), false);
+
+		ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT);
+
+		View cancelActionView = actionBarButtons.findViewById(R.id.action_cancel);
+		cancelActionView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
+		View doneActionView = actionBarButtons.findViewById(R.id.action_done);
+		doneActionView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (idLook != -1) {
+					boolean ok = false;
+					boolean diaLibre = false;
+					db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+					Look lookSeleccionado = gestion.getLookById(db, idLook);
+					if (db != null) {
+						diaLibre = gestion.isDiaLibreHora(db, fecha, hora,
+								cuentaSeleccionada);
+						if (diaLibre) {
+							ok = gestion.insertarLookCalendario(db, hora,
+									fecha, lookSeleccionado.getIdLook(),
+									cuentaSeleccionada);
+						}
+					}
+					db.close();
+
+					finish();
+				}
+			}
+		});
+
+		// Hide the icon, title and home/up button
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+		// Set the custom view and allow the bar to show it
+		layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_HORIZONTAL;
+		getSupportActionBar().setCustomView(actionBarButtons, layoutParams);
 
 		gridview = (GridView) findViewById(R.id.gridLooks);
 		spinnerUtilidades = (Spinner) findViewById(R.id.spinnerTipoPrendaArmario);
-		botonAceptar = (TextView) findViewById(R.id.botonAceptar);
-		botonCancelar = (TextView) findViewById(R.id.botonCancelar);
 
 		checkFavoritos = (ImageView) findViewById(R.id.checkFavoritos);
 
@@ -112,16 +151,12 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 		fecha = extras.getString("fecha");
 		hora = extras.getInt("hora");
 
-		if (estilo == 1) {
-			cambiarEstiloHombre();
-		}
-
 		registerForContextMenu(gridview);
 
 		// Rellenamos el spinner tipo
 		obtenerUtilidades();
 
-		botonCancelar.setOnClickListener(new View.OnClickListener() {
+		/*botonCancelar.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				finish();
 			}
@@ -152,7 +187,7 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 			}
 		});
 
-		spinnerUtilidades
+		/*spinnerUtilidades
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
@@ -190,7 +225,8 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 				}
 				new CargarLooksTask().execute();
 			}
-		});
+		});*/
+		new CargarLooksTask().execute();
 
 	}
 
@@ -207,7 +243,7 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 		ListAdapterSpinner spinner_adapterCat = new ListAdapterSpinner(this,
 				android.R.layout.simple_spinner_item, listUtilidades);
 
-		spinnerUtilidades.setAdapter(spinner_adapterCat);
+		//spinnerUtilidades.setAdapter(spinner_adapterCat);
 	}
 
 	public void obtenerLooks() {
@@ -290,62 +326,6 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 
 		}
 		return null;
-	}
-
-	// Anadiendo las opciones de menu
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_setting, menu);
-		return true;
-	}
-
-	// Anadiendo funcionalidad a las opciones de menu
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		LayoutInflater li = LayoutInflater.from(this);
-		View view = null;
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		AlertDialog alert;
-		switch (item.getItemId()) {
-		case R.id.btInfo:
-			view = li.inflate(R.layout.info, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.informacion));
-			builder.setIcon(R.drawable.ic_info_azul);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		case R.id.btAcerca:
-			view = li.inflate(R.layout.acerca, null);
-			builder.setView(view);
-			builder.setTitle(getResources().getString(R.string.app_name));
-			builder.setIcon(R.drawable.icon_app);
-			builder.setCancelable(false);
-			builder.setPositiveButton(getResources()
-					.getString(R.string.aceptar),
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			alert = builder.create();
-			alert.show();
-			return true;
-		case android.R.id.home:
-			finish();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	public class GridAdapterSeleccionarLooks extends BaseAdapter implements
@@ -476,11 +456,6 @@ public class SeleccionarLookActivity extends ActionBarActivity {
 			gridview.setAdapter(gridadapter);
 			progDailog.dismiss();
 		}
-	}
-
-	public void cambiarEstiloHombre() {
-		spinnerUtilidades.setBackgroundResource(R.drawable.spinner_azul);
-		checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
 	}
 
 }

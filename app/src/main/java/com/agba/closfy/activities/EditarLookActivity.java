@@ -9,13 +9,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -41,7 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class EditarLookActivity extends ActionBarActivity {
+public class EditarLookActivity extends AppCompatActivity {
     private static final String KEY_CONTENT = "VerLookActivity:Content";
     private String mContent = "???";
 
@@ -82,7 +79,6 @@ public class EditarLookActivity extends ActionBarActivity {
     final GestionBBDD gestion = new GestionBBDD();
 
     private static final int EDIT_LOOK = 3;
-    private static final int NOTAS = 4;
     private static final int MENSAJE_CONFIRMAR_ELIMINAR = 1;
 
     @SuppressWarnings("deprecation")
@@ -188,13 +184,14 @@ public class EditarLookActivity extends ActionBarActivity {
                 // Si no hay error insertamos la prenda
                 if (db != null) {
                     ok = gestion.editarLook(db, String.valueOf(idLook),
-                            temporada, utilidades, favorito, notasString);
+                            temporada, utilidades, favorito, textNotas.getText().toString());
                 }
                 db.close();
 
                 if (ok) {
                     mostrarMensaje(getResources()
                             .getString(R.string.editLookOK));
+                    setResult(RESULT_OK, getIntent());
                     finish();
                 } else {
                     mostrarMensaje(getResources()
@@ -318,7 +315,7 @@ public class EditarLookActivity extends ActionBarActivity {
         listLooks.add(look);
 
         if (look.getNotas() != null) {
-            notasString = look.getNotas();
+            textNotas.setText(look.getNotas());
         }
 
         Util.obtenerImagenLook(this, listLooks, 4);
@@ -330,62 +327,6 @@ public class EditarLookActivity extends ActionBarActivity {
             layoutText.setVisibility(View.VISIBLE);
         }
 
-    }
-
-    // Anadiendo las opciones de menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_setting, menu);
-        return true;
-    }
-
-    // Anadiendo funcionalidad a las opciones de menu
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        LayoutInflater li = LayoutInflater.from(this);
-        View view = null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        AlertDialog alert;
-        switch (item.getItemId()) {
-            case R.id.btInfo:
-                view = li.inflate(R.layout.info, null);
-                builder.setView(view);
-                builder.setTitle(getResources().getString(R.string.informacion));
-                builder.setIcon(R.drawable.ic_info_azul);
-                builder.setCancelable(false);
-                builder.setPositiveButton(getResources()
-                                .getString(R.string.aceptar),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                alert = builder.create();
-                alert.show();
-                return true;
-            case R.id.btAcerca:
-                view = li.inflate(R.layout.acerca, null);
-                builder.setView(view);
-                builder.setTitle(getResources().getString(R.string.app_name));
-                builder.setIcon(R.drawable.icon_app);
-                builder.setCancelable(false);
-                builder.setPositiveButton(getResources()
-                                .getString(R.string.aceptar),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                alert = builder.create();
-                alert.show();
-                return true;
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     protected Dialog onCreateDialog(int id) {
@@ -428,6 +369,7 @@ public class EditarLookActivity extends ActionBarActivity {
                                             duration);
                                     toast.show();
 
+                                    setResult(RESULT_OK, getIntent());
                                     finish();
                                 } else {
                                     Context context = getApplicationContext();
@@ -462,27 +404,8 @@ public class EditarLookActivity extends ActionBarActivity {
 
         switch (requestCode) {
             case EDIT_LOOK:
-                db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-                if (db != null) {
-                    look = gestion.getLookById(db, idLook);
-                }
-                db.close();
-
-                listLooks.clear();
-                listLooks.add(look);
-                Util.obtenerImagenLook(this, listLooks, 4);
-
-                if (look.getFoto() != null) {
-                    imagenLook.setBackgroundDrawable(look.getFoto());
-                    layoutImage.setVisibility(View.VISIBLE);
-                    layoutText.setVisibility(View.GONE);
-                } else {
-                    layoutImage.setVisibility(View.GONE);
-                    layoutText.setVisibility(View.VISIBLE);
-                }
-                break;
-            case NOTAS:
-                notasString = data.getExtras().getString("notas");
+                setResult(RESULT_OK, getIntent());
+                finish();
                 break;
         }
     }

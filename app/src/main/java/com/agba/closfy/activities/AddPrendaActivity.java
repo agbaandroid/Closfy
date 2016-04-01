@@ -393,6 +393,7 @@ public class AddPrendaActivity extends AppCompatActivity {
                         if (mImageCaptureUri == null) {
                             urlAux = prefs.getString("urlImagen", "");
 
+
                             mImageCaptureUri = Uri.fromFile(new File(urlAux));
                         }
                         runCropImage(mImageCaptureUri.getPath());
