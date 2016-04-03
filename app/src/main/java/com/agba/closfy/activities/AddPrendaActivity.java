@@ -36,7 +36,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
+import com.agba.closfy.adapters.ListAdapterSpinner;
+import com.agba.closfy.adapters.ListAdapterSubtiposSpinner;
 import com.agba.closfy.database.GestionBBDD;
+import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
 
@@ -58,8 +61,7 @@ public class AddPrendaActivity extends AppCompatActivity {
     private Uri tmpImgUri;
     private LinearLayout layoutImagen;
     private ImageView imagenSeleccionada;
-    private Spinner spinnerTipo, spinnerTemporada;
-    private LinearLayout botonGuardar;
+    private Spinner spinnerTipo, spinnerTemporada, spinnerSubtipo;
     private ImageView checkFavoritos;
     private ListView listUtilidadesView;
     private LinearLayout botonCambiarTemp;
@@ -291,8 +293,8 @@ public class AddPrendaActivity extends AppCompatActivity {
         imagenSeleccionada = (ImageView) findViewById(R.id.marcoIcon);
         botonCambiarTemp = (LinearLayout) findViewById(R.id.botonCambiarTemp);
         checkFavoritos = (ImageView) findViewById(R.id.checkFavoritos);
-        botonGuardar = (LinearLayout) findViewById(R.id.botonGuardar);
         spinnerTipo = (Spinner) findViewById(R.id.spinnerTipoPrenda);
+        spinnerSubtipo = (Spinner) findViewById(R.id.spinnerSubtipo);
         spinnerTemporada = (Spinner) findViewById(R.id.spinnerTemporada);
         listUtilidadesView = (ListView) findViewById(R.id.listUtilidades);
         textTemporada = (TextView) findViewById(R.id.textTemporada);
@@ -336,6 +338,8 @@ public class AddPrendaActivity extends AppCompatActivity {
                         } else {
                             idTipo = position;
                         }
+
+                        obtenerSubtiposPrenda();
                     }
 
                     public void onNothingSelected(AdapterView<?> parent) {
@@ -582,6 +586,22 @@ public class AddPrendaActivity extends AppCompatActivity {
         }
     }
 
+    public void obtenerSubtiposPrenda() {
+        ArrayList<Subtipo> listSubtipos = new ArrayList<Subtipo>();
+        db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+        if (db != null) {
+            listSubtipos = (ArrayList<Subtipo>) gestion.getSubtiposByIdTipo(db,idTipo, estilo);
+        }
+        db.close();
+
+        // Creamos el adaptador
+        ListAdapterSubtiposSpinner spinner_adapterSubtipo = new ListAdapterSubtiposSpinner(
+                this, R.layout.spinner_sinimagen,
+                listSubtipos);
+
+        spinnerSubtipo.setAdapter(spinner_adapterSubtipo);
+    }
+
     public void obtenerTemporadas() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.tiposTemporada,
@@ -715,9 +735,6 @@ public class AddPrendaActivity extends AppCompatActivity {
             View.OnClickListener {
         private LayoutInflater mInflater;
         private ArrayList<Utilidad> listaUtilidad = new ArrayList<Utilidad>();
-        Locale locale = Locale.getDefault();
-        String languaje = locale.getLanguage();
-        ArrayList<View> listViews = new ArrayList<View>();
 
         public ListAdapterUtilidad(Context context, ArrayList<Utilidad> lista) {
             listaUtilidad = lista;

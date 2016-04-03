@@ -12,6 +12,7 @@ import com.agba.closfy.modelo.Cuenta;
 import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.PrendaLook;
+import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 
 import java.io.File;
@@ -47,6 +48,10 @@ public class GestionBBDD {
             + "[idUtilidad] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, "
             + "[descripcion] TEXT NOT NULL)";
 
+    String sqlCreateSubtipos = "CREATE TABLE IF NOT EXISTS [Subtipos] ( "
+            + "[idSubtipo] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            + "[idTipo] INTEGER NOT NULL, [sexo] INTEGER NOT NULL, [descripcion] TEXT NOT NULL)";
+
     String sqlCreateCalendario = "CREATE TABLE IF NOT EXISTS [Calendario] ( "
             + "[idCalendario] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, "
             + "[fecha] TEXT NOT NULL, [hora] INTEGER NOT NULL, "
@@ -77,9 +82,7 @@ public class GestionBBDD {
         db.execSQL(sqlCreateCuentas);
         db.execSQL(sqlCreateCalendario);
         db.execSQL(sqlCreateAsesoramientos);
-        // db.execSQL(sqlCreateTarjetas);
-        // db.execSQL(sqlCreateRecibos);
-        // db.execSQL(sqlCreateCuentas);
+        db.execSQL(sqlCreateSubtipos);
 
         // Comprobamos si las tabla Utilidades est� vacia
         // para a�adirle los campos por defecto
@@ -98,6 +101,95 @@ public class GestionBBDD {
                 db.execSQL("INSERT INTO Utilidades VALUES(null, 'Casual')");
                 db.execSQL("INSERT INTO Utilidades VALUES(null, 'Party')");
                 db.execSQL("INSERT INTO Utilidades VALUES(null, 'Workout')");
+            }
+        }
+
+
+        c1 = db.query("Subtipos", new String[]{"idSubtipo"}, null,
+                null, null, null, null);
+
+        if (!c1.moveToFirst()) {
+            if (languaje.equals("es") || languaje.equals("es-rUS")
+                    || languaje.equals("ca")) {
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Jersey')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Polo')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Sudadera')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Camisa')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Tirantes')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 0, 'Top')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Chaqueta')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Chaleco')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Cardigan')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Pantalones')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Vaqueros')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Bermudas')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Chándal')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Shorts')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 0, 'Falda')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 0, 'Leggins')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 3, 0, 'Peto')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 3, 0, 'Vestido')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 3, 0, 'Mono')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Abrigo')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Gabardina')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Cazadora')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Parka')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Chubasquero')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 5, 2, 'Playeras')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 5, 0, 'Tacones')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 5, 2, 'Chanclas')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Bolso')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Mochila')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Gorra')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Gorro')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Bufanda')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 0, 'Collar')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Cinturón')");
+            } else {
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Jersey')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Polo')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Sweatshirt')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Shirt')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'T-Shirt')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 0, 'Tank')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Jacket')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Vest')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Cardigan')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Trousers')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Jeans')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Bermudas')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Sweatpants')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 2, 'Shorts')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 0, 'Skirt')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 2, 0, 'Yoga pants')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 3, 0, 'Overall')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 3, 0, 'Dress')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 3, 0, 'Jumpsuit')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Tench')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Biker')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Jacket')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 4, 2, 'Raincoat')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 5, 2, 'Sneakers')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 5, 0, 'Heels')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 5, 2, 'Flip flops')");
+
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Handbag')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Backpack')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Cap')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Hat')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Scarf')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 0, 'Necklace')");
+                db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Belt')");
             }
         }
 
@@ -1049,5 +1141,38 @@ public class GestionBBDD {
         }
         return true;
 
+    }
+
+    public ArrayList<Subtipo> getSubtiposByIdTipo(SQLiteDatabase db, int idTipo,
+                                                int sexo) {
+        ArrayList<Subtipo> listaSubtipos = new ArrayList<Subtipo>();
+        try {
+            Cursor c1 = db.rawQuery(
+                    "select * from Subtipos where idTipo = " + idTipo
+                            + " and sexo in (" + sexo + ", 2)", null);
+
+            Subtipo subGeneric = new Subtipo();
+            subGeneric.setId(-1);
+            subGeneric.setIdTipo(-1);
+            subGeneric.setSexo(2);
+            subGeneric.setNombre("Sin subtipo");
+            listaSubtipos.add(subGeneric);
+
+            if (c1.moveToFirst()) {
+                do {
+                    Subtipo sub = new Subtipo();
+                    sub.setId(c1.getInt(0));
+                    sub.setIdTipo(c1.getInt(1));
+                    sub.setSexo(c1.getInt(2));
+                    sub.setNombre(c1.getString(3));
+
+                    listaSubtipos.add(sub);
+                } while (c1.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("Error", "Error al obtener subtipos en BBDD");
+            return listaSubtipos;
+        }
+        return listaSubtipos;
     }
 }

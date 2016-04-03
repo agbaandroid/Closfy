@@ -22,6 +22,7 @@
     <string-array name="titles">
         <item>Meu guarda-roupas</item>
         <item>Meus visuais</item>
+        <item>Tipos</item>
         <item>Utilidades</item>
         <item>O que devo vestir?</item>
         <item>Calendário</item>
@@ -34,6 +35,7 @@
     <string-array name="titlesMayusculas">
         <item>MEU GUARDA-ROUPAS</item>
         <item>MEUS VISUAIS</item>
+        <item>TIPOS</item>
         <item>UTILIDADES</item>
         <item>O QUE DEVO VESTIR?</item>
         <item>CALENDÁRIO</item>

@@ -20,6 +20,7 @@
     <string-array name="titles">
         <item>My closet</item>
         <item>My outfits</item>
+        <item>Types</item>
         <item>Utilities</item>
         <item>What can I wear?</item>
         <item>Calendar</item>
@@ -32,6 +33,7 @@
     <string-array name="titlesMayusculas">
         <item>MY CLOSET</item>
         <item>MY OUTFITS</item>
+        <item>TYPES</item>
         <item>UTILITIES</item>
         <item>WHAT CAN I WEAR?</item>
         <item>CALENDAR</item>

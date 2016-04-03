@@ -22,6 +22,7 @@
     <string-array name="titles">
         <item>Mi armario</item>
         <item>Mis looks</item>
+        <item>Types</item>
         <item>Utilidades</item>
         <item>¿Qué me pongo?</item>
         <item>Calendario</item>
@@ -34,6 +35,7 @@
     <string-array name="titlesMayusculas">
         <item>MI ARMARIO</item>
         <item>MIS LOOKS</item>
+        <item>TYPES</item>
         <item>UTILIDADES</item>
         <item>¿QUÉ ME PONGO?</item>
         <item>CALENDARIO</item>

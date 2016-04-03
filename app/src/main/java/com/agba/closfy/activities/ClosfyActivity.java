@@ -265,26 +265,29 @@ public class ClosfyActivity extends AppCompatActivity {
 		case 1:
 			fragment = new NuevoMisLooksFragment();
 			break;
-		case 2:
-			fragment = new UtilidadesFragment();
-			break;
-		case 3:
+        case 2:
+            fragment = new NuevoMisLooksFragment();
+            break;
+        case 3:
+            fragment = new UtilidadesFragment();
+            break;
+		case 4:
 			fragment = new QueMePongoInicialFragment();
 			break;
-		case 4:
+		case 5:
 			fragment = new CalendarioFragment();
 			break;
-		case 5:
+		case 6:
 			fragment = new TestColoridoFragment();
 			break;
-		case 6:
+		case 7:
 			if (estilo == 1) {
 				fragment = new MorfologiaHombreFragment();
 			} else {
 				fragment = new MorfologiaFragment();
 			}
-			break;		
-		case 7:
+			break;
+		case 8:
 			Intent intent1 = new Intent(
 					"android.intent.action.VIEW",
 					Uri.parse("https://play.google.com/store/apps/details?id=com.agba.closfy"));

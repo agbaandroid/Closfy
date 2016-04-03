@@ -10,10 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.fragments.LookAmpliadoSlideFragment;
+import com.agba.closfy.modelo.Look;
 
 public class NuevoAmpliarLookActivity extends AppCompatActivity {
     private static final String KEY_CONTENT = "NuevoAmpliarLookActivity:Content";
@@ -79,6 +81,41 @@ public class NuevoAmpliarLookActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_setting_edit, menu);
         return true;
+    }
+
+    // Aadiendo funcionalidad a las opciones de men
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                // Llamar activity EditarPrenda
+
+                Look lookSeleccionado = new Look();
+                db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+                if (db != null) {
+                    lookSeleccionado = gestion.getLookById(db, looks[posi]);
+                }
+                db.close();
+
+                Intent intent2 = new Intent(this,
+                        EditarLookActivity.class);
+                intent2.putExtra("idLook",
+                        lookSeleccionado.getIdLook());
+                intent2.putExtra("temporada",
+                        lookSeleccionado.getIdTemporada());
+                intent2.putExtra("utilidades",
+                        lookSeleccionado.getUtilidades());
+                intent2.putExtra("favorito",
+                        lookSeleccionado.getFavorito());
+                startActivityForResult(intent2, EDIT_LOOK);
+
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

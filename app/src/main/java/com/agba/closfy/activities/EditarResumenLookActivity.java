@@ -10,9 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,7 +45,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-public class EditarResumenLookActivity extends ActionBarActivity {
+public class EditarResumenLookActivity extends AppCompatActivity {
 	String[] idPrendas;
 
 	private TextView botonGuardar, botonCancelar;
@@ -103,10 +104,6 @@ public class EditarResumenLookActivity extends ActionBarActivity {
 		db.close();
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-		if (estilo == 1) {
-			toolbar.setBackgroundResource(R.color.azul);
-		}
 		setSupportActionBar(toolbar);
 
 		getSupportActionBar().setTitle(
@@ -114,6 +111,7 @@ public class EditarResumenLookActivity extends ActionBarActivity {
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
 		Bundle extras = getIntent().getExtras();
 		idLook = extras.getInt("idLook");
@@ -1571,6 +1569,18 @@ public class EditarResumenLookActivity extends ActionBarActivity {
 	public void onBackPressed() {
 		setResult(RESULT_OK, getIntent());
 		finish();
+	}
+
+	// Anadiendo funcionalidad a las opciones de menu
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

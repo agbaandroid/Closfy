@@ -2,11 +2,13 @@ package com.agba.closfy.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +36,8 @@ public class CrearLookFragmentHombre extends Fragment {
 	private SQLiteDatabase db;
 	private final String BD_NOMBRE = "BDClosfy";
 	final GestionBBDD gestion = new GestionBBDD();
+
+	private static final int CREAR_LOOK = 1;
 
 	SharedPreferences prefs;
 	SharedPreferences.Editor editor;
@@ -181,7 +185,6 @@ public class CrearLookFragmentHombre extends Fragment {
 
 	public void obtenerPrendas() {
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
-
 		if (db != null) {
 
 			if (favorito == 1) {
@@ -392,5 +395,25 @@ public class CrearLookFragmentHombre extends Fragment {
 
 			progDailog.dismiss();
 		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode != getActivity().RESULT_OK)
+			return;
+
+		switch (requestCode) {
+			case CREAR_LOOK:
+				Fragment fragment = new CrearLookInicioFragment();
+				if (fragment != null) {
+					FragmentManager fragmentManager = getActivity()
+							.getSupportFragmentManager();
+					fragmentManager.beginTransaction()
+							.replace(R.id.crearlookFragment, fragment).commit();
+
+				}
+				break;
+		}
+
 	}
 }

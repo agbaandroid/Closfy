@@ -87,10 +87,10 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(paso == 1) {
                     if (estilo == 0) {
-                        fragment = new CrearLookFragmentHombre(idRadioTemporada,
+                        fragment = new CrearLookFragment(idRadioTemporada,
                                 listIdsUtilidad, favorito);
                     } else {
-                        fragment = new CrearLookFragment(idRadioTemporada,
+                        fragment = new CrearLookFragmentHombre(idRadioTemporada,
                                 listIdsUtilidad, favorito);
                     }
 
