@@ -29,7 +29,7 @@ public class GestionBBDD {
             + "[idPrendaBasica] INTEGER NULL, "
             + "[idTemporada] VARCHAR(1) NOT NULL, "
             + "[favorito] INTEGER  NULL, [idFoto] TEXT NOT NULL, [utilidades] TEXT,"
-            + "[idCuenta] INTEGER NULL)";
+            + "[idCuenta] INTEGER NULL, [idSubtipo] INTEGER  NOT NULL)";
 
     String sqlCreateLooks = "CREATE TABLE IF NOT EXISTS [Looks] ( "
             + "[idLook] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, "
@@ -226,7 +226,7 @@ public class GestionBBDD {
         return hayCuenta;
     }
 
-    public boolean insertarPrenda(SQLiteDatabase db, int idTipo,
+    public boolean insertarPrenda(SQLiteDatabase db, int idTipo, int idSubtipo,
                                   int prendaBasica, int idPrendaBasica, int idTemporada,
                                   int favorito, String idFoto, String utilidades, int idCuenta) {
 
@@ -234,7 +234,7 @@ public class GestionBBDD {
             String sql = "INSERT INTO Prendas VALUES(" + null + "," + idTipo
                     + ", " + prendaBasica + ", " + idPrendaBasica + ", "
                     + idTemporada + ", " + "'" + favorito + "'," + "'" + idFoto
-                    + "', " + "'" + utilidades + "', '" + idCuenta + "')";
+                    + "', " + "'" + utilidades + "', '" + idCuenta + "', '"+ idSubtipo + "')";
             db.execSQL(sql);
             return true;
         } catch (Exception e) {
@@ -243,13 +243,14 @@ public class GestionBBDD {
         }
     }
 
-    public boolean editarPrenda(SQLiteDatabase db, String id, int idTemporada,
+    public boolean editarPrenda(SQLiteDatabase db, String id, int idSubtipo, int idTemporada,
                                 int favorito, String idFoto, String utilidades, int prendaBasica, int idPrendaBasica, int idCuenta) {
         try {
             ContentValues values = new ContentValues();
             values.put("idTemporada", idTemporada);
             values.put("favorito", favorito);
             values.put("idFoto", idFoto);
+            values.put("idSubtipo", idSubtipo);
             values.put("utilidades", utilidades);
             values.put("idCuenta", idCuenta);
             values.put("prendaBasica", prendaBasica);
@@ -425,6 +426,7 @@ public class GestionBBDD {
                 prenda.setFavorito(c1.getInt(5));
                 prenda.setIdFoto(c1.getString(6));
                 prenda.setUtilidades(c1.getString(7));
+                prenda.setIdSubTipo(c1.getInt(9));
             }
         } catch (Exception e) {
             Log.d("Error", "Error al insertar registro en BBDD");
@@ -831,6 +833,41 @@ public class GestionBBDD {
         }
     }
 
+    public boolean addSubtipo(SQLiteDatabase db, int idTipo, int sexo, String descripcion) {
+        try {
+            String sql = "INSERT INTO Subtipos VALUES(" + null + ", '"
+                    + idTipo + "', '" + sexo + "', '" + descripcion + "')";
+            db.execSQL(sql);
+            return true;
+        } catch (Exception e) {
+            Log.d("Error", "Error al insertar una subtipo en BBDD");
+            return false;
+        }
+    }
+
+    public boolean editSubtipo(SQLiteDatabase db, String id, int idTipo, int sexo, String descripcion) {
+        try {
+            ContentValues values = new ContentValues();
+            values.put("descripcion", descripcion);
+            values.put("sexo", sexo);
+            values.put("idTipo", idTipo);
+            db.update("Subtipos", values, "idSubtipo=?", new String[]{id});
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean deleteSubtipo(SQLiteDatabase db, String id) {
+        try {
+            db.delete("Subtipos", "idSubtipo=?", new String[]{id});
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean isDiaLibre(SQLiteDatabase db, String fecha, int cuenta) {
         // consultamos si existe una nomina del mes actual
         try {
@@ -1144,7 +1181,7 @@ public class GestionBBDD {
     }
 
     public ArrayList<Subtipo> getSubtiposByIdTipo(SQLiteDatabase db, int idTipo,
-                                                int sexo) {
+                                                  int sexo) {
         ArrayList<Subtipo> listaSubtipos = new ArrayList<Subtipo>();
         try {
             Cursor c1 = db.rawQuery(
@@ -1155,8 +1192,49 @@ public class GestionBBDD {
             subGeneric.setId(-1);
             subGeneric.setIdTipo(-1);
             subGeneric.setSexo(2);
-            subGeneric.setNombre("Sin subtipo");
+
+            String todos;
+            if (languaje.equals("es") || languaje.equals("es-rUS")
+                    || languaje.equals("ca")) {
+                todos = "Sin subtipo";
+            } else {
+                todos = "Without subtype";
+            }
+
+            subGeneric.setNombre(todos);
             listaSubtipos.add(subGeneric);
+
+            if (c1.moveToFirst()) {
+                do {
+                    Subtipo sub = new Subtipo();
+                    sub.setId(c1.getInt(0));
+                    sub.setIdTipo(c1.getInt(1));
+                    sub.setSexo(c1.getInt(2));
+                    sub.setNombre(c1.getString(3));
+
+                    listaSubtipos.add(sub);
+                } while (c1.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("Error", "Error al obtener subtipos en BBDD");
+            return listaSubtipos;
+        }
+        return listaSubtipos;
+    }
+
+    public ArrayList<Subtipo> getAllSubtipos(SQLiteDatabase db, int idTipo, int sexo) {
+        ArrayList<Subtipo> listaSubtipos = new ArrayList<Subtipo>();
+        try {
+            Cursor c1;
+
+            if (idTipo == 0) {
+                c1 = db.rawQuery(
+                        "select * from Subtipos where sexo in (" + sexo + ", 2)", null);
+            } else {
+                c1 = db.rawQuery(
+                        "select * from Subtipos where idTipo = " + idTipo
+                                + " and sexo in (" + sexo + ", 2)", null);
+            }
 
             if (c1.moveToFirst()) {
                 do {

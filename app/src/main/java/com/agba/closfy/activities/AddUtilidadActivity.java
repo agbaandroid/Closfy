@@ -35,7 +35,6 @@ public class AddUtilidadActivity extends AppCompatActivity {
 		toolbar.setContentInsetsAbsolute(0, 0);
 		setSupportActionBar(toolbar);
 
-		gestion = new GestionBBDD();
 		editUti = (EditText) findViewById(R.id.cajaNombreUtilidad);
 
 		// Inflate the custom view and add click handlers for the buttons

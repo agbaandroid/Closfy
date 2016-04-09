@@ -350,4 +350,27 @@
 
 
     <string name="gestionarCuentas">ES_Gestionar cuentas</string>
+    <string name="cuentasList">ES_Gestionar cuentas</string>
+    <string name="publicidad">ES_PUBLICIDAD</string>
+    <string name="nombre">ES_Nombre</string>
+    <string name="icono">ES_Icono</string>
+
+    <string-array name="arraySexo">
+        <item>ES_Woman</item>
+        <item>ES_Man</item>
+    </string-array>
+
+    <string-array name="arraySexoTipos">
+        <item>ES_Woman</item>
+        <item>ES_Man</item>
+        <item>ES_Unisex</item>
+    </string-array>
+
+    <string name="addTipoOK">The type has been correctly added</string>
+    <string name="addTipoKO">There was an error adding the type</string>
+    <string name="editTipoOK">The type has been successfully changed</string>
+    <string name="editTipoKO">It was an error by modifying the type</string>
+    <string name="deleteTipoOK">The type successfully removed</string>
+    <string name="deleteTipoKO">There was an error deleting the type</string>
+
 </resources>

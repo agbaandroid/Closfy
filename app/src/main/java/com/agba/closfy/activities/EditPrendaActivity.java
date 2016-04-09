@@ -36,8 +36,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
+import com.agba.closfy.adapters.ListAdapterSubtiposSpinner;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
+import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
 
@@ -60,6 +62,7 @@ public class EditPrendaActivity extends AppCompatActivity {
     private LinearLayout layoutImagen;
     private ImageView imagenSeleccionada;
     private Spinner spinnerTemporada;
+    private Spinner spinnerSubtipo;
     private ImageView checkFavoritos;
     ListAdapterUtilidad adapterUtilidad;
 
@@ -69,6 +72,7 @@ public class EditPrendaActivity extends AppCompatActivity {
     private LinearLayout botonCambiarTemp;
     TextView textTemporada;
     int estilo;
+    int idSubtipoSelec;
     private TextView textoCambiar;
 
 
@@ -174,10 +178,17 @@ public class EditPrendaActivity extends AppCompatActivity {
                 // obtenemos la cadena de utilidades
                 utilidades = Util.obtenerCadenaUtilidades(listIdsUtilidad);
 
+                int posSubtipo = spinnerSubtipo.getSelectedItemPosition();
+
+                Subtipo subtipo = (Subtipo) spinnerSubtipo
+                        .getItemAtPosition(posSubtipo);
+                // Obtenemos el id de los objetos seleccionados
+                int idSubtipo = subtipo.getId();
+
                 // Si no hay error insertamos la prenda
                 if (!errorFoto && !errorTipo) {
                     if (db != null) {
-                        ok = gestion.editarPrenda(db, String.valueOf(idPrenda),
+                        ok = gestion.editarPrenda(db, String.valueOf(idPrenda), idSubtipo,
                                 idTemporada, favorito, idFoto, utilidades, prendaBasica, idPrendaBasica,
                                 cuentaSeleccionada);
                     }
@@ -245,7 +256,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         spinnerTemporada = (Spinner) findViewById(R.id.spinnerTemporada);
         listUtilidadesView = (ListView) findViewById(R.id.listUtilidades);
         textTemporada = (TextView) findViewById(R.id.textTemporada);
-        textoCambiar = (TextView) findViewById(R.id.textoCambiar);
+        spinnerSubtipo = (Spinner) findViewById(R.id.spinnerSubtipo);
 
         ArrayList<Utilidad> listUtilidades = new ArrayList<Utilidad>();
 
@@ -259,12 +270,15 @@ public class EditPrendaActivity extends AppCompatActivity {
         listUtilidadesView.setAdapter(adapterUtilidad);
 
         obtenerTemporadas();
+        obtenerSubtiposPrenda();
 
         if (estilo == 1) {
             cambiarEstiloHombre();
         }
 
         obtenerDatos();
+        obtenerTemporadas();
+        obtenerSubtiposPrenda();
 
         spinnerTemporada
                 .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -310,6 +324,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         idPrenda = extras.getInt("idPrenda");
         idTipo = extras.getInt("tipo");
+        idSubtipoSelec = extras.getInt("subtipo");
         idTemporada = extras.getInt("temporada");
         listIdsUtilidad = Util.obtenerListaUtilidades(extras
                 .getString("utilidades"));
@@ -345,6 +360,19 @@ public class EditPrendaActivity extends AppCompatActivity {
         }
 
         spinnerTemporada.setSelection(idTemporada);
+
+        // Recuperamos el listado del spinner Subtipos
+        ArrayList<Subtipo> listSubtipo = gestion.getSubtiposByIdTipo(db, idTipo, estilo);
+
+        int posSub = 0;
+        for (int i = 0; i < listSubtipo.size(); i++) {
+            Subtipo sub = listSubtipo.get(i);
+            if (sub.getId() == idSubtipoSelec) {
+                posSub = i;
+            }
+        }
+
+        spinnerSubtipo.setSelection(posSub);
 
         prendaSeleccionada = new Prenda();
         db = openOrCreateDatabase(BD_NOMBRE, 1, null);
@@ -834,5 +862,21 @@ public class EditPrendaActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void obtenerSubtiposPrenda() {
+        ArrayList<Subtipo> listSubtipos = new ArrayList<Subtipo>();
+        db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+        if (db != null) {
+            listSubtipos = gestion.getSubtiposByIdTipo(db,idTipo, estilo);
+        }
+        db.close();
+
+        // Creamos el adaptador
+        ListAdapterSubtiposSpinner spinner_adapterSubtipo = new ListAdapterSubtiposSpinner(
+                this, R.layout.spinner_sinimagen,
+                listSubtipos);
+
+        spinnerSubtipo.setAdapter(spinner_adapterSubtipo);
     }
 }

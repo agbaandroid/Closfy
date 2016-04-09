@@ -98,11 +98,6 @@
             android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
-            android:name="com.agba.closfy.activities.VerPrendaActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomActionBarTheme" >
-        </activity>
-        <activity
             android:name="com.agba.closfy.activities.VerLookActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" >
@@ -239,6 +234,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme"
             android:windowSoftInputMode="stateUnchanged|adjustUnspecified" />
+
+        <activity
+            android:name="com.agba.closfy.activities.AddTipoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme" />
+
+        <activity
+            android:name="com.agba.closfy.activities.EditTipoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomActionBarTheme" />
 
 
         <!-- Publicidad -->

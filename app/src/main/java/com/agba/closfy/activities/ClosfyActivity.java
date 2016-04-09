@@ -36,6 +36,7 @@ import com.agba.closfy.fragments.NuevoMiArmarioFragment;
 import com.agba.closfy.fragments.NuevoMisLooksFragment;
 import com.agba.closfy.fragments.QueMePongoInicialFragment;
 import com.agba.closfy.fragments.TestColoridoFragment;
+import com.agba.closfy.fragments.TiposFragment;
 import com.agba.closfy.fragments.UtilidadesFragment;
 import com.agba.closfy.modelo.Cuenta;
 import com.agba.closfy.util.Util;
@@ -266,7 +267,7 @@ public class ClosfyActivity extends AppCompatActivity {
 			fragment = new NuevoMisLooksFragment();
 			break;
         case 2:
-            fragment = new NuevoMisLooksFragment();
+            fragment = new TiposFragment();
             break;
         case 3:
             fragment = new UtilidadesFragment();

@@ -122,11 +122,6 @@ public class AddPrendaActivity extends AppCompatActivity {
                 android.R.layout.select_dialog_item, items);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        // Cuenta seleccionada
-        prefs = getSharedPreferences("ficheroConf",
-                Context.MODE_PRIVATE);
-        cuentaSeleccionada = Util.cuentaSeleccionada(this, prefs);
-
         db = openOrCreateDatabase(BD_NOMBRE, 1, null);
         if (db != null) {
             estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
@@ -171,10 +166,17 @@ public class AddPrendaActivity extends AppCompatActivity {
                 // obtenemos la cadena de utilidades
                 utilidades = Util.obtenerCadenaUtilidades(listIdsUtilidad);
 
+                int posSubtipo = spinnerSubtipo.getSelectedItemPosition();
+
+                Subtipo subtipo = (Subtipo) spinnerSubtipo
+                        .getItemAtPosition(posSubtipo);
+                // Obtenemos el id de los objetos seleccionados
+                int idSubtipo = subtipo.getId();
+
                 // Si no hay error insertamos la prenda
                 if (!errorFoto && !errorTipo) {
                     if (db != null) {
-                        ok = gestion.insertarPrenda(db, idTipo, prendaBasica,
+                        ok = gestion.insertarPrenda(db, idTipo, idSubtipo, prendaBasica,
                                 idPrendaBasica, idTemporada, favorito,
                                 idFoto, utilidades, cuentaSeleccionada);
                     }
@@ -298,7 +300,6 @@ public class AddPrendaActivity extends AppCompatActivity {
         spinnerTemporada = (Spinner) findViewById(R.id.spinnerTemporada);
         listUtilidadesView = (ListView) findViewById(R.id.listUtilidades);
         textTemporada = (TextView) findViewById(R.id.textTemporada);
-        textoCambiar = (TextView) findViewById(R.id.textoCambiar);
 
         ArrayList<Utilidad> listUtilidades = new ArrayList<Utilidad>();
 

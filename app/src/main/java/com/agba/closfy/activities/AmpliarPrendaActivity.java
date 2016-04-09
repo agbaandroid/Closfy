@@ -103,6 +103,8 @@ public class AmpliarPrendaActivity extends AppCompatActivity {
                         prendaSeleccionada.getIdPrenda());
                 intent.putExtra("tipo",
                         prendaSeleccionada.getIdTipo());
+                intent.putExtra("subtipo",
+                        prendaSeleccionada.getIdSubTipo());
                 intent.putExtra("temporada",
                         prendaSeleccionada.getIdTemporada());
                 intent.putExtra("utilidades",

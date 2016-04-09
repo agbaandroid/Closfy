@@ -39,9 +39,6 @@ public class EditUtilidadActivity extends AppCompatActivity {
 		toolbar.setContentInsetsAbsolute(0, 0);
 		setSupportActionBar(toolbar);
 
-		// Abrimos la base de datos si no esta abierta
-		db = this.openOrCreateDatabase(BD_NOMBRE, 1, null);
-		gestion = new GestionBBDD();
 		editUti = (EditText) findViewById(R.id.cajaNombreUtilidad);
 
 		Bundle extras = getIntent().getExtras();
