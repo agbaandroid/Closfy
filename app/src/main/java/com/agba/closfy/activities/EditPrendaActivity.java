@@ -269,9 +269,6 @@ public class EditPrendaActivity extends AppCompatActivity {
         adapterUtilidad = new ListAdapterUtilidad(this, listUtilidades);
         listUtilidadesView.setAdapter(adapterUtilidad);
 
-        obtenerTemporadas();
-        obtenerSubtiposPrenda();
-
         if (estilo == 1) {
             cambiarEstiloHombre();
         }
@@ -279,6 +276,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         obtenerDatos();
         obtenerTemporadas();
         obtenerSubtiposPrenda();
+        rellenarDatos();
 
         spinnerTemporada
                 .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -329,8 +327,6 @@ public class EditPrendaActivity extends AppCompatActivity {
         listIdsUtilidad = Util.obtenerListaUtilidades(extras
                 .getString("utilidades"));
         favoritoSelec = extras.getInt("favorito");
-
-        rellenarDatos();
     }
 
     public void rellenarDatos() {
@@ -361,8 +357,13 @@ public class EditPrendaActivity extends AppCompatActivity {
 
         spinnerTemporada.setSelection(idTemporada);
 
+        ArrayList<Subtipo> listSubtipo = new ArrayList<Subtipo>();
         // Recuperamos el listado del spinner Subtipos
-        ArrayList<Subtipo> listSubtipo = gestion.getSubtiposByIdTipo(db, idTipo, estilo);
+        db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+        if (db != null) {
+            listSubtipo = gestion.getSubtiposByIdTipo(db, idTipo, estilo);
+        }
+        db.close();
 
         int posSub = 0;
         for (int i = 0; i < listSubtipo.size(); i++) {
@@ -868,7 +869,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         ArrayList<Subtipo> listSubtipos = new ArrayList<Subtipo>();
         db = openOrCreateDatabase(BD_NOMBRE, 1, null);
         if (db != null) {
-            listSubtipos = gestion.getSubtiposByIdTipo(db,idTipo, estilo);
+            listSubtipos = gestion.getSubtiposByIdTipo(db, idTipo, estilo);
         }
         db.close();
 

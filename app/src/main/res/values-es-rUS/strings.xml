@@ -376,4 +376,6 @@
     <string name="editTipoKO">It was an error by modifying the type</string>
     <string name="deleteTipoOK">The type successfully removed</string>
     <string name="deleteTipoKO">There was an error deleting the type</string>
+
+    <string name="filter">ES_Filtro</string>
 </resources>

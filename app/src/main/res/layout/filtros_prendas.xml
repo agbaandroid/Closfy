@@ -91,15 +91,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_layout"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <Spinner
-                    android:id="@+id/spinnerFecha"
+                    android:id="@+id/spinnerTipoPrenda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -112,19 +112,18 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutTipoLista"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_layout"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <Spinner
-                    android:id="@+id/spinnerTipoLista"
+                    android:id="@+id/spinnerSubtipoPrenda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -136,19 +135,19 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutCategoriasFiltro"
+                android:id="@+id/layoutTemporadaFiltro"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_layout"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <Spinner
-                    android:id="@+id/spinnerCategoriasFiltro"
+                    android:id="@+id/spinnerTemporada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -160,18 +159,42 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutSubcategoriasFiltro"
+                android:id="@+id/layoutUtilidadesFiltro"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_layout"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinnerUtilidades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/spinner_simple"
+                    android:paddingLeft="5dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutFavoritoFiltro"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_layout"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/prenda"
+                    android:id="@+id/favorito"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"

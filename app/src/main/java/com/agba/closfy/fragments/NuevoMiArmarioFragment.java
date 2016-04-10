@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,25 +19,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
 import com.agba.closfy.activities.AddPrendaActivity;
 import com.agba.closfy.activities.AmpliarPrendaActivity;
 import com.agba.closfy.adapters.ListAdapterSpinner;
+import com.agba.closfy.adapters.ListAdapterSubtiposSpinner;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
+import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class NuevoMiArmarioFragment extends Fragment {
 	private static final String KEY_CONTENT = "MiArmarioFragment:Content";
@@ -53,21 +60,28 @@ public class NuevoMiArmarioFragment extends Fragment {
 	int cuentaSeleccionada;
 	int estilo;
 
+	private LinearLayout filtros;
+	private DrawerLayout drawer;
 	private ImageView checkFavoritos;
 	private ImageView opcionesPrenda;
-	//int favorito = 0;
+
+	ArrayList<Subtipo> listSubtiposFiltro;
 
 	ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
 	GridView gridview;
 	AdView adView;
 	Prenda prendaSeleccionada = new Prenda();
 
-	//private Spinner spinnerTipo;
-	//private Spinner spinnerTemporada;
-	//private Spinner spinnerUtilidad;
+	private Spinner spinnerTipoPrenda;
+	private Spinner spinnerSubtipoPrenda;
+	private Spinner spinnerTemporada;
+	private Spinner spinnerUtilidades;
+
 	int idTipo = 0;
 	int posiUtilidad = 0;
 	int idTemporada = 2;
+	int idSubtipo = 0;
+	int favorito = 0;
 
 	boolean cargaInicialTipo = true;
 	boolean cargaInicialTemporada = true;
@@ -75,8 +89,13 @@ public class NuevoMiArmarioFragment extends Fragment {
 	boolean cargado = false;
 	int[] prendas;
 
+	private LinearLayout btnAceptarFiltros;
+	private LinearLayout btnCancelarFiltros;
+
 	SharedPreferences prefs;
+	SharedPreferences prefsFiltros;
 	SharedPreferences.Editor editor;
+	SharedPreferences.Editor editorFiltros;
 
 	ProgressDialog progDailog;
 
@@ -122,19 +141,28 @@ public class NuevoMiArmarioFragment extends Fragment {
 
 		gridview = (GridView) getView().findViewById(R.id.gridArmario);
 
-		/*spinnerTipo = (Spinner) this.getView().findViewById(
-				R.id.spinnerTipoPrendaArmario);
+		spinnerTipoPrenda = (Spinner) getActivity().findViewById(
+				R.id.spinnerTipoPrenda);
 
-		spinnerTemporada = (Spinner) this.getView().findViewById(
-				R.id.spinnerTemporadaArmario);
+		spinnerSubtipoPrenda = (Spinner) getActivity().findViewById(
+				R.id.spinnerSubtipoPrenda);
 
-		spinnerUtilidad = (Spinner) this.getView().findViewById(
-				R.id.spinnerUtilidadArmario);
+		spinnerTemporada = (Spinner) getActivity().findViewById(
+				R.id.spinnerTemporada);
 
-		checkFavoritos = (ImageView) this.getView().findViewById(
-				R.id.checkFavoritos);*/
+		spinnerUtilidades = (Spinner) getActivity().findViewById(
+				R.id.spinnerUtilidades);
+
+		checkFavoritos = (ImageView) getActivity().findViewById(
+				R.id.checkFavoritos);
+
 		adView = (AdView) this.getView().findViewById(R.id.adView);
+		filtros = (LinearLayout) getActivity().findViewById(R.id.right_drawer_prendas);
+		drawer = (DrawerLayout) getActivity().findViewById(
+				R.id.drawer_layout);
 
+		btnAceptarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnAceptarFiltros);
+		btnCancelarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnCancelarFiltros);
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
@@ -151,21 +179,51 @@ public class NuevoMiArmarioFragment extends Fragment {
 		// Recuperamos las prendas
 		// obtenerPrendas();
 
-		/*spinnerTipo
+		btnAceptarFiltros.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				prefsFiltros = getActivity().getSharedPreferences("ficheroConfFiltrosArmario", Context.MODE_PRIVATE);
+				editorFiltros = prefsFiltros.edit();
+
+				int posSubtipo = spinnerSubtipoPrenda.getSelectedItemPosition();
+				Subtipo subtipo = (Subtipo) spinnerSubtipoPrenda
+						.getItemAtPosition(posSubtipo);
+				idSubtipo = subtipo.getId();
+
+				posiUtilidad = spinnerUtilidades.getSelectedItemPosition();
+
+				editorFiltros.putInt("idTipo", idTipo);
+				editorFiltros.putInt("idSubtipo", idSubtipo);
+				editorFiltros.putInt("idTemporada", idTemporada);
+				editorFiltros.putInt("idUtilidad", posiUtilidad);
+				editorFiltros.putInt("favorito", favorito);
+
+				editorFiltros.commit();
+				drawer.closeDrawer(filtros);
+				new CargarPrendasTask().execute();
+			}
+		});
+
+		btnCancelarFiltros.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				configurarFiltros();
+				drawer.closeDrawer(filtros);
+			}
+		});
+
+		spinnerTipoPrenda
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					public void onItemSelected(AdapterView<?> parent,
-							View view, int position, long id) {
+											   View view, int position, long id) {
 
 						if (estilo == 1 && position > 2) {
 							idTipo = position + 1;
 						} else {
 							idTipo = position;
 						}
-						if (!cargaInicialTipo) {
-							new CargarPrendasTask().execute();
-						} else {
-							cargaInicialTipo = false;
-						}
+
+						obtenerSubtiposPrenda();
 					}
 
 					public void onNothingSelected(AdapterView<?> parent) {
@@ -176,30 +234,9 @@ public class NuevoMiArmarioFragment extends Fragment {
 		spinnerTemporada
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					public void onItemSelected(AdapterView<?> parent,
-							View view, int position, long id) {
+											   View view, int position, long id) {
+
 						idTemporada = position;
-						if (!cargaInicialTemporada) {
-							new CargarPrendasTask().execute();
-						} else {
-							cargaInicialTemporada = false;
-						}
-					}
-
-					public void onNothingSelected(AdapterView<?> parent) {
-
-					}
-				});
-
-		spinnerUtilidad
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-					public void onItemSelected(AdapterView<?> parent,
-							View view, int position, long id) {
-						posiUtilidad = position;
-						if (!cargaInicialUtilidad) {
-							new CargarPrendasTask().execute();
-						} else {
-							cargaInicialUtilidad = false;
-						}
 					}
 
 					public void onNothingSelected(AdapterView<?> parent) {
@@ -229,10 +266,51 @@ public class NuevoMiArmarioFragment extends Fragment {
 								.setBackgroundResource(R.drawable.check_corazon_off);
 					}
 				}
-				new CargarPrendasTask().execute();
-
 			}
-		});*/
+		});
+	}
+
+	public void configurarFiltros() {
+		prefsFiltros = getActivity().getSharedPreferences("ficheroConfFiltrosArmario", Context.MODE_PRIVATE);
+
+		idTipo = prefsFiltros.getInt("idTipo", 0);
+		idSubtipo = prefsFiltros.getInt("idSubtipo", -1);
+		idTemporada = prefsFiltros.getInt("idTemporada", 2);
+		posiUtilidad = prefsFiltros.getInt("idUtilidad", 0);
+		favorito = prefsFiltros.getInt("favorito", 0);
+
+		spinnerTipoPrenda.setSelection(idTipo);
+		spinnerTemporada.setSelection(idTemporada);
+		spinnerUtilidades.setSelection(posiUtilidad);
+
+		if (favorito == 0) {
+			favorito = 1;
+			if (estilo == 1) {
+				checkFavoritos
+						.setBackgroundResource(R.drawable.check_estrella_on);
+			} else {
+				checkFavoritos
+						.setBackgroundResource(R.drawable.check_corazon_on);
+			}
+		} else {
+			favorito = 0;
+			if (estilo == 1) {
+				checkFavoritos
+						.setBackgroundResource(R.drawable.check_estrella_off);
+			} else {
+				checkFavoritos
+						.setBackgroundResource(R.drawable.check_corazon_off);
+			}
+		}
+
+		int posiSubtipo = 0;
+		for (int i = 0; i < listSubtiposFiltro.size(); i++) {
+			if (listSubtiposFiltro.get(i).getId() == idSubtipo) {
+				posiSubtipo = i;
+				break;
+			}
+		}
+		spinnerSubtipoPrenda.setSelection(posiSubtipo);
 	}
 
 	public void obtenerSpinners() {
@@ -245,21 +323,19 @@ public class NuevoMiArmarioFragment extends Fragment {
 					R.array.tiposPrendaArmarioHombre,
 					android.R.layout.simple_spinner_item);
 			adapterList.setDropDownViewResource(R.layout.spinner);
-			//spinnerTipo.setAdapter(adapterList);
+			spinnerTipoPrenda.setAdapter(adapterList);
 		} else {
 			adapterList = ArrayAdapter.createFromResource(getActivity(),
 					R.array.tiposPrendaArmario,
 					android.R.layout.simple_spinner_item);
 			adapterList.setDropDownViewResource(R.layout.spinner);
-			//spinnerTipo.setAdapter(adapterList);
+			spinnerTipoPrenda.setAdapter(adapterList);
 		}
 
 		adapterListTemp = ArrayAdapter.createFromResource(getActivity(),
 				R.array.tiposTemporada, android.R.layout.simple_spinner_item);
 		adapterListTemp.setDropDownViewResource(R.layout.spinner);
-		//spinnerTemporada.setAdapter(adapterListTemp);
-
-		//spinnerTemporada.setSelection(2);
+		spinnerTemporada.setAdapter(adapterListTemp);
 
 		ArrayList<Utilidad> listCategorias = new ArrayList<Utilidad>();
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
@@ -275,7 +351,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 				getActivity(), android.R.layout.simple_spinner_item,
 				listCategorias);
 
-		//spinnerUtilidad.setAdapter(spinner_adapterUti);
+		spinnerUtilidades.setAdapter(spinner_adapterUti);
 
 	}
 
@@ -284,8 +360,8 @@ public class NuevoMiArmarioFragment extends Fragment {
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
-			listPrendas = gestion.getPrendasFiltros(db, idTipo, idTemporada,
-					0, cuentaSeleccionada);
+			listPrendas = gestion.getPrendasFiltros(db, idTipo, idSubtipo, idTemporada,
+					favorito, cuentaSeleccionada);
 		}
 		utilidades = gestion.getUtilidades(db);
 		db.close();
@@ -339,6 +415,22 @@ public class NuevoMiArmarioFragment extends Fragment {
 		}
 		db.close();
 		return mov;
+	}
+
+	public void obtenerSubtiposPrenda() {
+
+		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
+		if (db != null) {
+			listSubtiposFiltro = (ArrayList<Subtipo>) gestion.getSubtiposByIdTipo(db,idTipo, estilo);
+		}
+		db.close();
+
+		// Creamos el adaptador
+		ListAdapterSubtiposSpinner spinner_adapterSubtipo = new ListAdapterSubtiposSpinner(
+				getActivity(), R.layout.spinner_sinimagen,
+				listSubtiposFiltro);
+
+		spinnerSubtipoPrenda.setAdapter(spinner_adapterSubtipo);
 	}
 
 	protected Dialog onCreateDialog(int id) {
@@ -448,7 +540,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_setting_mas, menu);
+		inflater.inflate(R.menu.menu_setting, menu);
 	}
 
 	// Aadiendo funcionalidad a las opciones de men
@@ -458,6 +550,9 @@ public class NuevoMiArmarioFragment extends Fragment {
 			case R.id.action_add:
 				Intent intent = new Intent(getActivity(), AddPrendaActivity.class);
 				startActivityForResult(intent, PRENDA);
+				return true;
+			case R.id.action_filter:
+				drawer.openDrawer(filtros);
 				return true;
 			case android.R.id.home:
 				getActivity().finish();

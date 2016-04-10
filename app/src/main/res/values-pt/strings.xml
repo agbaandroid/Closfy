@@ -375,4 +375,6 @@ atender..</string>
     <string name="editTipoKO">ES_Se ha producido un error al modificar el tipo</string>
     <string name="deleteTipoOK">ES_El tipo se ha eliminado correctamente</string>
     <string name="deleteTipoKO">ES_Se ha producido un error al eliminar el tipo</string>
+
+    <string name="filter">ES_Filtro</string>
 </resources>

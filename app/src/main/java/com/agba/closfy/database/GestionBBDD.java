@@ -343,7 +343,7 @@ public class GestionBBDD {
         return listaPrendas;
     }
 
-    public ArrayList<Prenda> getPrendasFiltros(SQLiteDatabase db, int idTipo,
+    public ArrayList<Prenda> getPrendasFiltros(SQLiteDatabase db, int idTipo, int idSubtipo,
                                                int idTemporada, int favorito, int idCuenta) {
         ArrayList<Prenda> listaPrendas = new ArrayList<Prenda>();
         try {
@@ -353,6 +353,11 @@ public class GestionBBDD {
             if (idTipo != 0) {
                 sql.append(" and tipoPrenda = '" + idTipo + "'");
             }
+
+            if(idSubtipo != -1){
+                sql.append(" and idSubtipo = '" + idSubtipo + "'");
+            }
+
             if (idTemporada != 2) {
                 sql.append(" and (idTemporada = '" + idTemporada
                         + "' or idTemporada = '2')");
@@ -373,6 +378,7 @@ public class GestionBBDD {
                     prenda.setFavorito(c1.getInt(5));
                     prenda.setIdFoto(c1.getString(6));
                     prenda.setUtilidades(c1.getString(7));
+                    prenda.setIdSubTipo(c1.getInt(9));
                     listaPrendas.add(prenda);
                 } while (c1.moveToNext());
             }

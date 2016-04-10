@@ -44,7 +44,7 @@
 
         <include
             android:id="@+id/right_drawer"
-            layout="@layout/filtros"
+            layout="@layout/filtros_prendas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="right" />

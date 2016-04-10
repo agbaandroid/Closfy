@@ -115,6 +115,7 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
                     bundle.putInt("temporada", idRadioTemporada);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, CREAR_LOOK);
+                    finish();
                     //inicializar();
                 }
             }

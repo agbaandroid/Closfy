@@ -91,6 +91,8 @@ public class ClosfyActivity extends AppCompatActivity {
 		View footer = getLayoutInflater().inflate(R.layout.footer, null);
 
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		navDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
 		navList = (ListView) findViewById(R.id.left_drawer);
 		left_drawer_cuentas = (LinearLayout) findViewById(R.id.left_drawer_cuentas);
 		left_cuentas = (ListView) findViewById(R.id.left_cuentas);

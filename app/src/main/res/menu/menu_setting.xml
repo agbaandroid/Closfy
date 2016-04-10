@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_add"
+        android:icon="@drawable/ic_action_add"
+        android:title="@string/aniadir"
+        yourapp:showAsAction="ifRoom"  />
 
-    <item
-        android:id="@+id/btInfo"
-        android:icon="@drawable/ic_info_azul"
-        android:showAsAction="always"
-        android:title="@string/informacion">
-    </item>
-    <item
-        android:id="@+id/btAcerca"
-        android:icon="@drawable/ic_acerca_azul"
-        android:showAsAction="always"
-        android:title="@string/acerca">
-    </item>
-
+    <item android:id="@+id/action_filter"
+        android:icon="@drawable/ic_action_filter"
+        android:title="@string/filter"
+        yourapp:showAsAction="ifRoom"  />
 </menu>
