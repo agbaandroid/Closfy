@@ -30,6 +30,8 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -75,6 +77,11 @@ public class SeleccionarLookActivity extends AppCompatActivity {
 		// Cuenta seleccionada
 		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
 		cuentaSeleccionada = Util.cuentaSeleccionada(this, prefs);
+
+		AdView adView;
+		adView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView.loadAd(adRequest);
 
 		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
@@ -389,11 +396,7 @@ public class SeleccionarLookActivity extends AppCompatActivity {
 			ImageView imagenCheck = (ImageView) v.findViewById(R.id.imagecheck);
 
 			if (idLook == listaLooks.get(position).getIdLook()) {
-				if (estilo == 1) {
-					imagenCheck.setBackgroundResource(R.drawable.tic_azul);
-				} else {
-					imagenCheck.setBackgroundResource(R.drawable.tic);
-				}
+				imagenCheck.setBackgroundResource(R.drawable.tic);
 			} else {
 				imagenCheck.setBackgroundResource(android.R.color.transparent);
 			}

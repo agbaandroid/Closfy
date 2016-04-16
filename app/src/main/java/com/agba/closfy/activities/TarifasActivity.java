@@ -13,7 +13,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,13 +23,15 @@ import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.util.Util;
 import com.android.vending.billing.IInAppBillingService;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TarifasActivity extends ActionBarActivity {
+public class TarifasActivity extends AppCompatActivity {
 
 	private SQLiteDatabase db;
 	private final String BD_NOMBRE = "BDClosfy";
@@ -75,6 +79,11 @@ public class TarifasActivity extends ActionBarActivity {
 				"com.android.vending.billing.InAppBillingService.BIND");
 		serviceIntent.setPackage("com.android.vending");
 		bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
+
+		AdView adView;
+		adView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView.loadAd(adRequest);
 
 		// Cuenta seleccionada
 		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
@@ -393,12 +402,16 @@ public class TarifasActivity extends ActionBarActivity {
 		}
 	}
 
-//	public static String getToken(int length) {
-//		StringBuilder token = new StringBuilder(length);
-//		for (int i = 0; i < length; i++) {
-//			token.append(CHARS.charAt(random.nextInt(CHARS.length())));
-//		}
-//		return token.toString();
-//	}
+	// Aadiendo funcionalidad a las opciones de men
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 
 }

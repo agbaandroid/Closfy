@@ -42,6 +42,8 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -108,6 +110,11 @@ public class AddPrendaActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
+
+        AdView adView;
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         // Cuenta seleccionada
         prefs = getSharedPreferences("ficheroConf",
@@ -793,11 +800,7 @@ public class AddPrendaActivity extends AppCompatActivity {
             }
 
             if (encontrado) {
-                if (estilo == 1) {
-                    tic.setBackgroundResource(R.drawable.tic_azul);
-                } else {
-                    tic.setBackgroundResource(R.drawable.tic);
-                }
+                tic.setBackgroundResource(R.drawable.tic);
             } else {
                 tic.setBackgroundColor(getResources().getColor(
                         android.R.color.transparent));

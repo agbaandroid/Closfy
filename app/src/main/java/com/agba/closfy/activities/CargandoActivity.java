@@ -46,6 +46,8 @@ public class CargandoActivity extends Activity {
 					.comprobarTablaLookPrendasCreada(db);
 			boolean tablaLookAsesoramientosCreada = gestion
 					.comprobarTablaAsesoramientosCreada(db);
+			boolean tablaSubtiposCreada = gestion
+					.comprobarTablaSubtiposCreada(db);
 
 			if (!tablasInicialesCreadas) {
 				gestion.createTables(db);
@@ -55,6 +57,10 @@ public class CargandoActivity extends Activity {
 			
 			if(!tablaLookAsesoramientosCreada){
 				gestion.crearTablaAsesoramientos(db);
+			}
+
+			if(!tablaSubtiposCreada){
+				gestion.actualizarVersion20(db);
 			}
 
 			// // Se crea la estructura de base de datos si no existe

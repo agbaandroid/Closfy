@@ -52,7 +52,7 @@
             android:id="@+id/imagecheck"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/tic_azul"
+            android:background="@drawable/tic"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true" />
     </RelativeLayout>

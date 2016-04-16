@@ -19,11 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
@@ -58,9 +60,12 @@ public class NuevoMisLooksFragment extends Fragment {
     private LinearLayout filtros;
     private DrawerLayout drawer;
 
+    private LinearLayout btnAceptarFiltros;
+    private LinearLayout btnCancelarFiltros;
+
+    ArrayList<Utilidad> listUtilidades = new ArrayList<Utilidad>();
     private ImageView checkFavoritos;
     int favorito = 0;
-
     int estilo;
 
     Look lookSeleccionado = new Look();
@@ -69,14 +74,12 @@ public class NuevoMisLooksFragment extends Fragment {
     AdView adView;
 
     SharedPreferences prefs;
-    SharedPreferences.Editor editor;
+    SharedPreferences prefsFiltros;
+    SharedPreferences.Editor editorFiltros;
 
-	/*private Spinner spinnerUtilidades;
     private Spinner spinnerTemporada;
-	int idTemporada = 2;*/
-
-    boolean cargaInicialTemporada = true;
-    boolean cargaInicialUtilidad = true;
+    private Spinner spinnerUtilidades;
+	int idTemporada = 2;
     boolean cargado = false;
 
     int posiUtilidad = 0;
@@ -121,15 +124,21 @@ public class NuevoMisLooksFragment extends Fragment {
         filtros = (LinearLayout) getActivity().findViewById(R.id.right_drawer_looks);
         drawer = (DrawerLayout) getActivity().findViewById(
                 R.id.drawer_layout);
-		/*spinnerUtilidades = (Spinner) this.getView().findViewById(
-				R.id.spinnerUtilidadesLook);
 
-		spinnerTemporada = (Spinner) this.getView().findViewById(
-				R.id.spinnerTemporadaLook);
+        spinnerTemporada = (Spinner) getActivity().findViewById(
+                R.id.spinnerTemporadaLook);
 
-		// Rellenamos el spinner tipo
+        spinnerUtilidades = (Spinner) getActivity().findViewById(
+                R.id.spinnerUtilidadesLook);
+
+        checkFavoritos = (ImageView) getActivity().findViewById(
+                R.id.checkFavoritosLook);
+
+        btnAceptarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnAceptarFiltrosLooks);
+        btnCancelarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnCancelarFiltrosLooks);
+
 		obtenerSpinners();
-*/
+
         registerForContextMenu(gridview);
 
         // Cuenta seleccionada
@@ -137,29 +146,17 @@ public class NuevoMisLooksFragment extends Fragment {
                 Context.MODE_PRIVATE);
         cuentaSeleccionada = Util.cuentaSeleccionada(getActivity(), prefs);
 
-        checkFavoritos = (ImageView) this.getView().findViewById(
-                R.id.checkFavoritos);
-
         db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
         if (db != null) {
             estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
         }
 
-        if (estilo == 1) {
-            cambiarEstiloHombre();
-        }
-
-		/*spinnerUtilidades
+		spinnerUtilidades
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 
 						posiUtilidad = position;
-						if (!cargaInicialUtilidad) {
-							new CargarLooksTask().execute();
-						} else {
-							cargaInicialUtilidad = false;
-						}
 					}
 
 					public void onNothingSelected(AdapterView<?> parent) {
@@ -172,11 +169,6 @@ public class NuevoMisLooksFragment extends Fragment {
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 						idTemporada = position;
-						if (!cargaInicialTemporada) {
-							new CargarLooksTask().execute();
-						} else {
-							cargaInicialTemporada = false;
-						}
 					}
 
 					public void onNothingSelected(AdapterView<?> parent) {
@@ -185,40 +177,108 @@ public class NuevoMisLooksFragment extends Fragment {
 				});
 
 		checkFavoritos.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (favorito == 0) {
-					favorito = 1;
-					if (estilo == 1) {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_estrella_on);
-					} else {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_corazon_on);
-					}
-				} else {
-					favorito = 0;
-					if (estilo == 1) {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_estrella_off);
-					} else {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_corazon_off);
-					}
-				}
-				new CargarLooksTask().execute();
-			}
-		});*/
+            @Override
+            public void onClick(View v) {
+                if (favorito == 0) {
+                    favorito = 1;
+                    if (estilo == 1) {
+                        checkFavoritos
+                                .setBackgroundResource(R.drawable.check_estrella_on);
+                    } else {
+                        checkFavoritos
+                                .setBackgroundResource(R.drawable.check_corazon_on);
+                    }
+                } else {
+                    favorito = 0;
+                    if (estilo == 1) {
+                        checkFavoritos
+                                .setBackgroundResource(R.drawable.check_estrella_off);
+                    } else {
+                        checkFavoritos
+                                .setBackgroundResource(R.drawable.check_corazon_off);
+                    }
+                }
+                new CargarLooksTask().execute();
+            }
+        });
+
+        btnAceptarFiltros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prefsFiltros = getActivity().getSharedPreferences("ficheroConfFiltrosLooks", Context.MODE_PRIVATE);
+                editorFiltros = prefsFiltros.edit();
+
+                posiUtilidad = spinnerUtilidades.getSelectedItemPosition();
+                Utilidad utilidad = (Utilidad) spinnerUtilidades
+                        .getItemAtPosition(posiUtilidad);
+                int idUtilidad = utilidad.getIdUtilidad();
+
+                editorFiltros.putInt("idTemporada", idTemporada);
+                editorFiltros.putInt("idUtilidad", idUtilidad);
+                editorFiltros.putInt("favorito", favorito);
+
+                editorFiltros.commit();
+                drawer.closeDrawer(filtros);
+                new CargarLooksTask().execute();
+            }
+        });
+
+        btnCancelarFiltros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                configurarFiltros();
+                drawer.closeDrawer(filtros);
+            }
+        });
+
+        configurarFiltros();
+    }
+
+    public void configurarFiltros() {
+        prefsFiltros = getActivity().getSharedPreferences("ficheroConfFiltrosLooks", Context.MODE_PRIVATE);
+
+        idTemporada = prefsFiltros.getInt("idTemporada", 2);
+        int idUtilidad = prefsFiltros.getInt("idUtilidad", 0);
+        favorito = prefsFiltros.getInt("favorito", 0);
+
+        spinnerTemporada.setSelection(idTemporada);
+
+        posiUtilidad = 0;
+        for (int i = 0; i < listUtilidades.size(); i++) {
+            if (listUtilidades.get(i).getIdUtilidad() == idUtilidad) {
+                posiUtilidad = i;
+                break;
+            }
+        }
+        spinnerUtilidades.setSelection(posiUtilidad);
+
+        if (favorito == 1) {
+            if (estilo == 1) {
+                checkFavoritos
+                        .setBackgroundResource(R.drawable.check_estrella_on);
+            } else {
+                checkFavoritos
+                        .setBackgroundResource(R.drawable.check_corazon_on);
+            }
+        } else {
+            if (estilo == 1) {
+                checkFavoritos
+                        .setBackgroundResource(R.drawable.check_estrella_off);
+            } else {
+                checkFavoritos
+                        .setBackgroundResource(R.drawable.check_corazon_off);
+            }
+        }
     }
 
     public void obtenerSpinners() {
-        ArrayList<Utilidad> listUtilidades = new ArrayList<Utilidad>();
+        listUtilidades = new ArrayList<Utilidad>();
         ArrayAdapter<CharSequence> adapterListTemp;
 
         db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
         if (db != null) {
             // Recuperamos el listado del spinner Categorias
-            listUtilidades = (ArrayList<Utilidad>) gestion.getUtilidades(db);
+            listUtilidades = gestion.getUtilidades(db);
         }
         db.close();
 
@@ -227,14 +287,12 @@ public class NuevoMisLooksFragment extends Fragment {
                 getActivity(), android.R.layout.simple_spinner_item,
                 listUtilidades);
 
-		/*spinnerUtilidades.setAdapter(spinner_adapterCat);
+		spinnerUtilidades.setAdapter(spinner_adapterCat);
 
 		adapterListTemp = ArrayAdapter.createFromResource(getActivity(),
 				R.array.tiposTemporada, android.R.layout.simple_spinner_item);
 		adapterListTemp.setDropDownViewResource(R.layout.spinner);
 		spinnerTemporada.setAdapter(adapterListTemp);
-
-		spinnerTemporada.setSelection(2);*/
     }
 
     public void obtenerLooks() {
@@ -247,7 +305,7 @@ public class NuevoMisLooksFragment extends Fragment {
             Utilidad utilidad = utilidades.get(posiUtilidad);
 
             listLooks = gestion.getLooksFiltros(db, cuentaSeleccionada,
-                    2, favorito);
+                    idTemporada, favorito);
 
             if (utilidad.getIdUtilidad() != -1) {
                 listLooks = Util.filtrarLooksUtilidad(listLooks,
@@ -383,11 +441,6 @@ public class NuevoMisLooksFragment extends Fragment {
             adView.loadAd(adRequest);
             progDailog.dismiss();
         }
-    }
-
-    public void cambiarEstiloHombre() {
-        // spinnerUtilidades.setBackgroundResource(R.drawable.spinner_azul);
-        //checkFavoritos.setBackgroundResource(R.drawable.check_estrella_off);
     }
 
     @Override

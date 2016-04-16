@@ -58,7 +58,7 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nuevo_add_cuenta);
+        setContentView(R.layout.nuevo_edit_cuenta);
 
         prefs = getSharedPreferences("ficheroConf",
                 Context.MODE_PRIVATE);
@@ -66,6 +66,11 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
+
+        AdView adView;
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         nombre = (EditText) findViewById(R.id.nombre);
         spinnerIconUser = (Spinner) findViewById(R.id.spinnerIconCuenta);
@@ -171,15 +176,6 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(actionBarButtons, layoutParams);
 
         layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
-
-        //Se carga la publicidad
-        AdView adView = (AdView) findViewById(R.id.adView);
-        if (isPremium || isSinPublicidad) {
-            layoutPubli.setVisibility(View.GONE);
-        } else {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-        }
     }
 
     @Override

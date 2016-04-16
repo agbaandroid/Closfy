@@ -40,10 +40,8 @@ import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
+
 
 public class NuevoMiArmarioFragment extends Fragment {
 	private static final String KEY_CONTENT = "MiArmarioFragment:Content";
@@ -63,9 +61,9 @@ public class NuevoMiArmarioFragment extends Fragment {
 	private LinearLayout filtros;
 	private DrawerLayout drawer;
 	private ImageView checkFavoritos;
-	private ImageView opcionesPrenda;
 
-	ArrayList<Subtipo> listSubtiposFiltro;
+	ArrayList<Subtipo> listSubtiposFiltro = new ArrayList<Subtipo>();
+	ArrayList<Utilidad> listUtilidades = new ArrayList<Utilidad>();
 
 	ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
 	GridView gridview;
@@ -81,11 +79,10 @@ public class NuevoMiArmarioFragment extends Fragment {
 	int posiUtilidad = 0;
 	int idTemporada = 2;
 	int idSubtipo = 0;
+	int posSubtipo = 0;
+	int posTipoConfigurado = 0;
 	int favorito = 0;
 
-	boolean cargaInicialTipo = true;
-	boolean cargaInicialTemporada = true;
-	boolean cargaInicialUtilidad = true;
 	boolean cargado = false;
 	int[] prendas;
 
@@ -94,7 +91,6 @@ public class NuevoMiArmarioFragment extends Fragment {
 
 	SharedPreferences prefs;
 	SharedPreferences prefsFiltros;
-	SharedPreferences.Editor editor;
 	SharedPreferences.Editor editorFiltros;
 
 	ProgressDialog progDailog;
@@ -185,17 +181,20 @@ public class NuevoMiArmarioFragment extends Fragment {
 				prefsFiltros = getActivity().getSharedPreferences("ficheroConfFiltrosArmario", Context.MODE_PRIVATE);
 				editorFiltros = prefsFiltros.edit();
 
-				int posSubtipo = spinnerSubtipoPrenda.getSelectedItemPosition();
+				posSubtipo = spinnerSubtipoPrenda.getSelectedItemPosition();
 				Subtipo subtipo = (Subtipo) spinnerSubtipoPrenda
 						.getItemAtPosition(posSubtipo);
 				idSubtipo = subtipo.getId();
 
 				posiUtilidad = spinnerUtilidades.getSelectedItemPosition();
+				Utilidad utilidad = (Utilidad) spinnerUtilidades
+						.getItemAtPosition(posiUtilidad);
+				int idUtilidad = utilidad.getIdUtilidad();
 
 				editorFiltros.putInt("idTipo", idTipo);
 				editorFiltros.putInt("idSubtipo", idSubtipo);
 				editorFiltros.putInt("idTemporada", idTemporada);
-				editorFiltros.putInt("idUtilidad", posiUtilidad);
+				editorFiltros.putInt("idUtilidad", idUtilidad);
 				editorFiltros.putInt("favorito", favorito);
 
 				editorFiltros.commit();
@@ -224,6 +223,19 @@ public class NuevoMiArmarioFragment extends Fragment {
 						}
 
 						obtenerSubtiposPrenda();
+					}
+
+					public void onNothingSelected(AdapterView<?> parent) {
+
+					}
+				});
+
+		spinnerSubtipoPrenda
+				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+					public void onItemSelected(AdapterView<?> parent,
+											   View view, int position, long id) {
+
+						posSubtipo = position;
 					}
 
 					public void onNothingSelected(AdapterView<?> parent) {
@@ -268,23 +280,40 @@ public class NuevoMiArmarioFragment extends Fragment {
 				}
 			}
 		});
+
+		configurarFiltros();
 	}
 
 	public void configurarFiltros() {
 		prefsFiltros = getActivity().getSharedPreferences("ficheroConfFiltrosArmario", Context.MODE_PRIVATE);
-
 		idTipo = prefsFiltros.getInt("idTipo", 0);
+		int posTipo = prefsFiltros.getInt("idTipo", 0);
+
+		if(estilo == 1){
+			if(idTipo >2){
+				posTipo = idTipo - 1;
+			}
+		}
+
+		posTipoConfigurado = prefsFiltros.getInt("idTipo", 0);
 		idSubtipo = prefsFiltros.getInt("idSubtipo", -1);
 		idTemporada = prefsFiltros.getInt("idTemporada", 2);
-		posiUtilidad = prefsFiltros.getInt("idUtilidad", 0);
+		int idUtilidad = prefsFiltros.getInt("idUtilidad", 0);
 		favorito = prefsFiltros.getInt("favorito", 0);
 
-		spinnerTipoPrenda.setSelection(idTipo);
+		int posiUtilidad = 0;
+		for (int i = 0; i < listUtilidades.size(); i++) {
+			if (listUtilidades.get(i).getIdUtilidad() == idUtilidad) {
+				posiUtilidad = i;
+				break;
+			}
+		}
+
+		spinnerTipoPrenda.setSelection(posTipo);
 		spinnerTemporada.setSelection(idTemporada);
 		spinnerUtilidades.setSelection(posiUtilidad);
 
-		if (favorito == 0) {
-			favorito = 1;
+		if (favorito == 1) {
 			if (estilo == 1) {
 				checkFavoritos
 						.setBackgroundResource(R.drawable.check_estrella_on);
@@ -293,7 +322,6 @@ public class NuevoMiArmarioFragment extends Fragment {
 						.setBackgroundResource(R.drawable.check_corazon_on);
 			}
 		} else {
-			favorito = 0;
 			if (estilo == 1) {
 				checkFavoritos
 						.setBackgroundResource(R.drawable.check_estrella_off);
@@ -303,14 +331,17 @@ public class NuevoMiArmarioFragment extends Fragment {
 			}
 		}
 
-		int posiSubtipo = 0;
+		obtenerSubtiposPrenda();
+
+		posSubtipo = 0;
 		for (int i = 0; i < listSubtiposFiltro.size(); i++) {
 			if (listSubtiposFiltro.get(i).getId() == idSubtipo) {
-				posiSubtipo = i;
+				posSubtipo = i;
 				break;
 			}
 		}
-		spinnerSubtipoPrenda.setSelection(posiSubtipo);
+
+		spinnerSubtipoPrenda.setSelection(posSubtipo);
 	}
 
 	public void obtenerSpinners() {
@@ -337,11 +368,11 @@ public class NuevoMiArmarioFragment extends Fragment {
 		adapterListTemp.setDropDownViewResource(R.layout.spinner);
 		spinnerTemporada.setAdapter(adapterListTemp);
 
-		ArrayList<Utilidad> listCategorias = new ArrayList<Utilidad>();
+		listUtilidades = new ArrayList<Utilidad>();
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
 			// Recuperamos el listado del spinner Categorias
-			listCategorias = (ArrayList<Utilidad>) gestion
+			listUtilidades = gestion
 					.getUtilidadesFiltro(db);
 		}
 		db.close();
@@ -349,7 +380,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 		// Creamos el adaptador
 		ListAdapterSpinner spinner_adapterUti = new ListAdapterSpinner(
 				getActivity(), android.R.layout.simple_spinner_item,
-				listCategorias);
+				listUtilidades);
 
 		spinnerUtilidades.setAdapter(spinner_adapterUti);
 
@@ -421,7 +452,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
-			listSubtiposFiltro = (ArrayList<Subtipo>) gestion.getSubtiposByIdTipo(db,idTipo, estilo);
+			listSubtiposFiltro = gestion.getSubtiposByIdTipo(db,idTipo, estilo);
 		}
 		db.close();
 

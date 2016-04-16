@@ -276,11 +276,7 @@ public class CrearLookFragmentHombre extends Fragment {
             ImageView imagenCheck = (ImageView) v.findViewById(R.id.imagecheck);
 
             if (((CrearLookPrincipalActivity) getActivity()).listaPrendasSeleccionadas.contains(prenda.getIdPrenda())) {
-                if (estilo == 1) {
-                    imagenCheck.setBackgroundResource(R.drawable.tic_azul);
-                } else {
-                    imagenCheck.setBackgroundResource(R.drawable.tic);
-                }
+                imagenCheck.setBackgroundResource(R.drawable.tic);
             } else {
                 imagenCheck.setBackgroundResource(android.R.color.transparent);
             }

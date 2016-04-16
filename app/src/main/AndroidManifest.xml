@@ -3,7 +3,7 @@
     package="com.agba.closfy"
     android:installLocation="preferExternal"
     android:versionCode="20"
-    android:versionName="1.1.8" >
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -132,13 +132,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" />
         <activity
-            android:name="com.agba.closfy.activities.SelectTemporadaActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
             android:name=".activities.SelectCuentaActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity
-            android:name=".activities.EditCuentaActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name="com.agba.closfy.activities.AddNotasActivity"

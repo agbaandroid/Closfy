@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-2303483383476811/9842504084" />
+                ads:adUnitId="ca-app-pub-2303483383476811/3813482089" />
         </RelativeLayout>
 
         <LinearLayout

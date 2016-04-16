@@ -7,14 +7,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.fragments.EditarResumenLookFragment;
 import com.agba.closfy.util.Util;
 
-public class EditarResumenLookMainActivity extends ActionBarActivity {
+public class EditarResumenLookMainActivity extends AppCompatActivity {
 
 	private SQLiteDatabase db;
 	private final String BD_NOMBRE = "BDClosfy";
@@ -69,5 +71,17 @@ public class EditarResumenLookMainActivity extends ActionBarActivity {
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
 
+	}
+
+	// Anadiendo funcionalidad a las opciones de menu
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }

@@ -5,13 +5,15 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.util.Util;
 
-public class TerminosCondicionesActivity extends ActionBarActivity {
+public class TerminosCondicionesActivity extends AppCompatActivity {
 
 	private SQLiteDatabase db;
 	private final String BD_NOMBRE = "BDClosfy";
@@ -48,5 +50,17 @@ public class TerminosCondicionesActivity extends ActionBarActivity {
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	// Aadiendo funcionalidad a las opciones de men
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 }

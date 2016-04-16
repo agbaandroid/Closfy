@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class EditUtilidadActivity extends AppCompatActivity {
 
@@ -38,6 +40,11 @@ public class EditUtilidadActivity extends AppCompatActivity {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setContentInsetsAbsolute(0, 0);
 		setSupportActionBar(toolbar);
+
+		AdView adView;
+		adView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView.loadAd(adRequest);
 
 		editUti = (EditText) findViewById(R.id.cajaNombreUtilidad);
 

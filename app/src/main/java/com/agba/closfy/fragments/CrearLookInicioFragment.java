@@ -25,6 +25,8 @@ import com.agba.closfy.activities.InspiracionesActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -82,6 +84,12 @@ public class CrearLookInicioFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 
 		((CrearLookPrincipalActivity) getActivity()).cambiarActionBar(1);
+
+
+		AdView adView;
+		adView = (AdView) getView().findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView.loadAd(adRequest);
 
 		// Cuenta seleccionada
 		prefs = getActivity().getSharedPreferences("ficheroConf",
@@ -287,11 +295,7 @@ public class CrearLookInicioFragment extends Fragment {
 			}
 
 			if (encontrado) {
-				if (((CrearLookPrincipalActivity) getActivity()).estilo == 1) {
-					tic.setBackgroundResource(R.drawable.tic_azul);
-				} else {
-					tic.setBackgroundResource(R.drawable.tic);
-				}
+				tic.setBackgroundResource(R.drawable.tic);
 			} else {
 				tic.setBackgroundColor(getResources().getColor(
 						android.R.color.transparent));

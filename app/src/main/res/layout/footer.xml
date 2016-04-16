@@ -38,7 +38,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/moneycontrol" />        
+            android:background="@drawable/finanfy" />
     </LinearLayout>
 
 </LinearLayout>

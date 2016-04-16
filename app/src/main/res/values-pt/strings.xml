@@ -351,30 +351,29 @@ atender..</string>
     <string name="selectTipoAsesoramiento">Selecione um tipo de assessoramento</string>
     <string name="mensajeAsesoramiento">Escreva uma breve descrição das necessidades de seu assessoramento para nossos estilistas.</string>
 
-
-    <string name="gestionarCuentas">ES_Gestionar cuentas</string>
-    <string name="cuentasList">ES_Gestionar cuentas</string>
-    <string name="publicidad">ES_PUBLICIDAD</string>
-    <string name="nombre">ES_Nombre</string>
-    <string name="icono">ES_Icono</string>
+    <string name="cuentasList">Gerenciar Contas</string>
+    <string name="gestionarCuentas">Gerenciar Contas</string>
+    <string name="publicidad">PUBLICIDADE</string>
+    <string name="nombre">Nome</string>
+    <string name="icono">Ícone</string>
 
     <string-array name="arraySexo">
-        <item>ES_Woman</item>
-        <item>ES_Man</item>
+        <item>Mulher</item>
+        <item>Homem</item>
     </string-array>
 
     <string-array name="arraySexoTipos">
-        <item>ES_Woman</item>
-        <item>ES_Man</item>
-        <item>ES_Unisex</item>
+        <item>Mulher</item>
+        <item>Homem</item>
+        <item>Unissex</item>
     </string-array>
 
-    <string name="addTipoOK">ES_El tipo se ha añadido correctamente</string>
-    <string name="addTipoKO">ES_Se ha producido un error al añadir el tipo</string>
-    <string name="editTipoOK">ES_El tipo se ha modificado correctamente</string>
-    <string name="editTipoKO">ES_Se ha producido un error al modificar el tipo</string>
-    <string name="deleteTipoOK">ES_El tipo se ha eliminado correctamente</string>
-    <string name="deleteTipoKO">ES_Se ha producido un error al eliminar el tipo</string>
+    <string name="addTipoOK">O tipo foi adicionada com sucesso</string>
+    <string name="addTipoKO">Houve um tipo de erro adicionando</string>
+    <string name="editTipoOK">O tipo foi alterado com sucesso</string>
+    <string name="editTipoKO">Houve um erro ao alterar o tipo</string>
+    <string name="deleteTipoOK">O tipo foi removido com sucesso</string>
+    <string name="deleteTipoKO">Houve um erro ao excluir o tipo</string>
 
-    <string name="filter">ES_Filtro</string>
+    <string name="filter">Filtro</string>
 </resources>

@@ -23,6 +23,8 @@ import com.agba.closfy.activities.EditUtilidadActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -71,6 +73,11 @@ public class UtilidadesFragment extends Fragment {
 
 		listUtiView = (ListView) this.getView().findViewById(
 				R.id.listaPestanaUtilidad);
+
+		AdView adView;
+		adView = (AdView) getView().findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		adView.loadAd(adRequest);
 
 		// Cuenta seleccionada
 		prefs = getActivity().getSharedPreferences("ficheroConf",

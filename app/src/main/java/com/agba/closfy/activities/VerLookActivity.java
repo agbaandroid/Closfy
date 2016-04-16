@@ -304,11 +304,7 @@ public class VerLookActivity extends AppCompatActivity {
             }
 
             if (encontrado) {
-                if (estilo == 1) {
-                    tic.setBackgroundResource(R.drawable.tic_azul);
-                } else {
-                    tic.setBackgroundResource(R.drawable.tic);
-                }
+                tic.setBackgroundResource(R.drawable.tic);
             } else {
                 tic.setBackgroundColor(getResources().getColor(
                         android.R.color.transparent));

@@ -112,7 +112,7 @@ public class ClosfyActivity extends AppCompatActivity {
 
 		// Anuncio Inicial
 		interstitial = new InterstitialAd(this);
-		interstitial.setAdUnitId("ca-app-pub-2303483383476811/5599595681");
+		interstitial.setAdUnitId("ca-app-pub-2303483383476811/2615950482");
 
 		AdRequest adRequestCompleto = new AdRequest.Builder().build();
 		interstitial.loadAd(adRequestCompleto);
@@ -366,7 +366,7 @@ public class ClosfyActivity extends AppCompatActivity {
 
 	// Comprobamos si debemos mostrar la publicidad o no
 	public void displayInterstitial() {
-		if(mostrarAnuncioCompleto()) {
+		if(interstitial.isLoaded() && mostrarAnuncioCompleto()) {
 			interstitial.show();
 		}
 	}
@@ -388,7 +388,7 @@ public class ClosfyActivity extends AppCompatActivity {
 
 	// Comprobamos si debemos mostrar el anuncio completo o no
 	public boolean mostrarAnuncioCompleto() {
-		boolean mostrarAnuncio = false;
+		boolean mostrarAnuncio = true;
 
 		final Calendar c = Calendar.getInstance();
 		int mYear = c.get(Calendar.YEAR);
@@ -398,19 +398,20 @@ public class ClosfyActivity extends AppCompatActivity {
 		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
 		String fechaAct = mDay + "/" + (mMonth + 1) + "/" + mYear;
 		String fechaAnuncio = prefs.getString("fechaAnuncio", "");
-		int contador = prefs.getInt("contadorPubli", 0);
-		contador = contador + 1;
+		int diasGratis = prefs.getInt("diasGratis", 0);
 
-		if (fechaAnuncio.equals(fechaAct) && contador == 2) {
-			mostrarAnuncio = true;
-			editor = prefs.edit();
-			editor.putInt("contadorPubli", contador);
-			editor.commit();
+		if (fechaAnuncio.equals(fechaAct)) {
+			mostrarAnuncio = false;
 		} else {
 			editor = prefs.edit();
-			editor.putString("fechaAnuncio", fechaAct);
-			editor.putInt("contadorPubli", contador);
-			//editor.putInt("ultimoNumPubli", 0);
+			if(diasGratis<2){
+				editor.putString("fechaAnuncio", fechaAct);
+				diasGratis = diasGratis + 1;
+				editor.putInt("diasGratis", diasGratis);
+				mostrarAnuncio = false;
+			}else{
+				editor.putString("fechaAnuncio", fechaAct);
+			}
 			editor.commit();
 		}
 

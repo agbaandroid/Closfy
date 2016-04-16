@@ -27,6 +27,8 @@ import com.agba.closfy.activities.EditUtilidadActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -78,6 +80,11 @@ public class TiposFragment extends Fragment {
         listTipoView = (ListView) this.getView().findViewById(
                 R.id.listaPestanaTipos);
         spinnerTipo = (Spinner) this.getView().findViewById(R.id.spinnerTipo);
+
+        AdView adView;
+        adView = (AdView) getView().findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         // Cuenta seleccionada
         prefs = getActivity().getSharedPreferences("ficheroConf",

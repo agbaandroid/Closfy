@@ -183,11 +183,7 @@ public class PrendaBasicaActivity extends ActionBarActivity {
 					.findViewById(R.id.imagencheck);
 
 			if (posi == listaPrendas.get(position).getIdPrenda()) {
-				if (estilo == 1) {
-					imagenCheck.setBackgroundResource(R.drawable.tic_azul);
-				} else {
-					imagenCheck.setBackgroundResource(R.drawable.tic);
-				}
+				imagenCheck.setBackgroundResource(R.drawable.tic);
 			} else {
 				imagenCheck.setBackgroundResource(android.R.color.transparent);
 			}

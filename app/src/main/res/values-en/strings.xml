@@ -348,22 +348,21 @@
 	<string name="selectTipoAsesoramiento">Select a type of fashion advice service</string>
 	<string name="mensajeAsesoramiento">Please, write a brief description of your needs to our stylists.</string>
 
-
-    <string name="gestionarCuentas">ES_Gestionar cuentas</string>
-    <string name="cuentasList">ES_Gestionar cuentas</string>
-    <string name="publicidad">ES_PUBLICIDAD</string>
-    <string name="nombre">ES_Nombre</string>
-    <string name="icono">ES_Icono</string>
+    <string name="cuentasList">Manage Accounts</string>
+    <string name="gestionarCuentas">Manage Accounts</string>
+    <string name="publicidad">Advertising</string>
+    <string name="nombre">Name</string>
+    <string name="icono">Icon</string>
 
     <string-array name="arraySexo">
-        <item>ES_Woman</item>
-        <item>ES_Man</item>
+        <item>Woman</item>
+        <item>Man</item>
     </string-array>
 
     <string-array name="arraySexoTipos">
-        <item>ES_Woman</item>
-        <item>ES_Man</item>
-        <item>ES_Unisex</item>
+        <item>Woman</item>
+        <item>Man</item>
+        <item>Unisex</item>
     </string-array>
 
     <string name="addTipoOK">The type has been correctly added</string>
@@ -373,5 +372,5 @@
     <string name="deleteTipoOK">The type successfully removed</string>
     <string name="deleteTipoKO">There was an error deleting the type</string>
 
-    <string name="filter">ES_Filtro</string>
+    <string name="filter">Filter</string>
 </resources>

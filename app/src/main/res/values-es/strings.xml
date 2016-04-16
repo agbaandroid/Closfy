@@ -353,22 +353,21 @@
 	<string name="selectTipoAsesoramiento">Seleccione un tipo de asesoramiento</string>
 	<string name="mensajeAsesoramiento">Escriba una breve descripción de las necesidades de su asesoramiento para nuestros estilistas.</string>
 
-
-    <string name="gestionarCuentas">ES_Gestionar cuentas</string>
-    <string name="cuentasList">ES_Gestionar cuentas</string>
-    <string name="publicidad">ES_PUBLICIDAD</string>
-    <string name="nombre">ES_Nombre</string>
-    <string name="icono">ES_Icono</string>
+    <string name="gestionarCuentas">Gestionar cuentas</string>
+    <string name="cuentasList">Gestionar cuentas</string>
+    <string name="publicidad">PUBLICIDAD</string>
+    <string name="nombre">Nombre</string>
+    <string name="icono">Icono</string>
 
     <string-array name="arraySexo">
-        <item>ES_Woman</item>
-        <item>ES_Man</item>
+        <item>Mujer</item>
+        <item>Hombre</item>
     </string-array>
 
     <string-array name="arraySexoTipos">
-        <item>ES_Woman</item>
-        <item>ES_Man</item>
-        <item>ES_Unisex</item>
+        <item>Mujer</item>
+        <item>Hombre</item>
+        <item>Unisex</item>
     </string-array>
 
     <string name="addTipoOK">El tipo se ha añadido correctamente</string>
@@ -378,5 +377,5 @@
     <string name="deleteTipoOK">El tipo se ha eliminado correctamente</string>
     <string name="deleteTipoKO">Se ha producido un error al eliminar el tipo</string>
 
-    <string name="filter">ES_Filtro</string>
+    <string name="filter">Filtros</string>
 </resources>

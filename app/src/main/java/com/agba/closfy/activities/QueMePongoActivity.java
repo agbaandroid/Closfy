@@ -10,8 +10,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +24,7 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.util.EmailSender;
 import com.agba.closfy.util.Util;
 
-public class QueMePongoActivity extends ActionBarActivity {
+public class QueMePongoActivity extends AppCompatActivity {
 
 	private String idClass = "c#99l#o&&s#9fy1999#$23#94$59#967#989";
 
@@ -112,12 +114,12 @@ public class QueMePongoActivity extends ActionBarActivity {
 
 		switch (tipoAsesoramiento) {
 		case 0:
-			imgEvento.setBackgroundResource(R.drawable.radio_rosa_on);
-			imgCasual.setBackgroundResource(R.drawable.radio_rosa_off);
+			imgEvento.setBackgroundResource(R.drawable.radio_on);
+			imgCasual.setBackgroundResource(R.drawable.radio_off);
 			break;
 		case 1:
-			imgEvento.setBackgroundResource(R.drawable.radio_rosa_off);
-			imgCasual.setBackgroundResource(R.drawable.radio_rosa_on);
+			imgEvento.setBackgroundResource(R.drawable.radio_off);
+			imgCasual.setBackgroundResource(R.drawable.radio_on);
 			break;
 		default:
 			break;
@@ -135,11 +137,11 @@ public class QueMePongoActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				if (estilo == 1) {
-					imgEvento.setBackgroundResource(R.drawable.radio_azul_on);
-					imgCasual.setBackgroundResource(R.drawable.radio_azul_off);
+					imgEvento.setBackgroundResource(R.drawable.radio_on);
+					imgCasual.setBackgroundResource(R.drawable.radio_off);
 				} else {
-					imgEvento.setBackgroundResource(R.drawable.radio_rosa_on);
-					imgCasual.setBackgroundResource(R.drawable.radio_rosa_off);
+					imgEvento.setBackgroundResource(R.drawable.radio_on);
+					imgCasual.setBackgroundResource(R.drawable.radio_off);
 				}
 				tipoAsesoramiento = 0;
 			}
@@ -149,11 +151,11 @@ public class QueMePongoActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				if (estilo == 1) {
-					imgCasual.setBackgroundResource(R.drawable.radio_azul_on);
-					imgEvento.setBackgroundResource(R.drawable.radio_azul_off);
+					imgCasual.setBackgroundResource(R.drawable.radio_on);
+					imgEvento.setBackgroundResource(R.drawable.radio_off);
 				} else {
-					imgCasual.setBackgroundResource(R.drawable.radio_rosa_on);
-					imgEvento.setBackgroundResource(R.drawable.radio_rosa_off);
+					imgCasual.setBackgroundResource(R.drawable.radio_on);
+					imgEvento.setBackgroundResource(R.drawable.radio_off);
 				}
 				tipoAsesoramiento = 1;
 			}
@@ -343,15 +345,27 @@ public class QueMePongoActivity extends ActionBarActivity {
 	public void cambiarEstiloHombre() {
 		switch (tipoAsesoramiento) {
 		case 0:
-			imgEvento.setBackgroundResource(R.drawable.radio_azul_on);
-			imgCasual.setBackgroundResource(R.drawable.radio_azul_off);
+			imgEvento.setBackgroundResource(R.drawable.radio_on);
+			imgCasual.setBackgroundResource(R.drawable.radio_off);
 			break;
 		case 1:
-			imgCasual.setBackgroundResource(R.drawable.radio_azul_on);
-			imgEvento.setBackgroundResource(R.drawable.radio_azul_off);
+			imgCasual.setBackgroundResource(R.drawable.radio_on);
+			imgEvento.setBackgroundResource(R.drawable.radio_off);
 			break;
 		default:
 			break;
+		}
+	}
+
+	// Aadiendo funcionalidad a las opciones de men
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 

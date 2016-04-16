@@ -62,6 +62,11 @@ public class CuentasActivity extends AppCompatActivity {
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
 
+        AdView adView;
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             isPremium = extras.getBoolean("isPremium", false);
@@ -75,15 +80,6 @@ public class CuentasActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
-
-        //Se carga la publicidad
-        AdView adView = (AdView) findViewById(R.id.adView);
-        if (isPremium || isSinPublicidad) {
-            layoutPubli.setVisibility(View.GONE);
-        } else {
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-        }
 
         listaCuentas = (ListView) findViewById(R.id.listaCuentas);
         obtenerCuentas();

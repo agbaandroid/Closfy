@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -104,6 +107,11 @@ public class EditarLookActivity extends AppCompatActivity {
         listLooks.add(look);
 
         setContentView(R.layout.nuevo_editar_look);
+
+        AdView adView;
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         // Cuenta seleccionadaØ
         prefs = this.getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
@@ -514,11 +522,7 @@ public class EditarLookActivity extends AppCompatActivity {
             }
 
             if (encontrado) {
-                if (estilo == 1) {
-                    tic.setBackgroundResource(R.drawable.tic_azul);
-                } else {
-                    tic.setBackgroundResource(R.drawable.tic);
-                }
+                tic.setBackgroundResource(R.drawable.tic);
             } else {
                 tic.setBackgroundColor(getResources().getColor(
                         android.R.color.transparent));
@@ -555,5 +559,17 @@ public class EditarLookActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    // Aadiendo funcionalidad a las opciones de men
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
