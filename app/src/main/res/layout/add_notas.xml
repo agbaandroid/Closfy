@@ -9,7 +9,7 @@
         android:id="@+id/layoutAddNotas"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#DA6E88"
+        android:background="@color/actionBarColor"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
@@ -42,7 +42,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
             android:lines="7"
-            android:background="@drawable/botton_rosa"
+            android:background="@drawable/botton_azul"
             android:paddingLeft="10dp"
             android:textColor="#000000" />
     </LinearLayout>

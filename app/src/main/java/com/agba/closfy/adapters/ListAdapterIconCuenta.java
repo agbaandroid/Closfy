@@ -56,14 +56,14 @@ public class ListAdapterIconCuenta extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView iconTarjeta;
+        ImageView iconCuenta;
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.lista_icon_cuenta, null);
         }
 
-        iconTarjeta = (ImageView) convertView.findViewById(R.id.imagenCuenta);
-        iconTarjeta.setBackgroundDrawable(context.getResources().getDrawable(
+        iconCuenta = (ImageView) convertView.findViewById(R.id.imagenCuenta);
+        iconCuenta.setBackgroundDrawable(context.getResources().getDrawable(
                 Util.obtenerIconoUser(listaIcon.get(position).getId())));
         return convertView;
     }

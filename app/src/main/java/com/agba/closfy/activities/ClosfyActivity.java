@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,7 +92,7 @@ public class ClosfyActivity extends AppCompatActivity {
 		View footer = getLayoutInflater().inflate(R.layout.footer, null);
 
 		navDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		navDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		navDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
 
 		navList = (ListView) findViewById(R.id.left_drawer);
 		left_drawer_cuentas = (LinearLayout) findViewById(R.id.left_drawer_cuentas);
@@ -344,16 +345,19 @@ public class ClosfyActivity extends AppCompatActivity {
 
 	@Override
 	protected void onResume() {
-		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
+		int cuen = Util.cuentaSeleccionada(this, prefs);
+		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+		db.close();
+
 		TextView textoHeader = (TextView) findViewById(R.id.nombreCuenta);
 		ImageView idIcon = (ImageView) findViewById(R.id.iconCuenta);
 
 		TextView textoHeader2 = (TextView) findViewById(R.id.nombreCuenta2);
 		ImageView idIcon2 = (ImageView) findViewById(R.id.iconCuenta2);
 
-		int cuen = cuentaSeleccionada();
 		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
+			estilo = gestion.getEstiloCuenta(db, cuen);
 			Cuenta cuenta = gestion.getCuentaSeleccionada(db, cuen);
 			textoHeader.setText(cuenta.getDescCuenta());
 			idIcon.setBackgroundResource(Util.obtenerIconoUser(cuenta.getIdIcon()));
@@ -527,8 +531,10 @@ public class ClosfyActivity extends AppCompatActivity {
 		ImageView idIcon2 = (ImageView) findViewById(R.id.iconCuenta2);
 
 		int cuen = cuentaSeleccionada();
+
 		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
+			estilo = gestion.getEstiloCuenta(db, cuen);
 			Cuenta cuenta = gestion.getCuentaSeleccionada(db, cuen);
 			textoHeader.setText(cuenta.getDescCuenta());
 			idIcon.setBackgroundResource(Util.obtenerIconoUser(cuenta.getIdIcon()));

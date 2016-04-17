@@ -192,9 +192,6 @@ public class GestionBBDD {
                 db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Belt')");
             }
         }
-
-        // Comprobamos si las tablas Categorias y Subcategorias estan vacias
-        // para a�adirle los campos por defecto
     }
 
     public void crearCuentaPrincipal(SQLiteDatabase db, int sexo) {
@@ -205,10 +202,10 @@ public class GestionBBDD {
             if (languaje.equals("es") || languaje.equals("es-rUS")
                     || languaje.equals("ca")) {
                 db.execSQL("INSERT INTO Cuentas VALUES(0, 'Cuenta principal', '"
-                        + sexo + "', 1 )");
+                        + sexo + "', 0 )");
             } else {
                 db.execSQL("INSERT INTO Cuentas VALUES(0, 'Main account', '"
-                        + sexo + "', 1 )");
+                        + sexo + "', 0 )");
             }
 
         }
@@ -1060,11 +1057,9 @@ public class GestionBBDD {
         // consultamos si existe una nomina del mes actual
         try {
             Cursor prendas = db.rawQuery("select * from Prendas", null);
-            if (prendas.moveToFirst()) {
-                return true;
-            } else {
-                return false;
-            }
+
+            return true;
+
         } catch (Exception e) {
             return false;
         }
@@ -1118,15 +1113,16 @@ public class GestionBBDD {
 
     public void actualizarVersion20(SQLiteDatabase db) {
 
+        try {
         db.execSQL(sqlCreateSubtipos);
 
         if (languaje.equals("es") || languaje.equals("es-rUS")
                 || languaje.equals("ca")) {
-
             db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Jersey')");
             db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Polo')");
             db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Sudadera')");
             db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Camisa')");
+            db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Camiseta')");
             db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Tirantes')");
             db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 0, 'Top')");
             db.execSQL("INSERT INTO Subtipos VALUES(null, 1, 2, 'Chaqueta')");
@@ -1202,8 +1198,16 @@ public class GestionBBDD {
             db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 0, 'Necklace')");
             db.execSQL("INSERT INTO Subtipos VALUES(null, 6, 2, 'Belt')");
         }
-        
-        db.execSQL("UPDATE Prendas SET idSubtipo=-1");
+
+        db.execSQL("ALTER TABLE Cuentas ADD COLUMN idIcon INTEGER DEFAULT 0");
+        db.execSQL("ALTER TABLE Prendas ADD COLUMN idSubtipo INTEGER DEFAULT -1");
+        db.execSQL("UPDATE Cuentas set sexo=0 where sexo=2");
+
+        } catch (Exception e) {
+            Log.d("Error",
+                    "Error al actualizar la version");
+            e.printStackTrace();
+        }
     }
 
     public void crearTablaAsesoramientos(SQLiteDatabase db) {
@@ -1269,7 +1273,7 @@ public class GestionBBDD {
         try {
             Cursor c1 = db.rawQuery(
                     "select * from Subtipos where idTipo = " + idTipo
-                            + " and sexo in (" + sexo + ", 2)", null);
+                            + " and (sexo=" + sexo + " or sexo=2)", null);
 
             Subtipo subGeneric = new Subtipo();
             subGeneric.setId(-1);
@@ -1316,7 +1320,7 @@ public class GestionBBDD {
             } else {
                 c1 = db.rawQuery(
                         "select * from Subtipos where idTipo = " + idTipo
-                                + " and sexo in (" + sexo + ", 2)", null);
+                                + " and (sexo=" + sexo + " or sexo=2)", null);
             }
 
             if (c1.moveToFirst()) {

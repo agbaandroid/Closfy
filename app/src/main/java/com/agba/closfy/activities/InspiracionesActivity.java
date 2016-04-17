@@ -7,9 +7,10 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
+import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
 import com.google.android.gms.ads.AdRequest;
@@ -26,19 +28,18 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
-public class InspiracionesActivity extends ActionBarActivity {
-
-	static final int MENSAJE_CONFIRMAR_ELIMINAR = 1;
-	static final int EDIT_PRENDA = 0;
+public class InspiracionesActivity extends AppCompatActivity {
 
 	private SQLiteDatabase db;
 	private final String BD_NOMBRE = "BDClosfy";
 	final GestionBBDD gestion = new GestionBBDD();
 
+	int[] inspiraciones;
+
 	int cuentaSeleccionada;
 	int estilo;
 
-	ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
+	ArrayList<Prenda> listInspiraciones = new ArrayList<Prenda>();
 	GridView gridview;
 	AdView adView;
 
@@ -94,9 +95,9 @@ public class InspiracionesActivity extends ActionBarActivity {
 	public void obtenerPrendas() {
 
 		if (estilo == 1) {
-			listPrendas = Util.obtenerInspiraciones(this, estilo);
+			listInspiraciones = Util.obtenerInspiraciones(this, estilo);
 		} else {
-			listPrendas = Util.obtenerInspiraciones(this, estilo);
+			listInspiraciones = Util.obtenerInspiraciones(this, estilo);
 		}
 	}
 
@@ -125,7 +126,7 @@ public class InspiracionesActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			final GridAdapterInspiraciones gridadapter = new GridAdapterInspiraciones(
-					InspiracionesActivity.this, listPrendas);
+					InspiracionesActivity.this, listInspiraciones);
 			gridview.setAdapter(gridadapter);			
 			progDailog.dismiss();
 		}
@@ -185,11 +186,35 @@ public class InspiracionesActivity extends ActionBarActivity {
 		@Override
 		public void onClick(View view) {
 			int position = (Integer) view.getTag();
-			Intent intent = new Intent(InspiracionesActivity.this, AmpliarInspiracionActivity.class);
-			intent.putExtra("idPrenda", position);
+			Intent intent = new Intent(InspiracionesActivity.this, NuevoAmpliarInspiracionActivity.class);
+			intent.putExtra("idInspiracion", position);
+			intent.putExtra("inspiraciones", obtenerCadenaInspiraciones());
+			intent.putExtra("posicion", position);
 			startActivity(intent);
 		}
+	}
 
+	public int[] obtenerCadenaInspiraciones() {
+		inspiraciones = new int[listInspiraciones.size()];
+
+		for (int i = 0; i < listInspiraciones.size(); i++) {
+			Prenda inspiracion = listInspiraciones.get(i);
+			inspiraciones[i] = inspiracion.getIdPrenda();
+		}
+
+		return inspiraciones;
+	}
+
+	// Aadiendo funcionalidad a las opciones de men
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

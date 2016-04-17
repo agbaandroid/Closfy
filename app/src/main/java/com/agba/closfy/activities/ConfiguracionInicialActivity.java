@@ -58,7 +58,7 @@ public class ConfiguracionInicialActivity extends ActionBarActivity {
 		layoutMujer.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				cuenta = 2;				
+				cuenta = 0;
 				new MyLoadingAsyncTask().execute();
 			}
 		});

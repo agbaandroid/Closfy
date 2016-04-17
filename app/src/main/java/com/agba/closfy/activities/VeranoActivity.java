@@ -36,13 +36,13 @@ public class VeranoActivity extends AppCompatActivity {
 			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
 		}
 		db.close();
-				
+
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
 		if (estilo == 1) {
 			toolbar.setBackgroundResource(R.color.azul);
 		}
-		
+
 		setSupportActionBar(toolbar);
 
 		setSupportActionBar(toolbar);

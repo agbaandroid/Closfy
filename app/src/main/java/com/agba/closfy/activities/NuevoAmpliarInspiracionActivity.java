@@ -14,18 +14,19 @@ import android.view.MenuItem;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
+import com.agba.closfy.fragments.InspiracionAmpliadaSlideFragment;
 import com.agba.closfy.fragments.LookAmpliadoSlideFragment;
+import com.agba.closfy.fragments.PrendaAmpliadaSlideFragment;
 import com.agba.closfy.modelo.Look;
+import com.agba.closfy.modelo.Prenda;
 
-public class NuevoAmpliarLookActivity extends AppCompatActivity {
-    private static final String KEY_CONTENT = "NuevoAmpliarLookActivity:Content";
+public class NuevoAmpliarInspiracionActivity extends AppCompatActivity {
+    private static final String KEY_CONTENT = "NuevoAmpliarInspiracionActivity:Content";
     private String mContent = "???";
 
-    int idLook;
-    int[] looks;
+    int idInspiracion;
+    int[] inspiraciones;
     int posi;
-
-    private static final int EDIT_LOOK = 1;
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
@@ -45,15 +46,15 @@ public class NuevoAmpliarLookActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Hide the icon, title and home/up button
-        getSupportActionBar().setTitle(R.string.looks);
+        getSupportActionBar().setTitle(R.string.inspiraciones);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().show();
 
         Bundle extras = getIntent().getExtras();
-        idLook = extras.getInt("idLook");
-        looks = extras.getIntArray("looks");
+        idInspiracion = extras.getInt("idInspiracion");
+        inspiraciones = extras.getIntArray("inspiraciones");
         posi = extras.getInt("posicion");
 
         // Instantiate a ViewPager and a PagerAdapter.
@@ -75,41 +76,10 @@ public class NuevoAmpliarLookActivity extends AppCompatActivity {
 
     }
 
-    // Anadiendo las opciones de menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_setting_edit, menu);
-        return true;
-    }
-
     // Aadiendo funcionalidad a las opciones de men
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_edit:
-                // Llamar activity EditarPrenda
-
-                Look lookSeleccionado = new Look();
-                db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-                if (db != null) {
-                    lookSeleccionado = gestion.getLookById(db, looks[posi]);
-                }
-                db.close();
-
-                Intent intent2 = new Intent(this,
-                        EditarLookActivity.class);
-                intent2.putExtra("idLook",
-                        lookSeleccionado.getIdLook());
-                intent2.putExtra("temporada",
-                        lookSeleccionado.getIdTemporada());
-                intent2.putExtra("utilidades",
-                        lookSeleccionado.getUtilidades());
-                intent2.putExtra("favorito",
-                        lookSeleccionado.getFavorito());
-                startActivityForResult(intent2, EDIT_LOOK);
-
-                return true;
             case android.R.id.home:
                 finish();
                 return true;
@@ -132,22 +102,12 @@ public class NuevoAmpliarLookActivity extends AppCompatActivity {
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            return LookAmpliadoSlideFragment.create(position, looks);
+            return InspiracionAmpliadaSlideFragment.create(position, inspiraciones);
         }
 
         @Override
         public int getCount() {
-            return looks.length;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case EDIT_LOOK:
-                    finish();
-            }
+            return inspiraciones.length;
         }
     }
 }

@@ -61,7 +61,7 @@ public class AddPrendaActivity extends AppCompatActivity {
     private Uri mImageCaptureUri;
     private String urlAux = "";
     private Uri tmpImgUri;
-    private LinearLayout layoutImagen;
+    private LinearLayout layoutImagen, layoutImagenSin;
     private ImageView imagenSeleccionada;
     private Spinner spinnerTipo, spinnerTemporada, spinnerSubtipo;
     private ImageView checkFavoritos;
@@ -288,18 +288,10 @@ public class AddPrendaActivity extends AppCompatActivity {
         layoutImagen = (LinearLayout) findViewById(
                 R.id.layoutImagen);
 
+        layoutImagenSin = (LinearLayout) findViewById(
+                R.id.layoutImagenSin);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-
-        Bitmap marco = BitmapFactory.decodeResource(getResources(),
-                R.drawable.marco, options);
-
-        Drawable marcoDrawable = new BitmapDrawable(getResources(),
-                marco);
-
-        layoutImagen.setBackgroundDrawable(marcoDrawable);
-        imagenSeleccionada = (ImageView) findViewById(R.id.marcoIcon);
+        imagenSeleccionada = (ImageView) findViewById(R.id.marcoImage);
         botonCambiarTemp = (LinearLayout) findViewById(R.id.botonCambiarTemp);
         checkFavoritos = (ImageView) findViewById(R.id.checkFavoritos);
         spinnerTipo = (Spinner) findViewById(R.id.spinnerTipoPrenda);
@@ -330,6 +322,13 @@ public class AddPrendaActivity extends AppCompatActivity {
         }
 
         layoutImagen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
+
+        layoutImagenSin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.show();
@@ -456,6 +455,9 @@ public class AddPrendaActivity extends AppCompatActivity {
 
                     imagenSeleccionada.setImageBitmap(original);
 
+                    layoutImagen.setVisibility(View.GONE);
+                    layoutImagenSin.setVisibility(View.VISIBLE);
+
                     File dbFile = new File(
                             Environment.getExternalStorageDirectory(),
                             "/Closfy/Prendas");
@@ -518,6 +520,9 @@ public class AddPrendaActivity extends AppCompatActivity {
                             idTipo, prendaBasicaSeleccionada, 2, estilo);
 
                     imagenSeleccionada.setImageBitmap(bitmap);
+
+                    layoutImagen.setVisibility(View.GONE);
+                    layoutImagenSin.setVisibility(View.VISIBLE);
 
                     // bitmap.recycle();
                     // imagenGirada.recycle();

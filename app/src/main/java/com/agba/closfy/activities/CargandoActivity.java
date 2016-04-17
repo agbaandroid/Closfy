@@ -46,25 +46,22 @@ public class CargandoActivity extends Activity {
 					.comprobarTablaLookPrendasCreada(db);
 			boolean tablaLookAsesoramientosCreada = gestion
 					.comprobarTablaAsesoramientosCreada(db);
-			boolean tablaSubtiposCreada = gestion
-					.comprobarTablaSubtiposCreada(db);
 
 			if (!tablasInicialesCreadas) {
 				gestion.createTables(db);
 			} else if (!tablaLookPrendasCreada) {
 				gestion.actualizarBDVersion2(db);
 			}
-			
+
 			if(!tablaLookAsesoramientosCreada){
 				gestion.crearTablaAsesoramientos(db);
 			}
 
+			boolean tablaSubtiposCreada = gestion
+					.comprobarTablaSubtiposCreada(db);
 			if(!tablaSubtiposCreada){
 				gestion.actualizarVersion20(db);
 			}
-
-			// // Se crea la estructura de base de datos si no existe
-			// gestion.createTables(db);
 		}
 		db.close();
 

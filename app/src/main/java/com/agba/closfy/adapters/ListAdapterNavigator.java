@@ -62,7 +62,7 @@ public class ListAdapterNavigator extends BaseAdapter {
 		layoutNavigator.setBackgroundResource(R.color.blanco);
 
 		if (position == mSelectedItem) {
-			text.setTextColor(Color.argb(255, 0, 163, 232));
+			text.setTextColor(Color.argb(255, 19, 192, 172));
 			//layoutNavigator.setBackgroundResource(R.color.fondodrawable);
 		} else {
 			text.setTextColor(Color.GRAY);
