@@ -149,6 +149,7 @@ public class UtilidadesFragment extends Fragment {
 			case R.id.action_add:
 				Intent inUti = new Intent(getActivity(),
 						AddUtilidadActivity.class);
+				inUti.putExtra("isSinPublicidad", isSinPublicidad);
 				getActivity().startActivityForResult(inUti, 0);
 				return true;
 			case android.R.id.home:
@@ -230,6 +231,7 @@ public class UtilidadesFragment extends Fragment {
 					Intent intent = new Intent(getActivity(), EditUtilidadActivity.class);
 					intent.putExtra("id", uti.getIdUtilidad());
 					intent.putExtra("textEdit", uti.getNombre());
+					intent.putExtra("isSinPublicidad", isSinPublicidad);
 					getActivity().startActivity(intent);
 				}
 			});

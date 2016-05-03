@@ -36,7 +36,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ES_Filtro"
+                        android:text="@string/filter"
                         android:textColor="#FFFFFF"
                         android:textSize="18dp" />
                 </LinearLayout>

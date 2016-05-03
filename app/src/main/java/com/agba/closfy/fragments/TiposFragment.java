@@ -189,6 +189,7 @@ public class TiposFragment extends Fragment {
             case R.id.action_add:
                 Intent inUti = new Intent(getActivity(),
                         AddTipoActivity.class);
+                inUti.putExtra("isSinPublicidad", isSinPublicidad);
                 getActivity().startActivityForResult(inUti, 0);
                 return true;
             case android.R.id.home:
@@ -272,6 +273,7 @@ public class TiposFragment extends Fragment {
                     intent.putExtra("textEdit", sub.getNombre());
                     intent.putExtra("idTipo", sub.getIdTipo());
                     intent.putExtra("sexo", sub.getSexo());
+                    intent.putExtra("isSinPublicidad", isSinPublicidad);
                     getActivity().startActivity(intent);
                 }
             });

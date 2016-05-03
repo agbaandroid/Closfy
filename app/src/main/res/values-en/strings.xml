@@ -375,4 +375,11 @@
     <string name="deleteTipoKO">There was an error deleting the type</string>
 
     <string name="filter">Filter</string>
+
+    <string name="ok">OK</string>
+    <string name="gracias">Thank you for your order. You must restart the application for the changes to take effect.</string>
+    <string name="productoComprado">The selected product is already activated.</string>
+
+    <string name="deleteAds">Remove advertise</string>
+    <string name="txtDeleteAds">Remove all the advertise forever.</string>
 </resources>

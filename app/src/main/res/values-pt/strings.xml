@@ -378,4 +378,11 @@ atender..</string>
     <string name="deleteTipoKO">Houve um erro ao excluir o tipo</string>
 
     <string name="filter">Filtro</string>
+
+    <string name="ok">OK</string>
+    <string name="gracias">Obrigado por fazer a sua compra. Você deve reiniciar o aplicativo para que as alterações tenham efeito.</string>
+    <string name="productoComprado">O produto selecionado já está ativado.</string>
+
+    <string name="deleteAds">Remova os anúncios</string>
+    <string name="txtDeleteAds">Remova toda a aplicação de publicidade para sempre.</string>
 </resources>

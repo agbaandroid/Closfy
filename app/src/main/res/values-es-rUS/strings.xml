@@ -380,4 +380,11 @@
     <string name="deleteTipoKO">Se ha producido un error al eliminar el tipo</string>
 
     <string name="filter">Filtros</string>
+
+    <string name="ok">OK</string>
+    <string name="gracias">Gracias por realizar su compra. Deberá reiniciar la aplicación para que se apliquen los cambios.</string>
+    <string name="productoComprado">El producto seleccionado ya está activado.</string>
+
+    <string name="deleteAds">Eliminar publicidad</string>
+    <string name="txtDeleteAds">Elimina toda la publicidad de la aplicación para siempre.</string>
 </resources>
