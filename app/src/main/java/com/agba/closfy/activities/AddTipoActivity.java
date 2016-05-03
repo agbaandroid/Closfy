@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class AddTipoActivity extends AppCompatActivity {
 
 	int idTipo;
 	int idSexo;
+	boolean isSinPublicidad;
 	
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,19 @@ public class AddTipoActivity extends AppCompatActivity {
 		toolbar.setContentInsetsAbsolute(0, 0);
 		setSupportActionBar(toolbar);
 
-		AdView adView;
-		adView = (AdView) findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView.loadAd(adRequest);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+		}
+
+		RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+		if (isSinPublicidad) {
+			layoutPubli.setVisibility(View.GONE);
+		} else {
+			AdView adView = (AdView) findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().build();
+			adView.loadAd(adRequest);
+		}
 
 		// Cuenta seleccionada
 		prefs = getSharedPreferences("ficheroConf",

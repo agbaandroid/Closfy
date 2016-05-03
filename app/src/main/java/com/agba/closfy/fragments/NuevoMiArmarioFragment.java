@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -67,7 +68,6 @@ public class NuevoMiArmarioFragment extends Fragment {
 
 	ArrayList<Prenda> listPrendas = new ArrayList<Prenda>();
 	GridView gridview;
-	AdView adView;
 	Prenda prendaSeleccionada = new Prenda();
 
 	private Spinner spinnerTipoPrenda;
@@ -82,6 +82,8 @@ public class NuevoMiArmarioFragment extends Fragment {
 	int posSubtipo = 0;
 	int posTipoConfigurado = 0;
 	int favorito = 0;
+
+	boolean isSinPublicidad;
 
 	boolean cargado = false;
 	int[] prendas;
@@ -99,6 +101,11 @@ public class NuevoMiArmarioFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		Bundle bundle = getArguments();
+		if(bundle != null) {
+			isSinPublicidad = bundle.getBoolean("isSinPublicidad");
+		}
 
 		if ((savedInstanceState != null)
 				&& savedInstanceState.containsKey(KEY_CONTENT)) {
@@ -152,7 +159,6 @@ public class NuevoMiArmarioFragment extends Fragment {
 		checkFavoritos = (ImageView) getActivity().findViewById(
 				R.id.checkFavoritos);
 
-		adView = (AdView) this.getView().findViewById(R.id.adView);
 		filtros = (LinearLayout) getActivity().findViewById(R.id.right_drawer_prendas);
 		drawer = (DrawerLayout) getActivity().findViewById(
 				R.id.drawer_layout);
@@ -556,9 +562,14 @@ public class NuevoMiArmarioFragment extends Fragment {
 					listPrendas);
 			gridview.setAdapter(gridadapter);
 
-			// Look up the AdView as a resource and load a request.
-			AdRequest adRequest = new AdRequest.Builder().build();
-			adView.loadAd(adRequest);
+			RelativeLayout layoutPubli = (RelativeLayout) getView().findViewById(R.id.layoutPubli);
+			if (isSinPublicidad) {
+				layoutPubli.setVisibility(View.GONE);
+			} else {
+				AdView adView = (AdView) getActivity().findViewById(R.id.adView);
+				AdRequest adRequest = new AdRequest.Builder().build();
+				adView.loadAd(adRequest);
+			}
 
 			progDailog.dismiss();
 		}
@@ -580,6 +591,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 		switch (item.getItemId()) {
 			case R.id.action_add:
 				Intent intent = new Intent(getActivity(), AddPrendaActivity.class);
+				intent.putExtra("isSinPublicidad", isSinPublicidad);
 				startActivityForResult(intent, PRENDA);
 				return true;
 			case R.id.action_filter:
@@ -660,6 +672,7 @@ public class NuevoMiArmarioFragment extends Fragment {
 				case R.id.layoutImagenPrenda:
 					Intent intent = new Intent(getActivity(),
 							AmpliarPrendaActivity.class);
+					intent.putExtra("isSinPublicidad", isSinPublicidad);
 					intent.putExtra("idPrenda", prenda.getIdPrenda());
 					intent.putExtra("prendas", obtenerCadenaPrendas());
 					intent.putExtra("posicion", position);

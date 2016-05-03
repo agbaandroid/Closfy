@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -50,7 +51,6 @@ public class NuevoMisLooksFragment extends Fragment {
     final GestionBBDD gestion = new GestionBBDD();
 
     static final int MENSAJE_CONFIRMAR_ELIMINAR = 1;
-    static final int EDIT_LOOK = 0;
     static final int AMPLIAR_LOOK = 0;
     private final int LOOK = 1;
 
@@ -71,7 +71,6 @@ public class NuevoMisLooksFragment extends Fragment {
     Look lookSeleccionado = new Look();
 
     GridView gridview;
-    AdView adView;
 
     SharedPreferences prefs;
     SharedPreferences prefsFiltros;
@@ -85,12 +84,19 @@ public class NuevoMisLooksFragment extends Fragment {
     int posiUtilidad = 0;
     int[] looks;
 
+    boolean isSinPublicidad;
+
     ProgressDialog progDailog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            isSinPublicidad = bundle.getBoolean("isSinPublicidad");
+        }
 
         if ((savedInstanceState != null)
                 && savedInstanceState.containsKey(KEY_CONTENT)) {
@@ -116,9 +122,6 @@ public class NuevoMisLooksFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
-
-        // Look up the AdView as a resource and load a request.
-        adView = (AdView) this.getView().findViewById(R.id.adView);
 
         gridview = (GridView) getView().findViewById(R.id.gridLooks);
         filtros = (LinearLayout) getActivity().findViewById(R.id.right_drawer_looks);
@@ -437,8 +440,16 @@ public class NuevoMisLooksFragment extends Fragment {
             final GridAdapterLooks gridadapter = new GridAdapterLooks(
                     getActivity(), listLooks, estilo);
             gridview.setAdapter(gridadapter);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
+
+            RelativeLayout layoutPubli = (RelativeLayout) getView().findViewById(R.id.layoutPubli);
+            if (isSinPublicidad) {
+                layoutPubli.setVisibility(View.GONE);
+            } else {
+                AdView adView = (AdView) getActivity().findViewById(R.id.adView);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
+            }
+
             progDailog.dismiss();
         }
     }
@@ -459,6 +470,7 @@ public class NuevoMisLooksFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(getActivity(), CrearLookPrincipalActivity.class);
+                intent.putExtra("isSinPublicidad", isSinPublicidad);
                 startActivityForResult(intent, LOOK);
                 return true;
             case R.id.action_filter:

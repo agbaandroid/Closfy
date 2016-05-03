@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class EditTipoActivity extends AppCompatActivity {
 	int estilo;
 	private int cuentaSeleccionada;
 	SharedPreferences prefs;
+	boolean isSinPublicidad;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,10 +55,23 @@ public class EditTipoActivity extends AppCompatActivity {
 		toolbar.setContentInsetsAbsolute(0, 0);
 		setSupportActionBar(toolbar);
 
-		AdView adView;
-		adView = (AdView) findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView.loadAd(adRequest);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+			id = extras.getInt("id");
+			textTipo = extras.getString("textEdit");
+			idTipo = extras.getInt("idTipo");
+			sexo = extras.getInt("sexo");
+		}
+
+		RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+		if (isSinPublicidad) {
+			layoutPubli.setVisibility(View.GONE);
+		} else {
+			AdView adView = (AdView) findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().build();
+			adView.loadAd(adRequest);
+		}
 
 		// Cuenta seleccionada
 		prefs = getSharedPreferences("ficheroConf",
@@ -72,14 +87,6 @@ public class EditTipoActivity extends AppCompatActivity {
 		editTipo = (EditText) findViewById(R.id.cajaNombreTipo);
 		spinnerTipo = (Spinner) findViewById(R.id.spinnerTipoPrenda);
 		spinnerSexo = (Spinner) findViewById(R.id.spinnerSexo);
-
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			id = extras.getInt("id");
-			textTipo = extras.getString("textEdit");
-			idTipo = extras.getInt("idTipo");
-			sexo = extras.getInt("sexo");
-		}
 
 		obtenerTiposPrenda();
 		obtenerSexo();

@@ -28,7 +28,8 @@
         <item>Calendario</item>
         <!-- <item>Base de datos</item> -->
         <item>Test de colorido</item>
-        <item>Morfología</item>        
+        <item>Morfología</item>
+        <item>Tienda</item>
         <item>Valorar app</item>
     </string-array>
 
@@ -42,6 +43,7 @@
         <!-- <item>Base de datos</item> -->
         <item>TEST DE COLORIDO</item>
         <item>MORFOLOGÍA</item>
+        <item>TIENDA</item>
         <item>VALORAR APP</item>
     </string-array>
 

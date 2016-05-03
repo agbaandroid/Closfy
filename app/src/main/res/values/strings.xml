@@ -27,6 +27,7 @@
         <!-- <item>Data base</item> -->
         <item>Colorful test</item>
         <item>Morphology</item>
+        <item>Shop</item>
         <item>Rate app</item>
     </string-array>
 
@@ -40,6 +41,7 @@
         <!-- <item>Base de datos</item> -->
         <item>COLORFUL TEST</item>
         <item>MORPHOLOGY</item>
+        <item>SHOP</item>
         <item>RATE APP</item>
     </string-array>
 
@@ -376,5 +378,12 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="ok">ES_OK</string>
+    <string name="gracias">ES_Gracias por realizar su compra. Deberá reiniciar la aplicación para que se apliquen los cambios.</string>
+    <string name="productoComprado">ES_El producto seleccionado ya está activado.</string>
+
+    <string name="deleteAds">ES_Eliminar publicidad</string>
+    <string name="txtDeleteAds">ES_Elimina toda la publicidad de la aplicación para siempre.</string>
 
 </resources>

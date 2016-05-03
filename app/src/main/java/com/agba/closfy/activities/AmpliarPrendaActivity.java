@@ -11,11 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.fragments.PrendaAmpliadaSlideFragment;
 import com.agba.closfy.modelo.Prenda;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class AmpliarPrendaActivity extends AppCompatActivity {
     private static final String KEY_CONTENT = "NuevaPrendaFragment:Content";
@@ -33,6 +37,8 @@ public class AmpliarPrendaActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private final String BD_NOMBRE = "BDClosfy";
     final GestionBBDD gestion = new GestionBBDD();
+
+    boolean isSinPublicidad;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -52,9 +58,12 @@ public class AmpliarPrendaActivity extends AppCompatActivity {
         getSupportActionBar().show();
 
         Bundle extras = getIntent().getExtras();
-        idPrenda = extras.getInt("idPrenda");
-        prendas = extras.getIntArray("prendas");
-        posi = extras.getInt("posicion");
+        if(extras != null) {
+            idPrenda = extras.getInt("idPrenda");
+            prendas = extras.getIntArray("prendas");
+            posi = extras.getInt("posicion");
+            isSinPublicidad = extras.getBoolean("isSinPublicidad");
+        }
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -113,6 +122,7 @@ public class AmpliarPrendaActivity extends AppCompatActivity {
                         prendaSeleccionada.getFavorito());
                 intent.putExtra("categoria",
                         prendaSeleccionada.getIdFoto());
+                intent.putExtra("isSinPublicidad", isSinPublicidad);
 
                 startActivityForResult(intent,
                         EDIT_PRENDA);

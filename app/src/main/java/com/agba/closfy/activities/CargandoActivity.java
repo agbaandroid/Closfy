@@ -1,27 +1,47 @@
 package com.agba.closfy.activities;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.widget.TextView;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
+import com.android.vending.billing.IInAppBillingService;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class CargandoActivity extends Activity {
 	private final String BD_NOMBRE = "BDClosfy";
 	final GestionBBDD gestion = new GestionBBDD();
-	boolean tablasCreadas = false;
 	private SQLiteDatabase db;
+
+	static final String SKU_SIN_PUBLICIDAD = "sin_publicidad";
+
+	// Productos que posee el usuario
+	boolean isSinPublicidad = false;
+
+	IInAppBillingService mService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cargando);
 
+		Intent serviceIntent = new Intent(
+				"com.android.vending.billing.InAppBillingService.BIND");
+		serviceIntent.setPackage("com.android.vending");
+		bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
 		// Asignamos el tipo de fuente
 		Typeface miPropiaTypeFace = Typeface.createFromAsset(this.getAssets(),
@@ -30,8 +50,6 @@ public class CargandoActivity extends Activity {
 
 		TextView txtCargando = (TextView) findViewById(R.id.textCargando);
 		txtCargando.setTypeface(miPropiaTypeFace);
-
-		new MyLoadingAsyncTask().execute();
 	}
 
 	public void iniciarApp() {
@@ -65,10 +83,61 @@ public class CargandoActivity extends Activity {
 		}
 		db.close();
 
+		ArrayList<String> skuList = new ArrayList<String>();
+		skuList.add(SKU_SIN_PUBLICIDAD);
+
+		Bundle querySkus = new Bundle();
+		querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
+
+		Bundle ownedItems;
+		try {
+			ownedItems = mService.getPurchases(3, getPackageName(), "inapp",
+					null);
+			int response = ownedItems.getInt("RESPONSE_CODE");
+			if (response == 0) {
+				ArrayList<String> ownedSkus = ownedItems
+						.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
+				ArrayList<String> purchaseDataList = ownedItems
+						.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+
+				for (int i = 0; i < purchaseDataList.size(); ++i) {
+					String sku = ownedSkus.get(i);
+
+					if (sku.equals(SKU_SIN_PUBLICIDAD)) {
+						isSinPublicidad = true;
+					}
+				}
+
+			}
+		} catch (RemoteException e1) {
+			return;
+		}
+
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+
+	ServiceConnection mServiceConn = new ServiceConnection() {
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			mService = null;
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			mService = IInAppBillingService.Stub.asInterface(service);
+			new MyLoadingAsyncTask().execute();
+		}
+	};
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (mServiceConn != null) {
+			unbindService(mServiceConn);
 		}
 	}
 
@@ -95,12 +164,14 @@ public class CargandoActivity extends Activity {
 
 			Intent intent;
 
+
 			if (hayCuenta) {
 				intent = new Intent(CargandoActivity.this, ClosfyActivity.class);
 			} else {
 				intent = new Intent(CargandoActivity.this,
 						ConfiguracionInicialActivity.class);
 			}
+			intent.putExtra("isSinPublicidad", isSinPublicidad);
 
 			startActivity(intent);
 			finish();

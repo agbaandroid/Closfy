@@ -72,26 +72,26 @@ public class CrearLookFragment extends Fragment {
 	static TwoWayView listPrendaCalzado = null;
 	static TwoWayView listPrendaComplemento = null;
 
+	boolean isSinPublicidad;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		Bundle bundle = getArguments();
+		if(bundle != null) {
+			isSinPublicidad = bundle.getBoolean("isSinPublicidad");
+			idRadioTemporada = bundle.getInt("idRadioTemporada");
+			favorito = bundle.getInt("favorito");
+			listIdsUtilidad = bundle.getIntegerArrayList("listIdsUtilidad");
+		}
 
 		if ((savedInstanceState != null)
 				&& savedInstanceState.containsKey(KEY_CONTENT)) {
 			mContent = savedInstanceState.getString(KEY_CONTENT);
 		}
 
-	}
-
-	public CrearLookFragment(int temporada, ArrayList<Integer> listIds, int favoritoSelec) {
-		idRadioTemporada = temporada;
-		listIdsUtilidad = listIds;
-		favorito = favoritoSelec;
-
-	}
-
-	public CrearLookFragment() {
 	}
 
 	@Override

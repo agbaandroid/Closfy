@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.agba.closfy.R;
@@ -66,6 +67,8 @@ public class TarifasActivity extends AppCompatActivity {
 
 	IInAppBillingService mService;
 
+	boolean isSinPublicidad;
+
 	private static final Random random = new Random();
 	private static final String CHARS = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!@#$";
 	String tokenCompra;
@@ -80,10 +83,19 @@ public class TarifasActivity extends AppCompatActivity {
 		serviceIntent.setPackage("com.android.vending");
 		bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
-		AdView adView;
-		adView = (AdView) findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView.loadAd(adRequest);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+		}
+
+		RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+		if (isSinPublicidad) {
+			layoutPubli.setVisibility(View.GONE);
+		} else {
+			AdView adView = (AdView) findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().build();
+			adView.loadAd(adRequest);
+		}
 
 		// Cuenta seleccionada
 		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);

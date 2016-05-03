@@ -37,6 +37,7 @@ import com.agba.closfy.fragments.NuevoMiArmarioFragment;
 import com.agba.closfy.fragments.NuevoMisLooksFragment;
 import com.agba.closfy.fragments.QueMePongoInicialFragment;
 import com.agba.closfy.fragments.TestColoridoFragment;
+import com.agba.closfy.fragments.TiendaFragment;
 import com.agba.closfy.fragments.TiposFragment;
 import com.agba.closfy.fragments.UtilidadesFragment;
 import com.agba.closfy.modelo.Cuenta;
@@ -76,6 +77,7 @@ public class ClosfyActivity extends AppCompatActivity {
 	int estilo;
 	Toolbar toolbar;
 	boolean listaCuentas;
+	boolean isSinPublicidad;
 
 	ArrayList<Cuenta> listCuentas;
 
@@ -86,6 +88,11 @@ public class ClosfyActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer_layout);
+
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+		}
 
 		View header = getLayoutInflater().inflate(R.layout.header, null);
 		View headerCuentas = getLayoutInflater().inflate(R.layout.header_cuentas, null);
@@ -202,6 +209,7 @@ public class ClosfyActivity extends AppCompatActivity {
 		layoutGestionCuentas.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ClosfyActivity.this, CuentasActivity.class);
+				intent.putExtra("isSinPublicidad", isSinPublicidad);
 				startActivityForResult(intent, 1);
 
 				navList.setVisibility(View.VISIBLE);
@@ -249,6 +257,8 @@ public class ClosfyActivity extends AppCompatActivity {
 	private void selectItem(int position) {
 
 		Fragment fragment = null;
+		Bundle bundle = new Bundle();
+		bundle.putBoolean("isSinPublicidad", isSinPublicidad);
 
 		switch (position - 1) {
 			case -1:
@@ -292,31 +302,19 @@ public class ClosfyActivity extends AppCompatActivity {
 			}
 			break;
 		case 8:
+			fragment = new TiendaFragment();
+			break;
+		case 9:
 			Intent intent1 = new Intent(
 					"android.intent.action.VIEW",
 					Uri.parse("https://play.google.com/store/apps/details?id=com.agba.closfy"));
 			startActivity(intent1);
 			break;
-		// case 9:
-		// Intent intent = new Intent(this, Preferences.class);
-		// startActivity(intent);
-		// break;
-		// case 10:
-		// Intent intent1 = null;
-		// intent1 = new Intent(
-		// "android.intent.action.VIEW",
-		// Uri.parse("https://play.google.com/store/apps/details?id=com.agudoApp.salaryApp"));
-		// startActivity(intent1);
-		// break;
-		// case 11:
-		// fragment = new TiendaFragment(isPremium, isSinPublicidad,
-		// isCategoriaPremium);
-		// break;
-		// default:
-		// break;
 		}
 
 		if (fragment != null) {
+			fragment.setArguments(bundle);
+
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.content_frame, fragment).commit();
@@ -370,7 +368,7 @@ public class ClosfyActivity extends AppCompatActivity {
 
 	// Comprobamos si debemos mostrar la publicidad o no
 	public void displayInterstitial() {
-		if(interstitial.isLoaded() && mostrarAnuncioCompleto()) {
+		if(interstitial.isLoaded() && mostrarAnuncioCompleto() && !isSinPublicidad) {
 			interstitial.show();
 		}
 	}

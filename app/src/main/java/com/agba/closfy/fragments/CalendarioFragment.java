@@ -41,6 +41,8 @@ import java.util.Locale;
 
 public class CalendarioFragment extends Fragment implements OnClickListener {
 	private static final String tag = "MyCalendarActivity";
+	private static final String KEY_CONTENT = "CalendarioFragment:Content";
+	private String mContent = "???";
 
 	private TextView currentMonthText;
 	private TextView fecha;
@@ -88,11 +90,22 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 
 	public View viewAnterior;
 	private static final String dateTemplate = "MMMM yyyy";
+	boolean isSinPublicidad;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		Bundle bundle = getArguments();
+		if(bundle != null) {
+			isSinPublicidad = bundle.getBoolean("isSinPublicidad");
+		}
+
+		if ((savedInstanceState != null)
+				&& savedInstanceState.containsKey(KEY_CONTENT)) {
+			mContent = savedInstanceState.getString(KEY_CONTENT);
+		}
 	}
 
 	@Override
@@ -239,6 +252,7 @@ public class CalendarioFragment extends Fragment implements OnClickListener {
 					SeleccionarLookActivity.class);
 			intent.putExtra("fecha", fechaString);
 			intent.putExtra("hora", 0);
+			intent.putExtra("isSinPublicidad", isSinPublicidad);
 			this.startActivity(intent);
 		}
 

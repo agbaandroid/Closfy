@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
@@ -41,18 +42,24 @@ public class InspiracionesActivity extends AppCompatActivity {
 
 	ArrayList<Prenda> listInspiraciones = new ArrayList<Prenda>();
 	GridView gridview;
-	AdView adView;
 
 	SharedPreferences prefs;
 	SharedPreferences.Editor editor;
 
 	ProgressDialog progDailog;
 
+	boolean isSinPublicidad;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.inspiraciones);
+
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+		}
 
 		// Cuenta seleccionada
 		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
@@ -78,7 +85,6 @@ public class InspiracionesActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);		
 
 		gridview = (GridView) findViewById(R.id.gridInspiraciones);
-		adView = (AdView) findViewById(R.id.adView);
 
 		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
@@ -86,9 +92,6 @@ public class InspiracionesActivity extends AppCompatActivity {
 		}
 		
 		new CargarInspiracionesTask().execute();
-		
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView.loadAd(adRequest);
 
 	}
 
@@ -127,7 +130,17 @@ public class InspiracionesActivity extends AppCompatActivity {
 		protected void onPostExecute(Void result) {
 			final GridAdapterInspiraciones gridadapter = new GridAdapterInspiraciones(
 					InspiracionesActivity.this, listInspiraciones);
-			gridview.setAdapter(gridadapter);			
+			gridview.setAdapter(gridadapter);
+
+			RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+			if (isSinPublicidad) {
+				layoutPubli.setVisibility(View.GONE);
+			} else {
+				AdView adView = (AdView) findViewById(R.id.adView);
+				AdRequest adRequest = new AdRequest.Builder().build();
+				adView.loadAd(adRequest);
+			}
+
 			progDailog.dismiss();
 		}
 	}

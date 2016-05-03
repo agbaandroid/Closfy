@@ -24,12 +24,18 @@ public class ConfiguracionInicialActivity extends ActionBarActivity {
 	LinearLayout layoutMujer;
 	int cuenta = 0;
 	ProgressDialog progDailog;
+	boolean isSinPublicidad;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.configuracion_inicial);
+
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+		}
 
 		layoutHombre = (LinearLayout) findViewById(R.id.layoutHombre);
 		layoutMujer = (LinearLayout) findViewById(R.id.layoutMujer);
@@ -97,6 +103,7 @@ public class ConfiguracionInicialActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			Intent intent = new Intent(ConfiguracionInicialActivity.this, ClosfyActivity.class);
+			intent.putExtra("isSinPublicidad", isSinPublicidad);
 			startActivity(intent);
 			finish();
 		}

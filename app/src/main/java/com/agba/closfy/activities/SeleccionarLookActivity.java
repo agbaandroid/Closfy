@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -66,6 +67,7 @@ public class SeleccionarLookActivity extends AppCompatActivity {
 
 	private Spinner spinnerUtilidades;
 	int posiUtilidad = 0;
+	boolean isSinPublicidad;
 
 
 	@Override
@@ -78,10 +80,21 @@ public class SeleccionarLookActivity extends AppCompatActivity {
 		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
 		cuentaSeleccionada = Util.cuentaSeleccionada(this, prefs);
 
-		AdView adView;
-		adView = (AdView) findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView.loadAd(adRequest);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+			fecha = extras.getString("fecha");
+			hora = extras.getInt("hora");
+		}
+
+		RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+		if (isSinPublicidad) {
+			layoutPubli.setVisibility(View.GONE);
+		} else {
+			AdView adView = (AdView) findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().build();
+			adView.loadAd(adRequest);
+		}
 
 		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
@@ -153,86 +166,10 @@ public class SeleccionarLookActivity extends AppCompatActivity {
 		spinnerUtilidades = (Spinner) findViewById(R.id.spinnerTipoPrendaArmario);
 
 		checkFavoritos = (ImageView) findViewById(R.id.checkFavoritos);
-
-		Bundle extras = getIntent().getExtras();
-		fecha = extras.getString("fecha");
-		hora = extras.getInt("hora");
-
 		registerForContextMenu(gridview);
 
 		// Rellenamos el spinner tipo
 		obtenerUtilidades();
-
-		/*botonCancelar.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				finish();
-			}
-		});
-
-		botonAceptar.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (idLook == -1) {
-
-				} else {
-					boolean ok = false;
-					boolean diaLibre = false;
-					db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-					Look lookSeleccionado = gestion.getLookById(db, idLook);
-					if (db != null) {
-						diaLibre = gestion.isDiaLibreHora(db, fecha, hora,
-								cuentaSeleccionada);
-						if (diaLibre) {
-							ok = gestion.insertarLookCalendario(db, hora,
-									fecha, lookSeleccionado.getIdLook(),
-									cuentaSeleccionada);
-						}
-					}
-					db.close();
-
-					finish();
-				}
-			}
-		});
-
-		/*spinnerUtilidades
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-					public void onItemSelected(AdapterView<?> parent,
-							View view, int position, long id) {
-
-						posiUtilidad = position;
-						new CargarLooksTask().execute();
-					}
-
-					public void onNothingSelected(AdapterView<?> parent) {
-
-					}
-				});
-
-		checkFavoritos.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (favorito == 0) {
-					favorito = 1;
-					if (estilo == 1) {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_estrella_on);
-					} else {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_corazon_on);
-					}
-				} else {
-					favorito = 0;
-					if (estilo == 1) {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_estrella_off);
-					} else {
-						checkFavoritos
-								.setBackgroundResource(R.drawable.check_corazon_off);
-					}
-				}
-				new CargarLooksTask().execute();
-			}
-		});*/
 		new CargarLooksTask().execute();
 
 	}

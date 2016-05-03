@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
@@ -27,16 +28,26 @@ public class AddUtilidadActivity extends AppCompatActivity {
 	int estilo;
 	private int cuentaSeleccionada;
 	SharedPreferences prefs;
+	boolean isSinPublicidad;
 	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nuevo_add_utilidad);
 
-		AdView adView;
-		adView = (AdView) findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView.loadAd(adRequest);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+		}
+
+		RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+		if (isSinPublicidad) {
+			layoutPubli.setVisibility(View.GONE);
+		} else {
+			AdView adView = (AdView) findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().build();
+			adView.loadAd(adRequest);
+		}
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setContentInsetsAbsolute(0, 0);

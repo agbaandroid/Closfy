@@ -50,10 +50,17 @@ public class QueMePongoInicialFragment extends Fragment {
 	int estilo;
 	ArrayList<Asesoramiento> listAsesoramientos;
 
+	boolean isSinPublicidad;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		Bundle bundle = getArguments();
+		if(bundle != null) {
+			isSinPublicidad = bundle.getBoolean("isSinPublicidad");
+		}
 
 		if ((savedInstanceState != null)
 				&& savedInstanceState.containsKey(KEY_CONTENT)) {
@@ -113,6 +120,7 @@ public class QueMePongoInicialFragment extends Fragment {
 		botonTarifas.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(), TarifasActivity.class);
+				intent.putExtra("isSinPublicidad", isSinPublicidad);
 				startActivity(intent);
 			}
 		});
@@ -188,6 +196,7 @@ public class QueMePongoInicialFragment extends Fragment {
 										int id) {
 									Intent intent = new Intent(getActivity(),
 											TarifasActivity.class);
+									intent.putExtra("isSinPublicidad", isSinPublicidad);
 									startActivity(intent);
 									dialog.cancel();
 								}

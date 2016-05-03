@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.agba.closfy.R;
@@ -39,6 +40,7 @@ public class UtilidadesFragment extends Fragment {
 
 	SharedPreferences prefs;
 	int cuentaSeleccionada;
+	boolean isSinPublicidad;
 
 	private String mContent = "???";
 
@@ -46,6 +48,11 @@ public class UtilidadesFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+
+		Bundle bundle = getArguments();
+		if(bundle != null) {
+			isSinPublicidad = bundle.getBoolean("isSinPublicidad");
+		}
 
 		if ((savedInstanceState != null)
 				&& savedInstanceState.containsKey(KEY_CONTENT)) {
@@ -74,10 +81,14 @@ public class UtilidadesFragment extends Fragment {
 		listUtiView = (ListView) this.getView().findViewById(
 				R.id.listaPestanaUtilidad);
 
-		AdView adView;
-		adView = (AdView) getView().findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		adView.loadAd(adRequest);
+		RelativeLayout layoutPubli = (RelativeLayout) getView().findViewById(R.id.layoutPubli);
+		if (isSinPublicidad) {
+			layoutPubli.setVisibility(View.GONE);
+		} else {
+			AdView adView = (AdView) getActivity().findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().build();
+			adView.loadAd(adRequest);
+		}
 
 		// Cuenta seleccionada
 		prefs = getActivity().getSharedPreferences("ficheroConf",

@@ -18,11 +18,14 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -41,6 +44,7 @@ public class PrendaBasicaActivity extends ActionBarActivity {
 
 	int estilo;
 	int cuentaSeleccionada;
+	boolean isSinPublicidad;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,6 +65,21 @@ public class PrendaBasicaActivity extends ActionBarActivity {
 
 		if (estilo == 1) {
 			toolbar.setBackgroundResource(R.color.azul);
+		}
+
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+			tipoPrenda = extras.getInt("tipoPrenda");
+		}
+
+		RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+		if (isSinPublicidad) {
+			layoutPubli.setVisibility(View.GONE);
+		} else {
+			AdView adView = (AdView) findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().build();
+			adView.loadAd(adRequest);
 		}
 
 		// Inflate the custom view and add click handlers for the buttons
@@ -100,9 +119,6 @@ public class PrendaBasicaActivity extends ActionBarActivity {
 		// Set the custom view and allow the bar to show it
 		layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_HORIZONTAL;
 		getSupportActionBar().setCustomView(actionBarButtons, layoutParams);
-
-		Bundle bundle = getIntent().getExtras();
-		tipoPrenda = bundle.getInt("tipoPrenda");
 
 		gridview = (GridView) findViewById(R.id.gridPrendaBasica);
 

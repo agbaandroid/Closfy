@@ -70,7 +70,7 @@
                         android:layout_height="250dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/marco"
+                        android:background="@drawable/marco_sin_image"
                         android:gravity="center"
                         android:orientation="horizontal">
 

@@ -67,23 +67,26 @@ public class NuevoEditCuentaActivity extends AppCompatActivity {
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
 
-        AdView adView;
-        adView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+            idCuenta = extras.getString("idCuenta");
+        }
+
+        RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+        if (isSinPublicidad) {
+            layoutPubli.setVisibility(View.GONE);
+        } else {
+            AdView adView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
+        }
 
         nombre = (EditText) findViewById(R.id.nombre);
         spinnerIconUser = (Spinner) findViewById(R.id.spinnerIconCuenta);
         spinnerSexo = (Spinner) findViewById(R.id.spinnerSexoCuenta);
 
         cargarSpinners();
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            idCuenta = extras.getString("idCuenta");
-            isPremium = extras.getBoolean("isPremium", false);
-            isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
-        }
 
         db = openOrCreateDatabase(BD_NOMBRE, 1, null);
         if (db != null) {

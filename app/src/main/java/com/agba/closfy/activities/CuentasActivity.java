@@ -62,15 +62,18 @@ public class CuentasActivity extends AppCompatActivity {
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
 
-        AdView adView;
-        adView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            isPremium = extras.getBoolean("isPremium", false);
             isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+        }
+
+        RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+        if (isSinPublicidad) {
+            layoutPubli.setVisibility(View.GONE);
+        } else {
+            AdView adView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
         }
 
         getSupportActionBar().setTitle(

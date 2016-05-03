@@ -42,10 +42,16 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
 
     SharedPreferences prefs;
     int cuentaSeleccionada;
+    boolean isSinPublicidad;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crear_look_principal);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setContentInsetsAbsolute(0, 0);
@@ -85,22 +91,27 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
         doneActionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(paso == 1) {
+                if (paso == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isSinPublicidad", isSinPublicidad);
+                    bundle.putInt("idRadioTemporada", idRadioTemporada);
+                    bundle.putIntegerArrayList("listIdsUtilidad", listIdsUtilidad);
+                    bundle.putInt("favorito", favorito);
+
                     if (estilo == 0) {
-                        fragment = new CrearLookFragment(idRadioTemporada,
-                                listIdsUtilidad, favorito);
+                        fragment = new CrearLookFragment();
                     } else {
-                        fragment = new CrearLookFragmentHombre(idRadioTemporada,
-                                listIdsUtilidad, favorito);
+                        fragment = new CrearLookFragmentHombre();
                     }
 
                     if (fragment != null) {
+                        fragment.setArguments(bundle);
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.crearlookFragment, fragment).commit();
 
                     }
-                }else{
+                } else {
                     String prendas = obtenerCadenaPrendas();
 
                     // obtenemos la cadena de utilidades
@@ -113,6 +124,7 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
                     bundle.putString("cadenaPrendas", prendas);
                     bundle.putString("utilidades", utilidades);
                     bundle.putInt("temporada", idRadioTemporada);
+                    bundle.putBoolean("isSinPublicidad", isSinPublicidad);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, CREAR_LOOK);
                     finish();
@@ -130,8 +142,12 @@ public class CrearLookPrincipalActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isSinPublicidad", isSinPublicidad);
+
         fragment = new CrearLookInicioFragment();
         if (fragment != null) {
+            fragment.setArguments(bundle);
             FragmentManager fragmentManager = this
                     .getSupportFragmentManager();
             fragmentManager.beginTransaction()

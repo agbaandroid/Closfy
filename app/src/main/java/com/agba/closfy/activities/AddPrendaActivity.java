@@ -31,6 +31,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,6 +103,8 @@ public class AddPrendaActivity extends AppCompatActivity {
     private static final int MENSAJE_ERROR_TIPO = 2;
     private static final int MENSAJE_ERROR_TIPO_BASICA = 3;
 
+    boolean isSinPublicidad;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,10 +114,19 @@ public class AddPrendaActivity extends AppCompatActivity {
         toolbar.setContentInsetsAbsolute(0, 0);
         setSupportActionBar(toolbar);
 
-        AdView adView;
-        adView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+        }
+
+        RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+        if (isSinPublicidad) {
+            layoutPubli.setVisibility(View.GONE);
+        } else {
+            AdView adView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
+        }
 
         // Cuenta seleccionada
         prefs = getSharedPreferences("ficheroConf",
@@ -263,6 +275,7 @@ public class AddPrendaActivity extends AppCompatActivity {
                         Intent intent = new Intent(AddPrendaActivity.this,
                                 PrendaBasicaActivity.class);
                         intent.putExtra("tipoPrenda", idTipo);
+                        intent.putExtra("isSinPublicidad", isSinPublicidad);
                         startActivityForResult(intent, PRENDA_BASICA);
                     }
                 } else { // pick from file
