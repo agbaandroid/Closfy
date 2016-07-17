@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,6 +41,7 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -529,10 +528,12 @@ public class AddPrendaActivity extends AppCompatActivity {
                     int prendaBasicaSeleccionada = data.getExtras().getInt(
                             "prendaBasicaSeleccionada");
 
-                    Bitmap bitmap = Util.obtenerImagenPrendaBasica(this,
+                    int bitmap = Util.obtenerImagenPrendaBasica(this,
                             idTipo, prendaBasicaSeleccionada, 2, estilo);
 
-                    imagenSeleccionada.setImageBitmap(bitmap);
+                    Glide.with(AddPrendaActivity.this).load(bitmap).fitCenter().into(imagenSeleccionada);
+
+                    //imagenSeleccionada.setImageBitmap(bitmap);
 
                     layoutImagen.setVisibility(View.GONE);
                     layoutImagenSin.setVisibility(View.VISIBLE);

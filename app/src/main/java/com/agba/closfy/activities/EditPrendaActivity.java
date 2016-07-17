@@ -43,6 +43,7 @@ import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -122,7 +123,7 @@ public class EditPrendaActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             isSinPublicidad = extras.getBoolean("isSinPublicidad");
         }
 
@@ -394,9 +395,20 @@ public class EditPrendaActivity extends AppCompatActivity {
         }
         db.close();
 
-        Bitmap original = Util.obtenerPrendaBitmap(this, prendaSeleccionada, 0, estilo);
+        if (prendaSeleccionada.getIdFoto() != null && !prendaSeleccionada.getIdFoto().equals("")) {
+            String filePath = Environment.getExternalStorageDirectory()
+                    + "/Closfy/Prendas/" + prendaSeleccionada.getIdFoto();
+            Glide.with(EditPrendaActivity.this).load(filePath).fitCenter().into(imagenSeleccionada);
+        } else if (prendaSeleccionada.getPrendaBasica() == 1) {
+            int drawable = Util.obtenerImagenPrendaBasica(this,
+                    prendaSeleccionada.getIdTipo(), prendaSeleccionada.getIdPrendaBasica(),
+                    0, estilo);
 
-        imagenSeleccionada.setImageBitmap(original);
+            Glide.with(EditPrendaActivity.this).load(drawable).fitCenter().into(imagenSeleccionada);
+        }
+
+        //Bitmap original = Util.obtenerPrendaBitmap(this, prendaSeleccionada, 0, estilo);
+        //imagenSeleccionada.setImageBitmap(original);
         prendaBasica = prendaSeleccionada.getPrendaBasica();
         idPrendaBasica = prendaSeleccionada.getIdPrendaBasica();
         idFoto = prendaSeleccionada.getIdFoto();
@@ -520,10 +532,17 @@ public class EditPrendaActivity extends AppCompatActivity {
                     int prendaBasicaSeleccionada = data.getExtras().getInt(
                             "prendaBasicaSeleccionada");
 
-                    Bitmap bitmap = Util.obtenerImagenPrendaBasica(this,
-                            idTipo, prendaBasicaSeleccionada, 2, estilo);
 
-                    imagenSeleccionada.setImageBitmap(bitmap);
+                    int drawable = Util.obtenerImagenPrendaBasica(this,
+                            idTipo, prendaBasicaSeleccionada,
+                            2, estilo);
+
+                    Glide.with(EditPrendaActivity.this).load(drawable).fitCenter().into(imagenSeleccionada);
+
+                    //Bitmap bitmap = Util.obtenerImagenPrendaBasica(this,
+                    //      idTipo, prendaBasicaSeleccionada, 2, estilo);
+
+                    //imagenSeleccionada.setImageBitmap(bitmap);
 
                     // bitmap.recycle();
                     // imagenGirada.recycle();

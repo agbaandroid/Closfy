@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
+import com.bumptech.glide.Glide;
 
 public class PrendaAmpliadaSlideFragment extends Fragment {
 
@@ -77,9 +79,21 @@ public class PrendaAmpliadaSlideFragment extends Fragment {
         }
         db.close();
 
-        prenda = Util.obtenerImagenesPrendas(getActivity(), prenda, 0, estilo);
+        //prenda = Util.obtenerImagenesPrendas(getActivity(), prenda, 0, estilo);
 
-        imagenAmpliada.setImageDrawable(prenda.getFoto());
+        if (prenda.getIdFoto() != null && !prenda.getIdFoto().equals("")) {
+            String filePath = Environment.getExternalStorageDirectory()
+                    + "/Closfy/Prendas/" + prenda.getIdFoto();
+
+            Glide.with(PrendaAmpliadaSlideFragment.this).load(filePath).fitCenter().into(imagenAmpliada);
+        } else if (prenda.getPrendaBasica() == 1) {
+            int bitmap = Util.obtenerImagenPrendaBasica(getActivity(),
+                    prenda.getIdTipo(), prenda.getIdPrendaBasica(),
+                    0, estilo);
+            Glide.with(PrendaAmpliadaSlideFragment.this).load(bitmap).fitCenter().into(imagenAmpliada);
+        }
+
+        //imagenAmpliada.setImageDrawable(prenda.getFoto());
     }
 
     /**

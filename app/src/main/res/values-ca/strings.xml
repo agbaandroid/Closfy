@@ -387,4 +387,7 @@
 
     <string name="deleteAds">Eliminar publicidad</string>
     <string name="txtDeleteAds">Elimina toda la publicidad de la aplicación para siempre.</string>
+
+    <string name="done">Hecho</string>
+    <string name="skip">Omitir</string>
 </resources>

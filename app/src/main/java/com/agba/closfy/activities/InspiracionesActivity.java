@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.agba.closfy.R;
@@ -24,6 +25,7 @@ import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -31,203 +33,201 @@ import java.util.ArrayList;
 
 public class InspiracionesActivity extends AppCompatActivity {
 
-	private SQLiteDatabase db;
-	private final String BD_NOMBRE = "BDClosfy";
-	final GestionBBDD gestion = new GestionBBDD();
+    private SQLiteDatabase db;
+    private final String BD_NOMBRE = "BDClosfy";
+    final GestionBBDD gestion = new GestionBBDD();
 
-	int[] inspiraciones;
+    int[] inspiraciones;
 
-	int cuentaSeleccionada;
-	int estilo;
+    int cuentaSeleccionada;
+    int estilo;
 
-	ArrayList<Prenda> listInspiraciones = new ArrayList<Prenda>();
-	GridView gridview;
+    ArrayList<Prenda> listInspiraciones = new ArrayList<Prenda>();
+    GridView gridview;
 
-	SharedPreferences prefs;
-	SharedPreferences.Editor editor;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
-	ProgressDialog progDailog;
+    ProgressDialog progDailog;
 
-	boolean isSinPublicidad;
+    boolean isSinPublicidad;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.inspiraciones);
+        setContentView(R.layout.inspiraciones);
 
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
-		}
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+        }
 
-		// Cuenta seleccionada
-		prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
-		cuentaSeleccionada = Util.cuentaSeleccionada(this, prefs);
+        // Cuenta seleccionada
+        prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
+        cuentaSeleccionada = Util.cuentaSeleccionada(this, prefs);
 
-		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-		if (db != null) {
-			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
-		}
+        db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+        if (db != null) {
+            estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
+        }
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-		if (estilo == 1) {
-			toolbar.setBackgroundResource(R.color.azul);
-		}
+        if (estilo == 1) {
+            toolbar.setBackgroundResource(R.color.azul);
+        }
 
-		setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
-		getSupportActionBar().setTitle(
-				getResources().getString(R.string.inspiraciones));
+        getSupportActionBar().setTitle(
+                getResources().getString(R.string.inspiraciones));
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);		
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		gridview = (GridView) findViewById(R.id.gridInspiraciones);
+        gridview = (GridView) findViewById(R.id.gridInspiraciones);
 
-		db = openOrCreateDatabase(BD_NOMBRE, 1, null);
-		if (db != null) {
-			estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
-		}
-		
-		new CargarInspiracionesTask().execute();
+        db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+        if (db != null) {
+            estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
+        }
 
-	}
+        new CargarInspiracionesTask().execute();
 
-	public void obtenerPrendas() {
+    }
 
-		if (estilo == 1) {
-			listInspiraciones = Util.obtenerInspiraciones(this, estilo);
-		} else {
-			listInspiraciones = Util.obtenerInspiraciones(this, estilo);
-		}
-	}
+    public void obtenerPrendas() {
+        listInspiraciones = Util.obtenerInspiraciones(this, estilo);
+    }
 
-	public class CargarInspiracionesTask extends AsyncTask<Integer, Void, Void> {
+    public class CargarInspiracionesTask extends AsyncTask<Integer, Void, Void> {
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			progDailog = new ProgressDialog(InspiracionesActivity.this);
-			progDailog.setIndeterminate(false);
-			progDailog.setMessage("Cargando ...");
-			progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			progDailog.setCancelable(true);
-			progDailog.show();
-		}
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progDailog = new ProgressDialog(InspiracionesActivity.this);
+            progDailog.setIndeterminate(false);
+            progDailog.setMessage(getResources().getString(R.string.cargando));
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();
+        }
 
-		// Decode image in background.
-		@Override
-		protected Void doInBackground(Integer... params) {
-			// Recuperamos las prendas
-			obtenerPrendas();
-			return null;
-		}
+        // Decode image in background.
+        @Override
+        protected Void doInBackground(Integer... params) {
+            // Recuperamos las prendas
+            obtenerPrendas();
+            return null;
+        }
 
-		// Once complete, see if ImageView is still around and set bitmap.
-		@Override
-		protected void onPostExecute(Void result) {
-			final GridAdapterInspiraciones gridadapter = new GridAdapterInspiraciones(
-					InspiracionesActivity.this, listInspiraciones);
-			gridview.setAdapter(gridadapter);
+        // Once complete, see if ImageView is still around and set bitmap.
+        @Override
+        protected void onPostExecute(Void result) {
+            final GridAdapterInspiraciones gridadapter = new GridAdapterInspiraciones(
+                    InspiracionesActivity.this, listInspiraciones);
+            gridview.setAdapter(gridadapter);
 
-			RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
-			if (isSinPublicidad) {
-				layoutPubli.setVisibility(View.GONE);
-			} else {
-				AdView adView = (AdView) findViewById(R.id.adView);
-				AdRequest adRequest = new AdRequest.Builder().build();
-				adView.loadAd(adRequest);
-			}
+            RelativeLayout layoutPubli = (RelativeLayout) findViewById(R.id.layoutPubli);
+            if (isSinPublicidad) {
+                layoutPubli.setVisibility(View.GONE);
+            } else {
+                AdView adView = (AdView) findViewById(R.id.adView);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                adView.loadAd(adRequest);
+            }
 
-			progDailog.dismiss();
-		}
-	}
+            progDailog.dismiss();
+        }
+    }
 
-	public class GridAdapterInspiraciones extends BaseAdapter implements
-			OnClickListener {
-		private Context context;
-		ArrayList<Prenda> listaPrendas = new ArrayList<Prenda>();
+    public class GridAdapterInspiraciones extends BaseAdapter implements
+            OnClickListener {
+        private Context context;
+        ArrayList<Prenda> listaPrendas = new ArrayList<Prenda>();
 
-		public GridAdapterInspiraciones(Context c, ArrayList<Prenda> listPrendas) {
-			context = c;
-			listaPrendas = listPrendas;
-		}
+        public GridAdapterInspiraciones(Context c, ArrayList<Prenda> listPrendas) {
+            context = c;
+            listaPrendas = listPrendas;
+        }
 
-		public int getCount() {
-			return listaPrendas.size();
-		}
+        public int getCount() {
+            return listaPrendas.size();
+        }
 
-		public Object getItem(int position) {
-			return listaPrendas.get(position);
-		}
+        public Object getItem(int position) {
+            return listaPrendas.get(position);
+        }
 
-		public long getItemId(int position) {
-			return 0;
-		}
+        public long getItemId(int position) {
+            return 0;
+        }
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
 
-			View v;
-			if (convertView == null) { // if it's not recycled, initialize some
-										// attributes
-				LayoutInflater inflater = (LayoutInflater) context
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = inflater.inflate(R.layout.mis_looks_adapter_nuevo, parent, false);
-			} else {
-				v = (View) convertView;
-			}
+            View v;
+            if (convertView == null) { // if it's not recycled, initialize some
+                // attributes
+                LayoutInflater inflater = (LayoutInflater) context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = inflater.inflate(R.layout.mis_looks_adapter_nuevo, parent, false);
+            } else {
+                v = (View) convertView;
+            }
 
-			ImageView imagenPrenda = (ImageView) v
-					.findViewById(R.id.imagenLook);
+            LinearLayout layoutImagenLook = (LinearLayout) v.findViewById(R.id.layoutImagenLook);
+            ImageView imagenPrenda = (ImageView) v
+                    .findViewById(R.id.imagenLook);
 
-			imagenPrenda.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			imagenPrenda.setPadding(5, 5, 5, 5);
 
-			imagenPrenda.setOnClickListener(this);
-			imagenPrenda.setImageDrawable(listaPrendas.get(position).getFoto());
+            //imagenPrenda.setPadding(5, 5, 5, 5);
 
-			imagenPrenda.setTag(listaPrendas.get(position).getIdPrenda());
-			v.setTag(listaPrendas.get(position).getIdPrenda());
+            layoutImagenLook.setOnClickListener(this);
+			//imagenPrenda.setImageDrawable(listaPrendas.get(position).getFoto());
 
-			return v;
-		}
+            Glide.with(InspiracionesActivity.this).load(listaPrendas.get(position).getIdDrawable()).into(imagenPrenda);
 
-		// Al pulsar un d�a del calendario
-		@Override
-		public void onClick(View view) {
-			int position = (Integer) view.getTag();
-			Intent intent = new Intent(InspiracionesActivity.this, NuevoAmpliarInspiracionActivity.class);
-			intent.putExtra("idInspiracion", position);
-			intent.putExtra("inspiraciones", obtenerCadenaInspiraciones());
-			intent.putExtra("posicion", position);
-			startActivity(intent);
-		}
-	}
+            layoutImagenLook.setTag(listaPrendas.get(position).getIdPrenda());
+            //v.setTag(listaPrendas.get(position).getIdPrenda());
 
-	public int[] obtenerCadenaInspiraciones() {
-		inspiraciones = new int[listInspiraciones.size()];
+            return v;
+        }
 
-		for (int i = 0; i < listInspiraciones.size(); i++) {
-			Prenda inspiracion = listInspiraciones.get(i);
-			inspiraciones[i] = inspiracion.getIdPrenda();
-		}
+        // Al pulsar un d�a del calendario
+        @Override
+        public void onClick(View view) {
+            int position = (Integer) view.getTag();
+            Intent intent = new Intent(InspiracionesActivity.this, NuevoAmpliarInspiracionActivity.class);
+            intent.putExtra("idInspiracion", position);
+            intent.putExtra("inspiraciones", obtenerCadenaInspiraciones());
+            intent.putExtra("posicion", position);
+            startActivity(intent);
+        }
+    }
 
-		return inspiraciones;
-	}
+    public int[] obtenerCadenaInspiraciones() {
+        inspiraciones = new int[listInspiraciones.size()];
 
-	// Aadiendo funcionalidad a las opciones de men
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
+        for (int i = 0; i < listInspiraciones.size(); i++) {
+            Prenda inspiracion = listInspiraciones.get(i);
+            inspiraciones[i] = inspiracion.getIdPrenda();
+        }
+
+        return inspiraciones;
+    }
+
+    // Aadiendo funcionalidad a las opciones de men
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

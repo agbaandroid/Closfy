@@ -16,6 +16,7 @@ import com.agba.closfy.R;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Look;
 import com.agba.closfy.util.Util;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -73,10 +74,8 @@ public class InspiracionAmpliadaSlideFragment extends Fragment {
             estilo = gestion.getEstiloCuenta(db, cuentaSeleccionada);
         }
 
-        Bitmap inspiracion = Util.obtenerImagenInspiracion(getActivity(), getPageNumber(), estilo);
-
-        Bitmap prenda = Util.obtenerImagenInspiracion(getActivity(), mPageNumber, estilo);
-        imagenAmpliada.setImageBitmap(prenda);
+        int inspiracion = Util.obtenerImagenInspiracion(getActivity(), mPageNumber, estilo);
+        Glide.with(InspiracionAmpliadaSlideFragment.this).load(inspiracion).fitCenter().into(imagenAmpliada);
     }
 
     /**

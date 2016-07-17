@@ -382,4 +382,6 @@
 
     <string name="deleteAds">Remove advertise</string>
     <string name="txtDeleteAds">Remove all the advertise forever.</string>
+    <string name="done">Done</string>
+    <string name="skip">Skip</string>
 </resources>

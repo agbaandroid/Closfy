@@ -1659,8 +1659,8 @@ public class EditarResumenLookFragment extends Fragment {
 		}
 		db.close();
 
-		listPrendas = Util.obtenerImagenesPrendas(getActivity(), listPrendas,
-				2, estilo);
+		//listPrendas = Util.obtenerImagenesPrendas(getActivity(), listPrendas,
+		//		2, estilo);
 	}
 
 	public class CargarPrendasTask extends AsyncTask<Integer, Void, Void> {
@@ -1690,7 +1690,7 @@ public class EditarResumenLookFragment extends Fragment {
 		@Override
 		protected void onPostExecute(Void result) {
 			ListAdapterAddPrendasLook mAdapter = new ListAdapterAddPrendasLook(
-					getActivity(), listPrendas);
+					getActivity(), listPrendas, estilo);
 			navList.setAdapter(mAdapter);
 
 			if (tipoPrendaSeleccionada != 0) {

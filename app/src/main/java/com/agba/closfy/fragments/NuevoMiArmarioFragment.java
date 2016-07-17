@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
 import com.agba.closfy.util.Util;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import java.util.ArrayList;
@@ -409,8 +411,8 @@ public class NuevoMiArmarioFragment extends Fragment {
 					utilidad.getIdUtilidad());
 		}
 
-		listPrendas = Util.obtenerImagenesPrendas(getActivity(), listPrendas,
-				2, estilo);
+		//listPrendas = Util.obtenerImagenesPrendas(getActivity(), listPrendas,
+		//		2, estilo);
 
 		return listPrendas;
 
@@ -658,6 +660,19 @@ public class NuevoMiArmarioFragment extends Fragment {
 			imagenPrenda.setImageDrawable(listaPrendas.get(position).getFoto());
 			imagenPrenda.getLayoutParams().height = 350;
 			imagenPrenda.getLayoutParams().width = 300;
+
+			if (listaPrendas.get(position).getIdFoto() != null && !listaPrendas.get(position).getIdFoto().equals("")) {
+				String filePath = Environment.getExternalStorageDirectory()
+						+ "/Closfy/Prendas/" + listaPrendas.get(position).getIdFoto();
+				Glide.with(NuevoMiArmarioFragment.this).load(filePath).fitCenter().into(imagenPrenda);
+			} else if (listaPrendas.get(position).getPrendaBasica() == 1) {
+				int drawable = Util.obtenerImagenPrendaBasica(context,
+						listaPrendas.get(position).getIdTipo(), listaPrendas.get(position).getIdPrendaBasica(),
+						0, estilo);
+
+				Glide.with(NuevoMiArmarioFragment.this).load(drawable).fitCenter().into(imagenPrenda);
+			}
+
 			return v;
 		}
 

@@ -385,4 +385,7 @@ atender..</string>
 
     <string name="deleteAds">Remova os anúncios</string>
     <string name="txtDeleteAds">Remova toda a aplicação de publicidade para sempre.</string>
+
+    <string name="done">Hecho</string>
+    <string name="skip">Omitir</string>
 </resources>

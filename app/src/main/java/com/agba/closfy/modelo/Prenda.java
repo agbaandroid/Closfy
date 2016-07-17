@@ -13,6 +13,7 @@ public class Prenda {
     private int favorito;
     private String idFoto;
     private Drawable foto;
+    private int idDrawable;
     private String utilidades;
 
     public int getIdPrenda() {
@@ -93,5 +94,13 @@ public class Prenda {
 
     public void setIdSubTipo(int idSubTipo) {
         this.idSubTipo = idSubTipo;
+    }
+
+    public int getIdDrawable() {
+        return idDrawable;
+    }
+
+    public void setIdDrawable(int idDrawable) {
+        this.idDrawable = idDrawable;
     }
 }

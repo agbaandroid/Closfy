@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.agba.closfy.activities.CrearLookPrincipalActivity;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.util.Util;
+import com.bumptech.glide.Glide;
 
 import org.lucasr.twowayview.TwoWayView;
 
@@ -208,7 +210,7 @@ public class CrearLookFragmentHombre extends Fragment {
 
         db.close();
 
-        listPrendasSup = Util.obtenerImagenesPrendas(getActivity(),
+        /*listPrendasSup = Util.obtenerImagenesPrendas(getActivity(),
                 listPrendasSup, 2, estilo);
         listPrendasInf = Util.obtenerImagenesPrendas(getActivity(),
                 listPrendasInf, 2, estilo);
@@ -219,7 +221,7 @@ public class CrearLookFragmentHombre extends Fragment {
         listPrendasCalzado = Util.obtenerImagenesPrendas(getActivity(),
                 listPrendasCalzado, 2, estilo);
         listPrendasComplemento = Util.obtenerImagenesPrendas(getActivity(),
-                listPrendasComplemento, 2, estilo);
+                listPrendasComplemento, 2, estilo);*/
     }
 
     public class ListAdapterLooks extends BaseAdapter implements
@@ -270,7 +272,20 @@ public class CrearLookFragmentHombre extends Fragment {
 
             ImageView imagenPrenda = (ImageView) v
                     .findViewById(R.id.imagePrendaLook);
-            imagenPrenda.setImageDrawable(prenda.getFoto());
+
+            if (prenda.getIdFoto() != null && !prenda.getIdFoto().equals("")) {
+                String filePath = Environment.getExternalStorageDirectory()
+                        + "/Closfy/Prendas/" + prenda.getIdFoto();
+
+                Glide.with(CrearLookFragmentHombre.this).load(filePath).fitCenter().into(imagenPrenda);
+            } else if (prenda.getPrendaBasica() == 1) {
+                int bitmap = Util.obtenerImagenPrendaBasica(getActivity(),
+                        prenda.getIdTipo(), prenda.getIdPrendaBasica(),
+                        0, estilo);
+                Glide.with(CrearLookFragmentHombre.this).load(bitmap).fitCenter().into(imagenPrenda);
+            }
+
+            //imagenPrenda.setImageDrawable(prenda.getFoto());
 
             ImageView imagenCheck = (ImageView) v.findViewById(R.id.imagecheck);
 
