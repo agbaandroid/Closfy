@@ -1,7 +1,9 @@
 package com.agba.closfy.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -25,6 +27,7 @@ public class ConfiguracionInicialActivity extends ActionBarActivity {
 	int cuenta = 0;
 	ProgressDialog progDailog;
 	boolean isSinPublicidad;
+	SharedPreferences prefs;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +105,17 @@ public class ConfiguracionInicialActivity extends ActionBarActivity {
 		// Once complete, see if ImageView is still around and set bitmap.
 		@Override
 		protected void onPostExecute(Void result) {
-			Intent intent = new Intent(ConfiguracionInicialActivity.this, ClosfyActivity.class);
+			Intent intent;
+
+			prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
+			boolean tutorialShowed = prefs.getBoolean("tutorialShowed", false);
+
+			if(tutorialShowed){
+				intent = new Intent(ConfiguracionInicialActivity.this, ClosfyActivity.class);
+			}else{
+				intent = new Intent(ConfiguracionInicialActivity.this, TutorialActivity.class);
+			}
+
 			intent.putExtra("isSinPublicidad", isSinPublicidad);
 			startActivity(intent);
 			finish();

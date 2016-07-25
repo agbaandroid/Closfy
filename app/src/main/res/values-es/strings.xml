@@ -29,6 +29,7 @@
         <!-- <item>Base de datos</item> -->
         <item>Test de colorido</item>
         <item>Morfología</item>
+        <item>Tutorial</item>
         <item>Tienda</item>
         <item>Valorar app</item>
     </string-array>
@@ -43,6 +44,7 @@
         <!-- <item>Base de datos</item> -->
         <item>TEST DE COLORIDO</item>
         <item>MORFOLOGÍA</item>
+        <item>TUTORIAL</item>
         <item>TIENDA</item>
         <item>VALORAR APP</item>
     </string-array>

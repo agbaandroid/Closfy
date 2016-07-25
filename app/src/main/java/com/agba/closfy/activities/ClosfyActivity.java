@@ -302,9 +302,14 @@ public class ClosfyActivity extends AppCompatActivity {
 			}
 			break;
 		case 8:
-			fragment = new TiendaFragment();
+			Intent intent = new Intent(ClosfyActivity.this, TutorialActivity.class);
+			intent.putExtra("isMenu", true);
+			startActivity(intent);
 			break;
 		case 9:
+			fragment = new TiendaFragment();
+			break;
+		case 10:
 			Intent intent1 = new Intent(
 					"android.intent.action.VIEW",
 					Uri.parse("https://play.google.com/store/apps/details?id=com.agba.closfy"));

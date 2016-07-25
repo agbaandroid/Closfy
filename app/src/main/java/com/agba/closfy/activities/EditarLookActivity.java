@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -55,7 +56,7 @@ public class EditarLookActivity extends AppCompatActivity {
     private Spinner spinnerTemporada;
 
     LinearLayout notas;
-    TextView textNotas;
+    EditText textNotas;
     String notasString = "";
 
     int estilo;
@@ -150,7 +151,7 @@ public class EditarLookActivity extends AppCompatActivity {
         listUtilidadesView = (ListView) this.findViewById(R.id.listUtilidades);
 
         notas = (LinearLayout) findViewById(R.id.notas);
-        textNotas = (TextView) findViewById(R.id.textNotas);
+        textNotas = (EditText) findViewById(R.id.textNotas);
 
         ArrayList<Utilidad> listUtilidades = new ArrayList<Utilidad>();
 

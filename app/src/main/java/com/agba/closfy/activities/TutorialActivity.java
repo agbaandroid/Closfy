@@ -3,6 +3,7 @@ package com.agba.closfy.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.AdView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,12 +33,40 @@ public class TutorialActivity extends AppCompatActivity {
     TextView done;
     TextView skip;
     ProgressDialog progDailog;
-    Integer[] IMAGES = {R.drawable.bienvenidoes, R.drawable.tutorial1es, R.drawable.tutorial2es, R.drawable.tutorial3es, R.drawable.tutorial4es, R.drawable.tutorial5es};
+    Integer[] IMAGES = new Integer[6];
+    boolean isSinPublicidad = false;
+    boolean isMenu = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorial);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            isSinPublicidad = extras.getBoolean("isSinPublicidad", false);
+            isMenu = extras.getBoolean("isMenu", false);
+        }
+
+        Locale locale = Locale.getDefault();
+        String languaje = locale.getLanguage();
+
+        if (languaje.equals("es") || languaje.equals("es-rUS")
+                || languaje.equals("ca")) {
+            IMAGES[0] = R.drawable.bienvenidoes;
+            IMAGES[1] = R.drawable.tutorial1es;
+            IMAGES[2] = R.drawable.tutorial2es;
+            IMAGES[3] = R.drawable.tutorial3es;
+            IMAGES[4] = R.drawable.tutorial4es;
+            IMAGES[5] = R.drawable.tutorial5es;
+        }else{
+            IMAGES[0] = R.drawable.bienvenidoen1;
+            IMAGES[1] = R.drawable.tutorial1en;
+            IMAGES[2] = R.drawable.tutorial2en;
+            IMAGES[3] = R.drawable.tutorial3en;
+            IMAGES[4] = R.drawable.tutorial4en;
+            IMAGES[5] = R.drawable.tutorial5en;
+        }
 
         done = (TextView) findViewById(R.id.botonDone);
         skip = (TextView) findViewById(R.id.botonSkip);
@@ -145,14 +175,22 @@ public class TutorialActivity extends AppCompatActivity {
         // Decode image in background.
         @Override
         protected Void doInBackground(Integer... params) {
-            Intent intent = new Intent(TutorialActivity.this, ClosfyActivity.class);
-            startActivity(intent);
+            if(!isMenu){
+                Intent intent = new Intent(TutorialActivity.this, ClosfyActivity.class);
+                intent.putExtra("isSinPublicidad", isSinPublicidad);
+                startActivity(intent);
+            }
             return null;
         }
 
         // Once complete, see if ImageView is still around and set bitmap.
         @Override
         protected void onPostExecute(Void result) {
+            SharedPreferences prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("tutorialShowed", true);
+            editor.commit();
+
             progDailog.dismiss();
             finish();
         }

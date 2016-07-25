@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ public class CargandoActivity extends Activity {
 
 	// Productos que posee el usuario
 	boolean isSinPublicidad = false;
+	SharedPreferences prefs;
 
 	IInAppBillingService mService;
 
@@ -166,7 +168,13 @@ public class CargandoActivity extends Activity {
 
 
 			if (hayCuenta) {
-				intent = new Intent(CargandoActivity.this, ClosfyActivity.class);
+				prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
+				boolean tutorialShowed = prefs.getBoolean("tutorialShowed", false);
+				if(tutorialShowed){
+					intent = new Intent(CargandoActivity.this, ClosfyActivity.class);
+				}else{
+					intent = new Intent(CargandoActivity.this, TutorialActivity.class);
+				}
 			} else {
 				intent = new Intent(CargandoActivity.this,
 						ConfiguracionInicialActivity.class);

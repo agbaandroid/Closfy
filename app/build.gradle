@@ -8,8 +8,8 @@ android {
         applicationId "com.agba.closfy"
         minSdkVersion 11
         targetSdkVersion 20
-        versionCode 23
-        versionName "2.1.2"
+        versionCode 24
+        versionName "2.1.3"
     }
     buildTypes {
         release {

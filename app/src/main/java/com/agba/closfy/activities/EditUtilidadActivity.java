@@ -28,10 +28,8 @@ public class EditUtilidadActivity extends AppCompatActivity {
 	private EditText editUti;
 	private int id;
 	private String textEdit;
-	LinearLayout layoutEditUti;
 	
 	int estilo;
-	private int cuentaSeleccionada;
 	SharedPreferences prefs;
 	boolean isSinPublicidad;
 
@@ -74,7 +72,12 @@ public class EditUtilidadActivity extends AppCompatActivity {
 		cancelActionView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				boolean ok = gestion.deleteUtilidad(db, String.valueOf(id));
+				boolean ok = false;
+				db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+				if (db != null) {
+					ok = gestion.deleteUtilidad(db, String.valueOf(id));
+				}
+
 				if (ok) {
 					Context context = getApplicationContext();
 					CharSequence textMsg = getResources()
@@ -116,7 +119,12 @@ public class EditUtilidadActivity extends AppCompatActivity {
 						}
 					}
 
-					boolean ok = gestion.editUtilidad(db, text.trim(), String.valueOf(id));
+					boolean ok = false;
+					db = openOrCreateDatabase(BD_NOMBRE, 1, null);
+					if (db != null) {
+						ok = gestion.editUtilidad(db, text.trim(), String.valueOf(id));
+					}
+
 					if (ok) {
 						Context context = getApplicationContext();
 						CharSequence textMsg = getResources().getString(

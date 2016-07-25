@@ -45,9 +45,6 @@ public class TutorialImagesAdapter extends PagerAdapter {
 
 
         Glide.with(context).load(IMAGES.get(position)).fitCenter().into(imageView);
-        if(position == 0){
-            imageView.setPadding(70,0,70,0);
-        }
 
         view.addView(imageLayout, 0);
 
