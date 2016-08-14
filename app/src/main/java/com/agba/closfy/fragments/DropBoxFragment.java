@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.agba.closfy.R;
 import com.dropbox.client2.DropboxAPI;
@@ -27,6 +29,8 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +39,8 @@ public class DropBoxFragment extends Fragment {
     private static final String KEY_CONTENT = "DropBoxFragment:Content";
     private String mContent = "???";
 
-    final static private String APP_KEY = "yty5ua0nmg6nv9a";
-    final static private String APP_SECRET = "sn345hty9ytw7v3";
+    final static private String APP_KEY = "9ohsxc6aw21nt47";
+    final static private String APP_SECRET = "obcmc8t02hu3ao0";
     private DropboxAPI<AndroidAuthSession> mDBApi;
 
     SharedPreferences prefs;
@@ -48,6 +52,8 @@ public class DropBoxFragment extends Fragment {
     TextView crear;
     TextView restaurar;
     TextView actualizar;
+    TextView cerrarSesion;
+    TextView cerrarSesion2;
 
     LinearLayout layoutBackup;
     LinearLayout layoutNoBackup;
@@ -78,7 +84,6 @@ public class DropBoxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.dropbox, container, false);
     }
 
@@ -99,6 +104,8 @@ public class DropBoxFragment extends Fragment {
         crear = (TextView) getView().findViewById(R.id.botonCrear);
         restaurar = (TextView) getView().findViewById(R.id.botonRestaurar);
         actualizar = (TextView) getView().findViewById(R.id.botonActualizar);
+        cerrarSesion = (TextView) getView().findViewById(R.id.botonCerrarSesion);
+        cerrarSesion2 = (TextView) getView().findViewById(R.id.botonCerrarSesion2);
         layoutBackup = (LinearLayout) getView().findViewById(R.id.layoutBackup);
         layoutNoBackup = (LinearLayout) getView().findViewById(R.id.layoutNoBackup);
 
@@ -118,9 +125,6 @@ public class DropBoxFragment extends Fragment {
         prefs = getActivity().getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
         String token = prefs.getString("dropboxToken", null);
 
-        //cerrar sesion DropBox
-        //mDBApi.getSession().unlink();
-
         if (token != null) {
             mDBApi.getSession().setOAuth2AccessToken(token);
 
@@ -129,6 +133,231 @@ public class DropBoxFragment extends Fragment {
             }
         }
 
+        crear.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new CrearCopiaSeguridadTask().execute();
+            }
+        });
+
+        restaurar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new RestaurarCopiaSeguridadTask().execute();
+            }
+        });
+
+        actualizar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new ActualizarCopiaSeguridadTask().execute();
+            }
+        });
+
+        cerrarSesion.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new CerrarSesionTask().execute();
+            }
+        });
+
+        cerrarSesion2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new CerrarSesionTask().execute();
+            }
+        });
+    }
+
+    public void cerrarSesion() {
+        mDBApi.getSession().unlink();
+    }
+
+    public void crearDirectorios() {
+        try {
+            DropboxAPI.Entry response;
+
+            //Creamos los directorios
+            response = mDBApi.createFolder("Prendas");
+            response = mDBApi.createFolder("Looks");
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+
+            Context context = getActivity()
+                    .getApplicationContext();
+            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text,
+                    duration);
+            toast.show();
+        }
+    }
+
+    public void subirPrendas() {
+        try {
+            DropboxAPI.Entry response;
+
+            //Subimos las imagenes de prendas
+            File dirPrendas = new File(Environment.getExternalStorageDirectory() + "/Closfy/Prendas/");
+            //Creo el array de tipo File con el contenido de la carpeta
+            File[] files = dirPrendas.listFiles();
+
+            for (File file : files) {
+                File image = new File(dirPrendas, file.getName());
+
+                FileInputStream inputStream = new FileInputStream(file);
+                response = mDBApi.putFileOverwrite("/Prendas/" + file.getName(), inputStream,
+                        file.length(), null);
+            }
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+
+            Context context = getActivity()
+                    .getApplicationContext();
+            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text,
+                    duration);
+            toast.show();
+        }
+    }
+
+    public void subirLooks() {
+        try {
+            DropboxAPI.Entry response;
+
+            //Subimos las imagenes de looks
+            File dirLooks = new File(Environment.getExternalStorageDirectory() + "/Closfy/Looks/");
+            //Creo el array de tipo File con el contenido de la carpeta
+            File[] files = dirLooks.listFiles();
+
+            for (File file : files) {
+                File image = new File(dirLooks, file.getName());
+
+                FileInputStream inputStream = new FileInputStream(file);
+                response = mDBApi.putFileOverwrite("/Looks/" + file.getName(), inputStream,
+                        file.length(), null);
+            }
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+
+            Context context = getActivity()
+                    .getApplicationContext();
+            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text,
+                    duration);
+            toast.show();
+        }
+    }
+
+    public void subirBD() {
+        try {
+            DropboxAPI.Entry response;
+
+            //Subimos la base de datos
+            File dbFile = new File(Environment.getDataDirectory()
+                    + "/data/com.agba.closfy/databases/BDClosfy");
+
+            FileInputStream inputStream = new FileInputStream(dbFile);
+            response = mDBApi.putFileOverwrite(dbFile.getName(), inputStream,
+                    dbFile.length(), null);
+
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+
+            Context context = getActivity()
+                    .getApplicationContext();
+            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text,
+                    duration);
+            toast.show();
+        }
+    }
+
+    public void crearCopia() {
+        try {
+            crearDirectorios();
+            subirPrendas();
+            subirLooks();
+            subirBD();
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+        }
+    }
+
+    public void actualizarCopia() {
+        try {
+            subirPrendas();
+            subirLooks();
+            subirBD();
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+        }
+    }
+
+    public void restaurarCopia() {
+        try {
+            DropboxAPI.Entry response;
+
+            //Se borran todas las imagenes del dispositivo
+            File dirPrendas = new File(Environment.getExternalStorageDirectory() + "/Closfy/Prendas/");
+            //Creo el array de tipo File con el contenido de la carpeta
+            File[] filesPrendas = dirPrendas.listFiles();
+
+            for (File file : filesPrendas) {
+                File image = new File(dirPrendas, file.getName());
+
+                if(image.exists()){
+                    image.delete();
+                }
+            }
+
+            File dirLooks = new File(Environment.getExternalStorageDirectory() + "/Closfy/Looks/");
+            //Creo el array de tipo File con el contenido de la carpeta
+            File[] filesLooks = dirPrendas.listFiles();
+
+            for (File file : filesLooks) {
+                File image = new File(dirLooks, file.getName());
+
+                if(image.exists()){
+                    image.delete();
+                }
+            }
+
+            //Se descargan todas las imágenes de Dropbox
+            String path = "";
+
+            path = "/Prendas/";
+            DropboxAPI.Entry entries = mDBApi.metadata(path, 0, null, true, null);
+
+            if (entries.contents.size() != 0) {
+                hayBackup = true;
+
+                for (DropboxAPI.Entry e : entries.contents) {
+                    if (!e.isDeleted) {
+
+                        fechaString = e.modified;
+                        String pathDir = "/" + e.fileName() + "/";
+                        DropboxAPI.Entry entriesDir = mDBApi.metadata(pathDir, 0, null, true, null);
+
+                        if (e.fileName().equals("Prendas")) {
+                            numPrendas = entriesDir.contents.size();
+                        } else if (e.fileName().equals("Looks")) {
+                            numLooks = entriesDir.contents.size();
+                        }
+                    }
+                }
+            }
+
+
+        } catch (Exception e) {
+            Log.i("Error", e.getMessage());
+
+            Context context = getActivity()
+                    .getApplicationContext();
+            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text,
+                    duration);
+            toast.show();
+        }
     }
 
     public void cargarInfo() {
@@ -148,7 +377,7 @@ public class DropBoxFragment extends Fragment {
 
                         if (e.fileName().equals("Prendas")) {
                             numPrendas = entriesDir.contents.size();
-                        } else if(e.fileName().equals("Looks")) {
+                        } else if (e.fileName().equals("Looks")) {
                             numLooks = entriesDir.contents.size();
                         }
                     }
@@ -180,10 +409,6 @@ public class DropBoxFragment extends Fragment {
         // Decode image in background.
         @Override
         protected Void doInBackground(Integer... params) {
-
-            // Recuperamos las prendas
-            //subirFichero();
-            //subirFoto();
             cargarInfo();
             return null;
         }
@@ -213,6 +438,131 @@ public class DropBoxFragment extends Fragment {
                 layoutBackup.setVisibility(View.GONE);
                 layoutNoBackup.setVisibility(View.VISIBLE);
             }
+
+            progDailog.dismiss();
+        }
+    }
+
+    public class CrearCopiaSeguridadTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progDailog = new ProgressDialog(getActivity());
+            progDailog.setIndeterminate(false);
+            progDailog.setMessage("Cargando...");
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(false);
+            progDailog.show();
+        }
+
+        // Decode image in background.
+        @Override
+        protected Void doInBackground(Integer... params) {
+            crearCopia();
+            return null;
+        }
+
+        // Once complete, see if ImageView is still around and set bitmap.
+        @Override
+        protected void onPostExecute(Void result) {
+            progDailog.dismiss();
+            new CargarInfoTask().execute();
+        }
+    }
+
+    public class ActualizarCopiaSeguridadTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progDailog = new ProgressDialog(getActivity());
+            progDailog.setIndeterminate(false);
+            progDailog.setMessage("Cargando...");
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(false);
+            progDailog.show();
+        }
+
+        // Decode image in background.
+        @Override
+        protected Void doInBackground(Integer... params) {
+            actualizarCopia();
+            return null;
+        }
+
+        // Once complete, see if ImageView is still around and set bitmap.
+        @Override
+        protected void onPostExecute(Void result) {
+            progDailog.dismiss();
+            new CargarInfoTask().execute();
+        }
+    }
+
+    public class RestaurarCopiaSeguridadTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progDailog = new ProgressDialog(getActivity());
+            progDailog.setIndeterminate(false);
+            progDailog.setMessage("Cargando...");
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(false);
+            progDailog.show();
+        }
+
+        // Decode image in background.
+        @Override
+        protected Void doInBackground(Integer... params) {
+            restaurarCopia();
+            return null;
+        }
+
+        // Once complete, see if ImageView is still around and set bitmap.
+        @Override
+        protected void onPostExecute(Void result) {
+            progDailog.dismiss();
+            new CargarInfoTask().execute();
+        }
+    }
+
+    public class CerrarSesionTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progDailog = new ProgressDialog(getActivity());
+            progDailog.setIndeterminate(false);
+            progDailog.setMessage("Cargando...");
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(false);
+            progDailog.show();
+        }
+
+        // Decode image in background.
+        @Override
+        protected Void doInBackground(Integer... params) {
+            cerrarSesion();
+            return null;
+        }
+
+        // Once complete, see if ImageView is still around and set bitmap.
+        @Override
+        protected void onPostExecute(Void result) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("dropboxToken", null);
+            editor.commit();
+            Bundle bundle = new Bundle();
+
+            bundle.putBoolean("isSinPublicidad", isSinPublicidad);
+
+            Fragment fragment = new DropBoxInicioFragment();
+            fragment.setArguments(bundle);
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment).commit();
 
             progDailog.dismiss();
         }

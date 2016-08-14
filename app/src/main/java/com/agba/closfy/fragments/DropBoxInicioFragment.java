@@ -43,8 +43,8 @@ public class DropBoxInicioFragment extends Fragment {
     private static final String KEY_CONTENT = "DropBoxFragment:Content";
     private String mContent = "???";
 
-    final static private String APP_KEY = "yty5ua0nmg6nv9a";
-    final static private String APP_SECRET = "sn345hty9ytw7v3";
+    final static private String APP_KEY = "9ohsxc6aw21nt47";
+    final static private String APP_SECRET = "obcmc8t02hu3ao0";
     private DropboxAPI<AndroidAuthSession> mDBApi;
 
     SharedPreferences prefs;

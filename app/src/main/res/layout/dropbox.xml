@@ -158,6 +158,19 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/botonCerrarSesion"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rounded_layout_green"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="ES_Cerrar sesión"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -167,6 +180,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
+            android:orientation="vertical"
             android:visibility="gone">
 
             <TextView
@@ -177,6 +191,19 @@
                 android:background="@drawable/rounded_layout_green"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="ES_Crear copia de seguridad"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/botonCerrarSesion2"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/rounded_layout_green"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="ES_Cerrar sesión"
                 android:textColor="#FFFFFF"
                 android:textSize="16dp"
                 android:textStyle="bold" />
