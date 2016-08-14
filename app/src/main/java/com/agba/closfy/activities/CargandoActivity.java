@@ -33,7 +33,7 @@ public class CargandoActivity extends Activity {
 	boolean isSinPublicidad = false;
 	SharedPreferences prefs;
 
-	IInAppBillingService mService;
+	//IInAppBillingService mService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class CargandoActivity extends Activity {
 		Intent serviceIntent = new Intent(
 				"com.android.vending.billing.InAppBillingService.BIND");
 		serviceIntent.setPackage("com.android.vending");
-		bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
+		//bindService(serviceIntent, mServiceConn, Context.BIND_AUTO_CREATE);
 
 		// Asignamos el tipo de fuente
 		Typeface miPropiaTypeFace = Typeface.createFromAsset(this.getAssets(),
@@ -52,6 +52,8 @@ public class CargandoActivity extends Activity {
 
 		TextView txtCargando = (TextView) findViewById(R.id.textCargando);
 		txtCargando.setTypeface(miPropiaTypeFace);
+
+		new MyLoadingAsyncTask().execute();
 	}
 
 	public void iniciarApp() {
@@ -85,7 +87,7 @@ public class CargandoActivity extends Activity {
 		}
 		db.close();
 
-		ArrayList<String> skuList = new ArrayList<String>();
+		/*ArrayList<String> skuList = new ArrayList<String>();
 		skuList.add(SKU_SIN_PUBLICIDAD);
 
 		Bundle querySkus = new Bundle();
@@ -119,10 +121,10 @@ public class CargandoActivity extends Activity {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
-	ServiceConnection mServiceConn = new ServiceConnection() {
+	/*ServiceConnection mServiceConn = new ServiceConnection() {
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			mService = null;
@@ -133,14 +135,14 @@ public class CargandoActivity extends Activity {
 			mService = IInAppBillingService.Stub.asInterface(service);
 			new MyLoadingAsyncTask().execute();
 		}
-	};
+	};*/
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (mServiceConn != null) {
+		/*if (mServiceConn != null) {
 			unbindService(mServiceConn);
-		}
+		}*/
 	}
 
 	public class MyLoadingAsyncTask extends AsyncTask<Void, Integer, Void> {
@@ -165,7 +167,6 @@ public class CargandoActivity extends Activity {
 			db.close();
 
 			Intent intent;
-
 
 			if (hayCuenta) {
 				prefs = getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
