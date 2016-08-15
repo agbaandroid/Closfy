@@ -29,8 +29,13 @@ import com.dropbox.client2.session.AppKeyPair;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -178,13 +183,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            Context context = getActivity()
-                    .getApplicationContext();
-            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text,
-                    duration);
-            toast.show();
+            showToast("Se ha producido un error.Inténtelo más tarde.");
         }
     }
 
@@ -207,13 +206,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            Context context = getActivity()
-                    .getApplicationContext();
-            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text,
-                    duration);
-            toast.show();
+            showToast("Se ha producido un error.Inténtelo más tarde.");
         }
     }
 
@@ -236,13 +229,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            Context context = getActivity()
-                    .getApplicationContext();
-            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text,
-                    duration);
-            toast.show();
+            showToast("Se ha producido un error.Inténtelo más tarde.");
         }
     }
 
@@ -261,13 +248,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            Context context = getActivity()
-                    .getApplicationContext();
-            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text,
-                    duration);
-            toast.show();
+            showToast("Se ha producido un error.Inténtelo más tarde.");
         }
     }
 
@@ -297,30 +278,46 @@ public class DropBoxFragment extends Fragment {
             DropboxAPI.Entry response;
 
             //Se borran todas las imagenes del dispositivo
+            File dirClosfy = new File(Environment.getExternalStorageDirectory() + "/Closfy/");
+
+            if(!dirClosfy.exists()){
+                dirClosfy.mkdir();
+            }
+
+            //Se borran todas las imagenes del dispositivo
             File dirPrendas = new File(Environment.getExternalStorageDirectory() + "/Closfy/Prendas/");
-            //Creo el array de tipo File con el contenido de la carpeta
-            File[] filesPrendas = dirPrendas.listFiles();
 
-            for (File file : filesPrendas) {
-                File image = new File(dirPrendas, file.getName());
+            if (dirPrendas.exists()) {
+                //Creo el array de tipo File con el contenido de la carpeta
+                File[] filesPrendas = dirPrendas.listFiles();
 
-                if(image.exists()){
-                    image.delete();
+                for (File file : filesPrendas) {
+                    File image = new File(dirPrendas, file.getName());
+
+                    if (image.exists()) {
+                        image.delete();
+                    }
                 }
+            } else {
+                dirPrendas.mkdir();
             }
 
             File dirLooks = new File(Environment.getExternalStorageDirectory() + "/Closfy/Looks/");
-            //Creo el array de tipo File con el contenido de la carpeta
-            File[] filesLooks = dirPrendas.listFiles();
 
-            for (File file : filesLooks) {
-                File image = new File(dirLooks, file.getName());
+            if (dirLooks.exists()) {
+                //Creo el array de tipo File con el contenido de la carpeta
+                File[] filesLooks = dirPrendas.listFiles();
 
-                if(image.exists()){
-                    image.delete();
+                for (File file : filesLooks) {
+                    File image = new File(dirLooks, file.getName());
+
+                    if (image.exists()) {
+                        image.delete();
+                    }
                 }
+            } else {
+                dirLooks.mkdir();
             }
-
             //Se descargan todas las imágenes de Dropbox
             String path = "";
 
@@ -328,35 +325,56 @@ public class DropBoxFragment extends Fragment {
             DropboxAPI.Entry entries = mDBApi.metadata(path, 0, null, true, null);
 
             if (entries.contents.size() != 0) {
-                hayBackup = true;
-
                 for (DropboxAPI.Entry e : entries.contents) {
                     if (!e.isDeleted) {
+                        File file = new File(Environment.getExternalStorageDirectory() + "/Closfy/Prendas/" + e.fileName());
+                        OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
 
-                        fechaString = e.modified;
-                        String pathDir = "/" + e.fileName() + "/";
-                        DropboxAPI.Entry entriesDir = mDBApi.metadata(pathDir, 0, null, true, null);
-
-                        if (e.fileName().equals("Prendas")) {
-                            numPrendas = entriesDir.contents.size();
-                        } else if (e.fileName().equals("Looks")) {
-                            numLooks = entriesDir.contents.size();
-                        }
+                        DropboxAPI.DropboxFileInfo info = mDBApi.getFile("/Prendas/" + e.fileName(), null, out, null);
                     }
                 }
+            }
+
+            path = "/Looks/";
+            entries = mDBApi.metadata(path, 0, null, true, null);
+
+            if (entries.contents.size() != 0) {
+                for (DropboxAPI.Entry e : entries.contents) {
+                    if (!e.isDeleted) {
+                        File file = new File(Environment.getExternalStorageDirectory() + "/Closfy/Looks/" + e.fileName());
+                        OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+
+                        DropboxAPI.DropboxFileInfo info = mDBApi.getFile("/Looks/" + e.fileName(), null, out, null);
+                    }
+                }
+            }
+
+            path = "";
+            entries = mDBApi.metadata(path, 0, null, true, null);
+
+            if (entries.contents.size() != 0) {
+                File dbFile = new File(Environment.getExternalStorageDirectory()
+                        + "/Closfy/BDClosfyTmp");
+
+                OutputStream out = new BufferedOutputStream(new FileOutputStream(dbFile));
+                DropboxAPI.DropboxFileInfo info = mDBApi.getFile("/BDClosfy", null, out, null);
+
+                File dataBaseDir = new File(Environment.getDataDirectory()
+                        + "/data/com.agba.closfy/databases/");
+
+                File file = new File(dataBaseDir, "BDClosfy");
+
+                file.createNewFile();
+                copyFile(dbFile, file);
+
+                dbFile.delete();
             }
 
 
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            Context context = getActivity()
-                    .getApplicationContext();
-            CharSequence text = "Se ha producido un error. Inténtelo más tarde";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text,
-                    duration);
-            toast.show();
+            showToast("Se ha producido un error.Inténtelo más tarde.");
         }
     }
 
@@ -566,5 +584,23 @@ public class DropBoxFragment extends Fragment {
 
             progDailog.dismiss();
         }
+    }
+
+    void copyFile(File src, File dst) throws IOException {
+        FileChannel inChannel = new FileInputStream(src).getChannel();
+        FileChannel outChannel = new FileOutputStream(dst).getChannel();
+        try {
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+        } finally {
+            if (inChannel != null)
+                inChannel.close();
+            if (outChannel != null)
+                outChannel.close();
+        }
+    }
+
+    private void showToast(String msg) {
+        Toast error = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
+        error.show();
     }
 }
