@@ -94,9 +94,6 @@ public class DropBoxInicioFragment extends Fragment {
         prefs = getActivity().getSharedPreferences("ficheroConf", Context.MODE_PRIVATE);
         String token = prefs.getString("dropboxToken", null);
 
-        //cerrar sesion DropBox
-        //mDBApi.getSession().unlink();
-
         if (token != null) {
             mDBApi.getSession().setOAuth2AccessToken(token);
 
@@ -110,14 +107,6 @@ public class DropBoxInicioFragment extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, fragment).commit();
-            }
-        }
-
-        if (mDBApi.getSession().authenticationSuccessful()) {
-            try {
-                mDBApi.accountInfo();
-            } catch (DropboxException e) {
-                e.printStackTrace();
             }
         }
 

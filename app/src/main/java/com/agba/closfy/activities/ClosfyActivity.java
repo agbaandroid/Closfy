@@ -57,13 +57,13 @@ public class ClosfyActivity extends AppCompatActivity {
     private String[] titlesMenuMayusculas;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private ListView navList, left_cuentas;
+    public ListView navList, left_cuentas;
     private LinearLayout layoutCuentas, layoutGestionCuentas, layoutHeader, layoutHeader2;
     private LinearLayout left_drawer_cuentas;
     private DrawerLayout navDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawer;
     private ListAdapterNavigator mAdapter;
-    private ListAdapterCuentasNavigator mAdapterCuentas;
+    public ListAdapterCuentasNavigator mAdapterCuentas;
     TextView textoHeader;
 
     private InterstitialAd interstitial;
@@ -164,6 +164,12 @@ public class ClosfyActivity extends AppCompatActivity {
 
             public void onDrawerOpened(View view) {
                 super.onDrawerOpened(view);
+
+                listCuentas = obtenerCuentas();
+
+                mAdapterCuentas = new ListAdapterCuentasNavigator(ClosfyActivity.this, listCuentas);
+                left_cuentas.setAdapter(mAdapterCuentas);
+
                 getSupportActionBar().setTitle(mDrawerTitle);
             }
         };

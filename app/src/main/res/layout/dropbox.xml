@@ -67,7 +67,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ES_Fecha"
+                            android:text="@string/fecha"
                             android:textColor="#000000"
                             android:textSize="16dp" />
 
@@ -89,7 +89,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ES_Nº de Prendas"
+                            android:text="@string/nPrendas"
                             android:textColor="#000000"
                             android:textSize="16dp" />
 
@@ -111,7 +111,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ES_Nº de Looks"
+                            android:text="@string/nLooks"
                             android:textColor="#000000"
                             android:textSize="16dp" />
 
@@ -140,7 +140,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:background="@drawable/rounded_layout_green"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="ES_Restaurar"
+                    android:text="@string/restaurar"
                     android:textColor="#FFFFFF"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -153,7 +153,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded_layout_green"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="ES_Actualizar"
+                    android:text="@string/actualizar"
                     android:textColor="#FFFFFF"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -166,7 +166,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rounded_layout_green"
                     android:gravity="center_vertical|center_horizontal"
-                    android:text="ES_Cerrar sesión"
+                    android:text="@string/cerrarSesion"
                     android:textColor="#FFFFFF"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -190,7 +190,7 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:background="@drawable/rounded_layout_green"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="ES_Crear copia de seguridad"
+                android:text="@string/crearCopiaSeguridad"
                 android:textColor="#FFFFFF"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -203,7 +203,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/rounded_layout_green"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="ES_Cerrar sesión"
+                android:text="@string/cerrarSesion"
                 android:textColor="#FFFFFF"
                 android:textSize="16dp"
                 android:textStyle="bold" />

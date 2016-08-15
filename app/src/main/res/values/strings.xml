@@ -390,7 +390,32 @@
     <string name="deleteAds">Remove advertise</string>
     <string name="txtDeleteAds">Remove all the advertise forever.</string>
 
-    <string name="done">Feito</string>
-    <string name="skip">Pular</string>
+    <string name="done">Done</string>
+    <string name="skip">Skip</string>
 
+    <string name="msgInicioDropbox">Create and restore backups with Dropbox</string>
+    <string name="vincularDropbox">Link to dropbox</string>
+
+    <string name="fecha">Date</string>
+    <string name="nPrendas">Nº garments</string>
+    <string name="nLooks">Nº outfits</string>
+
+    <string name="crearCopiaSeguridad">Create backup</string>
+    <string name="cerrarSesion">Sign off</string>
+    <string name="restaurar">Restore</string>
+    <string name="actualizar">Update</string>
+
+    <string name="errorDropbox">There was an error in communication with Dropbox. Please try again later.</string>
+
+    <string name="msgCrearCopia">Are you sure you want to create a backup in Dropbox? This process can take a few minutes.</string>
+    <string name="msgRestaurarCopia">Are you sure you want to restore the backup? All the Closfy information (garments, outfits, database, etc ...) will be overwritten with the data that is in Dropbox. This process can take a few minutes.</string>
+    <string name="msgActualizarCopia">Are you sure you want to update the backup? All the Dropbox information will be overwritten with the current Closfy information. This process can take a few minutes.</string>
+    <string name="msgCerrarSesion">Are you sure you want to sign off Dropbox?</string>
+
+    <string name="msgCrearCopiaOK">The backup was successfully created.</string>
+    <string name="msgRestaurarCopiaOK">The backup was successfully restored.</string>
+    <string name="msgActualizarCopiaOK">The backup was successfully updated.</string>
+
+    <string name="noPrendas">You don´t have any garment in your closet yet.</string>
+    <string name="noLooks">You don´t have any outfit created yet.</string>
 </resources>

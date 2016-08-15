@@ -1,9 +1,12 @@
 package com.agba.closfy.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,14 +16,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agba.closfy.R;
+import com.agba.closfy.activities.ClosfyActivity;
+import com.agba.closfy.activities.CrearLookPrincipalActivity;
+import com.agba.closfy.database.GestionBBDD;
+import com.agba.closfy.modelo.Cuenta;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
@@ -39,14 +44,24 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class DropBoxFragment extends Fragment {
     private static final String KEY_CONTENT = "DropBoxFragment:Content";
     private String mContent = "???";
 
+    private final String BD_NOMBRE = "BDClosfy";
+    private SQLiteDatabase db;
+    final GestionBBDD gestion = new GestionBBDD();
+
     final static private String APP_KEY = "9ohsxc6aw21nt47";
     final static private String APP_SECRET = "obcmc8t02hu3ao0";
     private DropboxAPI<AndroidAuthSession> mDBApi;
+
+    final static int MENSAJE_CREAR_COPIA = 0;
+    final static int MENSAJE_RESTAURAR_COPIA = 1;
+    final static int MENSAJE_ACTUALIZAR_COPIA = 2;
+    final static int MENSAJE_CERRAR_SESION = 3;
 
     SharedPreferences prefs;
     ProgressDialog progDailog;
@@ -140,31 +155,31 @@ public class DropBoxFragment extends Fragment {
 
         crear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new CrearCopiaSeguridadTask().execute();
+                onCreateDialog(MENSAJE_CREAR_COPIA);
             }
         });
 
         restaurar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new RestaurarCopiaSeguridadTask().execute();
+                onCreateDialog(MENSAJE_RESTAURAR_COPIA);
             }
         });
 
         actualizar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new ActualizarCopiaSeguridadTask().execute();
+                onCreateDialog(MENSAJE_ACTUALIZAR_COPIA);
             }
         });
 
         cerrarSesion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new CerrarSesionTask().execute();
+                onCreateDialog(MENSAJE_CERRAR_SESION);
             }
         });
 
         cerrarSesion2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new CerrarSesionTask().execute();
+                onCreateDialog(MENSAJE_CERRAR_SESION);
             }
         });
     }
@@ -183,7 +198,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            showToast("Se ha producido un error.Inténtelo más tarde.");
+            showToast(getResources().getString(R.string.errorDropbox));
         }
     }
 
@@ -206,7 +221,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            showToast("Se ha producido un error.Inténtelo más tarde.");
+            showToast(getResources().getString(R.string.errorDropbox));
         }
     }
 
@@ -229,7 +244,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            showToast("Se ha producido un error.Inténtelo más tarde.");
+            showToast(getResources().getString(R.string.errorDropbox));
         }
     }
 
@@ -248,7 +263,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            showToast("Se ha producido un error.Inténtelo más tarde.");
+            showToast(getResources().getString(R.string.errorDropbox));
         }
     }
 
@@ -280,7 +295,7 @@ public class DropBoxFragment extends Fragment {
             //Se borran todas las imagenes del dispositivo
             File dirClosfy = new File(Environment.getExternalStorageDirectory() + "/Closfy/");
 
-            if(!dirClosfy.exists()){
+            if (!dirClosfy.exists()) {
                 dirClosfy.mkdir();
             }
 
@@ -374,7 +389,7 @@ public class DropBoxFragment extends Fragment {
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
 
-            showToast("Se ha producido un error.Inténtelo más tarde.");
+            showToast(getResources().getString(R.string.errorDropbox));
         }
     }
 
@@ -405,9 +420,11 @@ public class DropBoxFragment extends Fragment {
         } catch (DropboxServerException dse) {
             if (dse.error != DropboxServerException._404_NOT_FOUND) {
                 Log.d("Error", "Error");
+                showToast(getResources().getString(R.string.errorDropbox));
             }
         } catch (DropboxException e) {
             Log.d("Error", "Error");
+            showToast(getResources().getString(R.string.errorDropbox));
         }
     }
 
@@ -418,7 +435,7 @@ public class DropBoxFragment extends Fragment {
             super.onPreExecute();
             progDailog = new ProgressDialog(getActivity());
             progDailog.setIndeterminate(false);
-            progDailog.setMessage("Cargando...");
+            progDailog.setMessage(getResources().getString(R.string.cargando));
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progDailog.setCancelable(false);
             progDailog.show();
@@ -440,7 +457,7 @@ public class DropBoxFragment extends Fragment {
                 nLooks.setText(String.valueOf(numLooks));
 
                 try {
-                    SimpleDateFormat dfDb = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+                    SimpleDateFormat dfDb = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
                     Date dateDb = dfDb.parse(fechaString);
 
                     SimpleDateFormat toYours = new SimpleDateFormat("dd/MM/yyyy");
@@ -468,7 +485,7 @@ public class DropBoxFragment extends Fragment {
             super.onPreExecute();
             progDailog = new ProgressDialog(getActivity());
             progDailog.setIndeterminate(false);
-            progDailog.setMessage("Cargando...");
+            progDailog.setMessage(getResources().getString(R.string.cargando));
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progDailog.setCancelable(false);
             progDailog.show();
@@ -485,6 +502,7 @@ public class DropBoxFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             progDailog.dismiss();
+            showToast(getResources().getString(R.string.msgCrearCopiaOK));
             new CargarInfoTask().execute();
         }
     }
@@ -496,7 +514,7 @@ public class DropBoxFragment extends Fragment {
             super.onPreExecute();
             progDailog = new ProgressDialog(getActivity());
             progDailog.setIndeterminate(false);
-            progDailog.setMessage("Cargando...");
+            progDailog.setMessage(getResources().getString(R.string.cargando));
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progDailog.setCancelable(false);
             progDailog.show();
@@ -513,6 +531,7 @@ public class DropBoxFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             progDailog.dismiss();
+            showToast(getResources().getString(R.string.msgActualizarCopiaOK));
             new CargarInfoTask().execute();
         }
     }
@@ -524,7 +543,7 @@ public class DropBoxFragment extends Fragment {
             super.onPreExecute();
             progDailog = new ProgressDialog(getActivity());
             progDailog.setIndeterminate(false);
-            progDailog.setMessage("Cargando...");
+            progDailog.setMessage(getResources().getString(R.string.cargando));
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progDailog.setCancelable(false);
             progDailog.show();
@@ -541,6 +560,7 @@ public class DropBoxFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             progDailog.dismiss();
+            showToast(getResources().getString(R.string.msgRestaurarCopiaOK));
             new CargarInfoTask().execute();
         }
     }
@@ -552,7 +572,7 @@ public class DropBoxFragment extends Fragment {
             super.onPreExecute();
             progDailog = new ProgressDialog(getActivity());
             progDailog.setIndeterminate(false);
-            progDailog.setMessage("Cargando...");
+            progDailog.setMessage(getResources().getString(R.string.cargando));
             progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progDailog.setCancelable(false);
             progDailog.show();
@@ -600,7 +620,107 @@ public class DropBoxFragment extends Fragment {
     }
 
     private void showToast(String msg) {
-        Toast error = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
-        error.show();
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    protected Dialog onCreateDialog(int id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog alert;
+        switch (id) {
+            case MENSAJE_CREAR_COPIA:
+                builder.setMessage(
+                        getResources().getString(R.string.msgCrearCopia))
+                        .setTitle(getResources().getString(R.string.informacion))
+                        .setIcon(R.drawable.ic_info_azul)
+                        .setNegativeButton(getResources().getString(R.string.cancel),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .setPositiveButton(getResources().getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        new CrearCopiaSeguridadTask().execute();
+                                        dialog.cancel();
+                                    }
+                                });
+                alert = builder.create();
+                alert.show();
+                break;
+            case MENSAJE_RESTAURAR_COPIA:
+                builder.setMessage(
+                        getResources().getString(R.string.msgRestaurarCopia))
+                        .setTitle(getResources().getString(R.string.informacion))
+                        .setIcon(R.drawable.ic_info_azul)
+                        .setNegativeButton(getResources().getString(R.string.cancel),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .setPositiveButton(getResources().getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        new RestaurarCopiaSeguridadTask().execute();
+                                        dialog.cancel();
+                                    }
+                                });
+                alert = builder.create();
+                alert.show();
+                break;
+            case MENSAJE_ACTUALIZAR_COPIA:
+                builder.setMessage(
+                        getResources().getString(R.string.msgActualizarCopia))
+                        .setTitle(getResources().getString(R.string.informacion))
+                        .setIcon(R.drawable.ic_info_azul)
+                        .setNegativeButton(getResources().getString(R.string.cancel),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .setPositiveButton(getResources().getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        new ActualizarCopiaSeguridadTask().execute();
+                                        dialog.cancel();
+                                    }
+                                });
+                alert = builder.create();
+                alert.show();
+                break;
+            case MENSAJE_CERRAR_SESION:
+                builder.setMessage(
+                        getResources().getString(R.string.msgCerrarSesion))
+                        .setTitle(getResources().getString(R.string.informacion))
+                        .setIcon(R.drawable.ic_info_azul)
+                        .setNegativeButton(getResources().getString(R.string.cancel),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .setPositiveButton(getResources().getString(R.string.ok),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        new CerrarSesionTask().execute();
+                                        dialog.cancel();
+                                    }
+                                });
+                alert = builder.create();
+                alert.show();
+                break;
+        }
+        return null;
     }
 }

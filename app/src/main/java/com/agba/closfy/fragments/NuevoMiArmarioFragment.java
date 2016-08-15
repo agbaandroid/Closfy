@@ -93,6 +93,9 @@ public class NuevoMiArmarioFragment extends Fragment {
 	private LinearLayout btnAceptarFiltros;
 	private LinearLayout btnCancelarFiltros;
 
+	private LinearLayout layoutGrid;
+	private LinearLayout layoutNoPrendas;
+
 	SharedPreferences prefs;
 	SharedPreferences prefsFiltros;
 	SharedPreferences.Editor editorFiltros;
@@ -167,6 +170,9 @@ public class NuevoMiArmarioFragment extends Fragment {
 
 		btnAceptarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnAceptarFiltros);
 		btnCancelarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnCancelarFiltros);
+
+		layoutGrid = (LinearLayout) getActivity().findViewById(R.id.layoutGrid);
+		layoutNoPrendas = (LinearLayout) getActivity().findViewById(R.id.layoutNoPrendas);
 
 		db = getActivity().openOrCreateDatabase(BD_NOMBRE, 1, null);
 		if (db != null) {
@@ -571,6 +577,14 @@ public class NuevoMiArmarioFragment extends Fragment {
 				AdView adView = (AdView) getActivity().findViewById(R.id.adView);
 				AdRequest adRequest = new AdRequest.Builder().build();
 				adView.loadAd(adRequest);
+			}
+
+			if(listPrendas.size() > 0){
+				layoutGrid.setVisibility(View.VISIBLE);
+				layoutNoPrendas.setVisibility(View.GONE);
+			}else{
+				layoutGrid.setVisibility(View.GONE);
+				layoutNoPrendas.setVisibility(View.VISIBLE);
 			}
 
 			progDailog.dismiss();

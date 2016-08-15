@@ -10,10 +10,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ES_Crea y restaura copias de seguridad con DropBox"
+        android:text="@string/msgInicioDropbox"
         android:textSize="20dp"
-        android:gravity="center"
-        android:textColor="#000000"/>
+        android:gravity="center" />
 
     <LinearLayout
         android:id="@+id/layoutBotones"
@@ -24,26 +23,15 @@
 
         <TextView
             android:id="@+id/buttonAcceder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/actionBarColor"
-            android:padding="10dp"
-            android:text="ES_Vincular con DropBox"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:background="@drawable/rounded_layout_green"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/vincularDropbox"
             android:textColor="#FFFFFF"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/buttonSubir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#1187DF"
-            android:padding="10dp"
-            android:text="ES_Subir fichero"
-            android:textColor="#FFFFFF"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:visibility="gone" />
 
     </LinearLayout>
 

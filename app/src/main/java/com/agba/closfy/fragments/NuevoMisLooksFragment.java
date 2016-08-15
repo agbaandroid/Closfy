@@ -68,6 +68,9 @@ public class NuevoMisLooksFragment extends Fragment {
     int favorito = 0;
     int estilo;
 
+    private LinearLayout layoutGrid;
+    private LinearLayout layoutNoLooks;
+
     Look lookSeleccionado = new Look();
 
     GridView gridview;
@@ -139,6 +142,9 @@ public class NuevoMisLooksFragment extends Fragment {
 
         btnAceptarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnAceptarFiltrosLooks);
         btnCancelarFiltros = (LinearLayout) getActivity().findViewById(R.id.btnCancelarFiltrosLooks);
+
+        layoutGrid = (LinearLayout) getActivity().findViewById(R.id.layoutGrid);
+        layoutNoLooks = (LinearLayout) getActivity().findViewById(R.id.layoutNoLooks);
 
 		obtenerSpinners();
 
@@ -448,6 +454,14 @@ public class NuevoMisLooksFragment extends Fragment {
                 AdView adView = (AdView) getActivity().findViewById(R.id.adView);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 adView.loadAd(adRequest);
+            }
+
+            if(listLooks.size() > 0){
+                layoutGrid.setVisibility(View.VISIBLE);
+                layoutNoLooks.setVisibility(View.GONE);
+            }else{
+                layoutGrid.setVisibility(View.GONE);
+                layoutNoLooks.setVisibility(View.VISIBLE);
             }
 
             progDailog.dismiss();

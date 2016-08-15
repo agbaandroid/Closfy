@@ -390,6 +390,32 @@ atender..</string>
     <string name="deleteAds">Remova os anúncios</string>
     <string name="txtDeleteAds">Remova toda a aplicação de publicidade para sempre.</string>
 
-    <string name="done">Hecho</string>
-    <string name="skip">Omitir</string>
+    <string name="done">Feito</string>
+    <string name="skip">Pular</string>
+
+    <string name="msgInicioDropbox">Criar e restaurar backups com Dropbox</string>
+    <string name="vincularDropbox">Fazer a ligação com Dropbox</string>
+
+    <string name="fecha">Data</string>
+    <string name="nPrendas">Nº roupas</string>
+    <string name="nLooks">Nº aparência</string>
+
+    <string name="crearCopiaSeguridad">Criar cópia de segurança</string>
+    <string name="cerrarSesion">Fechar Sessão</string>
+    <string name="restaurar">Restaurar</string>
+    <string name="actualizar">Atualizar</string>
+
+    <string name="errorDropbox">There was an error in communication with Dropbox. Please try again later.</string>
+
+    <string name="msgCrearCopia">Tem certeza de que deseja criar um backup no Dropbox? Este processo pode demorar alguns minutos.</string>
+    <string name="msgRestaurarCopia">Tem certeza de que deseja restaurar o backup? Todas as informações Closfy (roupas, aparência, banco de dados, etc ...) serão substituídos pelos dados que estão em Dropbox. Este processo pode demorar alguns minutos.</string>
+    <string name="msgActualizarCopia">Tem certeza de que deseja atualizar o backup? Dropbox toda a informação é sobrescrito com as informações atuais Closfy. Este processo pode demorar alguns minutos.</string>
+    <string name="msgCerrarSesion">Tem certeza de que quer encerrar a sessão Dropbox?</string>
+
+    <string name="msgCrearCopiaOK">O backup foi criado com êxito.</string>
+    <string name="msgRestaurarCopiaOK">O backup foi restaurado com êxito.</string>
+    <string name="msgActualizarCopiaOK">O backup foi atualizado com êxito.</string>
+
+    <string name="noPrendas">Nenhuma roupa em seu armário.</string>
+    <string name="noLooks">Você não criou qualquer look.</string>
 </resources>
