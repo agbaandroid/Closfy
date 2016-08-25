@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.agba.closfy.R;
 import com.agba.closfy.adapters.ListAdapterSubtiposSpinner;
+import com.agba.closfy.customcrop.CropImage;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Prenda;
 import com.agba.closfy.modelo.Subtipo;
@@ -56,7 +57,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import eu.janmuller.android.simplecropimage.CropImage;
 
 public class EditPrendaActivity extends AppCompatActivity {
 

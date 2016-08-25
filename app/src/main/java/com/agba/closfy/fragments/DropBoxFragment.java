@@ -86,6 +86,8 @@ public class DropBoxFragment extends Fragment {
     boolean hayBackup;
     boolean isSinPublicidad;
 
+    boolean showError = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,8 +199,7 @@ public class DropBoxFragment extends Fragment {
             response = mDBApi.createFolder("Looks");
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
-
-            showToast(getResources().getString(R.string.errorDropbox));
+            showError = true;
         }
     }
 
@@ -220,8 +221,7 @@ public class DropBoxFragment extends Fragment {
             }
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
-
-            showToast(getResources().getString(R.string.errorDropbox));
+            showError = true;
         }
     }
 
@@ -243,8 +243,7 @@ public class DropBoxFragment extends Fragment {
             }
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
-
-            showToast(getResources().getString(R.string.errorDropbox));
+            showError = true;
         }
     }
 
@@ -262,8 +261,7 @@ public class DropBoxFragment extends Fragment {
 
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
-
-            showToast(getResources().getString(R.string.errorDropbox));
+            showError = true;
         }
     }
 
@@ -388,8 +386,7 @@ public class DropBoxFragment extends Fragment {
 
         } catch (Exception e) {
             Log.i("Error", e.getMessage());
-
-            showToast(getResources().getString(R.string.errorDropbox));
+            showError = true;
         }
     }
 
@@ -420,11 +417,9 @@ public class DropBoxFragment extends Fragment {
         } catch (DropboxServerException dse) {
             if (dse.error != DropboxServerException._404_NOT_FOUND) {
                 Log.d("Error", "Error");
-                showToast(getResources().getString(R.string.errorDropbox));
             }
         } catch (DropboxException e) {
             Log.d("Error", "Error");
-            showToast(getResources().getString(R.string.errorDropbox));
         }
     }
 
@@ -502,8 +497,14 @@ public class DropBoxFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             progDailog.dismiss();
-            showToast(getResources().getString(R.string.msgCrearCopiaOK));
-            new CargarInfoTask().execute();
+
+            if(showError){
+                showToast(getResources().getString(R.string.errorDropbox));
+                showError = false;
+            }else{
+                showToast(getResources().getString(R.string.msgCrearCopiaOK));
+                new CargarInfoTask().execute();
+            }
         }
     }
 
@@ -531,8 +532,14 @@ public class DropBoxFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             progDailog.dismiss();
-            showToast(getResources().getString(R.string.msgActualizarCopiaOK));
-            new CargarInfoTask().execute();
+
+            if(showError){
+                showToast(getResources().getString(R.string.errorDropbox));
+                showError = false;
+            }else{
+                showToast(getResources().getString(R.string.msgActualizarCopiaOK));
+                new CargarInfoTask().execute();
+            }
         }
     }
 
@@ -560,8 +567,14 @@ public class DropBoxFragment extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             progDailog.dismiss();
-            showToast(getResources().getString(R.string.msgRestaurarCopiaOK));
-            new CargarInfoTask().execute();
+
+            if(showError){
+                showToast(getResources().getString(R.string.errorDropbox));
+                showError = false;
+            }else{
+                showToast(getResources().getString(R.string.msgRestaurarCopiaOK));
+                new CargarInfoTask().execute();
+            }
         }
     }
 

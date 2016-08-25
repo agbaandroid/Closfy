@@ -7,7 +7,7 @@
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="20" />
+        android:targetSdkVersion="23" />
 
     <supports-screens
         android:anyDensity="true"
@@ -247,7 +247,10 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
         <activity
-            android:name="eu.janmuller.android.simplecropimage.CropImage"
+            android:name="com.agba.closfy.customcrop.CropImage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.agba.closfy.customcrop.CustomShapeCrop"
             android:screenOrientation="portrait" />
 
         <!-- DropBox -->

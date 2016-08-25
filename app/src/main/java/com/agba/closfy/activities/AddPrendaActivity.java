@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.agba.closfy.R;
 import com.agba.closfy.adapters.ListAdapterSpinner;
 import com.agba.closfy.adapters.ListAdapterSubtiposSpinner;
+import com.agba.closfy.customcrop.CropImage;
 import com.agba.closfy.database.GestionBBDD;
 import com.agba.closfy.modelo.Subtipo;
 import com.agba.closfy.modelo.Utilidad;
@@ -54,7 +55,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import eu.janmuller.android.simplecropimage.CropImage;
 
 public class AddPrendaActivity extends AppCompatActivity {
 
@@ -233,7 +233,7 @@ public class AddPrendaActivity extends AppCompatActivity {
         layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_HORIZONTAL;
         getSupportActionBar().setCustomView(actionBarButtons, layoutParams);
 
-        builder.setTitle("Seleccionar imagen");
+        builder.setTitle(getResources().getString(R.string.selectImage));
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) { // pick from
                 // camera
@@ -458,6 +458,15 @@ public class AddPrendaActivity extends AppCompatActivity {
                     break;
                 case REQUEST_CODE_CROP_IMAGE:
                     String path = data.getStringExtra(CropImage.IMAGE_PATH);
+                    boolean isCustom = data.getBooleanExtra("isCustom", false);
+                    String idFotoOriginal = data.getStringExtra("idFoto");
+
+                    if(isCustom){
+                        path = Environment.getExternalStorageDirectory() +
+                                "/Closfy/Tmp/" + idFotoOriginal;
+                        mImageCaptureUri = Uri.fromFile(new File(path));
+                    }
+
                     // if nothing received
                     if (path == null) {
                         return;
@@ -477,12 +486,12 @@ public class AddPrendaActivity extends AppCompatActivity {
                     crearDirectorio(dbFile);
 
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    original.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    original.compress(Bitmap.CompressFormat.PNG, 100, bytes);
 
                     // you can create a new file name "test.jpg" in sdcard
                     // folder.
                     idFoto = "prenda_" + String.valueOf(System.currentTimeMillis())
-                            + ".jpg";
+                            + ".png";
                     File file = new File(dbFile, idFoto);
                     try {
                         file.createNewFile();
@@ -499,9 +508,20 @@ public class AddPrendaActivity extends AppCompatActivity {
 
                     // Borramos la foto original
                     if (mImageCaptureUri != null) {
-                        File fileOriginal = new File(mImageCaptureUri.getPath());
-                        if (fileOriginal.exists()) {
-                            fileOriginal.delete();
+                        //Se borran todas las imagenes temporales
+                        File dirPrendas = new File(Environment.getExternalStorageDirectory() + "/Closfy/Tmp/");
+
+                        if (dirPrendas.exists()) {
+                            //Creo el array de tipo File con el contenido de la carpeta
+                            File[] filesPrendas = dirPrendas.listFiles();
+
+                            for (File fileAux : filesPrendas) {
+                                File image = new File(dirPrendas, fileAux.getName());
+
+                                if (image.exists()) {
+                                    image.delete();
+                                }
+                            }
                         }
                     }
 

@@ -405,7 +405,7 @@ atender..</string>
     <string name="restaurar">Restaurar</string>
     <string name="actualizar">Atualizar</string>
 
-    <string name="errorDropbox">There was an error in communication with Dropbox. Please try again later.</string>
+    <string name="errorDropbox">Houve um erro na comunicação com o Dropbox. Por favor, tente novamente mais tarde.</string>
 
     <string name="msgCrearCopia">Tem certeza de que deseja criar um backup no Dropbox? Este processo pode demorar alguns minutos.</string>
     <string name="msgRestaurarCopia">Tem certeza de que deseja restaurar o backup? Todas as informações Closfy (roupas, aparência, banco de dados, etc ...) serão substituídos pelos dados que estão em Dropbox. Este processo pode demorar alguns minutos.</string>
@@ -418,4 +418,6 @@ atender..</string>
 
     <string name="noPrendas">Nenhuma roupa em seu armário.</string>
     <string name="noLooks">Você não criou qualquer look.</string>
+
+    <string name="selectImage">seleccionar uma imagem</string>
 </resources>

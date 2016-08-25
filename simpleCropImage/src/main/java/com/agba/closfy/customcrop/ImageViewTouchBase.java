@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.janmuller.android.simplecropimage;
+package com.agba.closfy.customcrop;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.ImageView;
+
 
 abstract class ImageViewTouchBase extends ImageView {
 

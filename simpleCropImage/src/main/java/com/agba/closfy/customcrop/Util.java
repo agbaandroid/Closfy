@@ -1,4 +1,4 @@
-package eu.janmuller.android.simplecropimage;
+package com.agba.closfy.customcrop;
 /*
  * Copyright (C) 2009 The Android Open Source Project
  *
@@ -145,9 +145,9 @@ public class Util {
     }
 
     private static class BackgroundJob
-            extends MonitoredActivity.LifeCycleAdapter implements Runnable {
+            extends com.agba.closfy.customcrop.MonitoredActivity.LifeCycleAdapter implements Runnable {
 
-        private final MonitoredActivity mActivity;
+        private final com.agba.closfy.customcrop.MonitoredActivity mActivity;
         private final ProgressDialog    mDialog;
         private final Runnable          mJob;
         private final Handler           mHandler;
@@ -159,7 +159,7 @@ public class Util {
             }
         };
 
-        public BackgroundJob(MonitoredActivity activity, Runnable job,
+        public BackgroundJob(com.agba.closfy.customcrop.MonitoredActivity activity, Runnable job,
                              ProgressDialog dialog, Handler handler) {
 
             mActivity = activity;
@@ -180,7 +180,7 @@ public class Util {
 
 
         @Override
-        public void onActivityDestroyed(MonitoredActivity activity) {
+        public void onActivityDestroyed(com.agba.closfy.customcrop.MonitoredActivity activity) {
             // We get here only when the onDestroyed being called before
             // the mCleanupRunner. So, run it now and remove it from the queue
             mCleanupRunner.run();
@@ -188,13 +188,13 @@ public class Util {
         }
 
         @Override
-        public void onActivityStopped(MonitoredActivity activity) {
+        public void onActivityStopped(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
             mDialog.hide();
         }
 
         @Override
-        public void onActivityStarted(MonitoredActivity activity) {
+        public void onActivityStarted(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
             mDialog.show();
         }

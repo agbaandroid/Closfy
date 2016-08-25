@@ -390,7 +390,7 @@
     <string name="skip">Skip</string>
 
     <string name="msgInicioDropbox">Create and restore backups with Dropbox</string>
-    <string name="vincularDropbox">Link to dropbox</string>
+    <string name="vincularDropbox">Link to Dropbox</string>
 
     <string name="fecha">Date</string>
     <string name="nPrendas">Nº garments</string>
@@ -414,4 +414,6 @@
 
     <string name="noPrendas">You don´t have any garment in your closet yet.</string>
     <string name="noLooks">You don´t have any outfit created yet.</string>
+
+    <string name="selectImage">Select an image</string>
 </resources>

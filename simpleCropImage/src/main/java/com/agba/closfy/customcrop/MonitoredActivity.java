@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package eu.janmuller.android.simplecropimage;
+package com.agba.closfy.customcrop;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -28,42 +28,42 @@ public class MonitoredActivity extends Activity {
 
     public static interface LifeCycleListener {
 
-        public void onActivityCreated(MonitoredActivity activity);
+        public void onActivityCreated(com.agba.closfy.customcrop.MonitoredActivity activity);
 
-        public void onActivityDestroyed(MonitoredActivity activity);
+        public void onActivityDestroyed(com.agba.closfy.customcrop.MonitoredActivity activity);
 
-        public void onActivityPaused(MonitoredActivity activity);
+        public void onActivityPaused(com.agba.closfy.customcrop.MonitoredActivity activity);
 
-        public void onActivityResumed(MonitoredActivity activity);
+        public void onActivityResumed(com.agba.closfy.customcrop.MonitoredActivity activity);
 
-        public void onActivityStarted(MonitoredActivity activity);
+        public void onActivityStarted(com.agba.closfy.customcrop.MonitoredActivity activity);
 
-        public void onActivityStopped(MonitoredActivity activity);
+        public void onActivityStopped(com.agba.closfy.customcrop.MonitoredActivity activity);
     }
 
     public static class LifeCycleAdapter implements LifeCycleListener {
 
-        public void onActivityCreated(MonitoredActivity activity) {
+        public void onActivityCreated(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
         }
 
-        public void onActivityDestroyed(MonitoredActivity activity) {
+        public void onActivityDestroyed(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
         }
 
-        public void onActivityPaused(MonitoredActivity activity) {
+        public void onActivityPaused(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
         }
 
-        public void onActivityResumed(MonitoredActivity activity) {
+        public void onActivityResumed(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
         }
 
-        public void onActivityStarted(MonitoredActivity activity) {
+        public void onActivityStarted(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
         }
 
-        public void onActivityStopped(MonitoredActivity activity) {
+        public void onActivityStopped(com.agba.closfy.customcrop.MonitoredActivity activity) {
 
         }
     }

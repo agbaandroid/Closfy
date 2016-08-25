@@ -412,7 +412,7 @@
     <string name="msgCrearCopia">¿Está seguro de que desea crear una copia de seguridad en Dropbox? Este proceso puede tardar unos minutos.</string>
     <string name="msgRestaurarCopia">¿Está seguro de que desea restaurar la copia de seguridad? Toda la información de Closfy (prendas, looks, base de datos, etc...) se sobreescribirá con los datos que hay en Dropbox. Este proceso puede tardar unos minutos.</string>
     <string name="msgActualizarCopia">¿Está seguro de que desea actualizar la copia de seguridad? Se sobreescribirá toda la información de Dropbox con la información actual de Closfy. Este proceso puede tardar unos minutos.</string>
-    <string name="msgCerrarSesion">¿Está seguro de que desea cerrar las sesión de Dropbox?</string>
+    <string name="msgCerrarSesion">¿Está seguro de que desea cerrar la sesión de Dropbox?</string>
 
     <string name="msgCrearCopiaOK">La copia de seguridad se ha creado correctamente.</string>
     <string name="msgRestaurarCopiaOK">La copia de seguridad se ha restaurado correctamente.</string>
@@ -420,4 +420,6 @@
 
     <string name="noPrendas">No hay prendas en tu armario.</string>
     <string name="noLooks">Aún no has creado ningún look.</string>
+
+    <string name="selectImage">Seleccione una imagen</string>
 </resources>

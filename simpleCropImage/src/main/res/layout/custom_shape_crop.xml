@@ -2,12 +2,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#FFFFFF">
+
         <LinearLayout
             android:id="@+id/pestanaNormal"
             android:layout_width="0dp"
@@ -15,7 +16,7 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/cat"
@@ -24,7 +25,7 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="Normal"
-                android:textColor="#000000"
+                android:textColor="#C3C3C3"
                 android:textSize="14dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -43,7 +44,7 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/sub"
@@ -52,19 +53,19 @@
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="Personalizado"
-                android:textColor="#C3C3C3"
+                android:textColor="#000000"
                 android:textSize="14dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
-    <view
+    <com.agba.closfy.customcrop.DrawingView
         android:id="@+id/image"
+        class="com.agba.closfy.customcrop.CropImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        class="com.agba.closfy.customcrop.CropImageView"
+        android:layout_marginBottom="150dp"
+        android:layout_marginTop="150dp"
         android:background="#000000" />
 
     <RelativeLayout
@@ -75,36 +76,37 @@
         android:layout_centerVertical="true"
         android:orientation="horizontal"
         android:paddingLeft="10dip"
-        android:paddingRight="10dip" >
+        android:paddingRight="10dip">
 
-        <TextView
-            android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/cancel"
-            android:textColor="#FFFFFF"
-            android:textSize="18dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
 
-        <ImageView
-            android:id="@+id/rotateRight"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/cancel"
-            android:src="@drawable/girar" />
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp" />
 
-        <TextView
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/rotateRight"
-            android:text="@string/save"
-            android:textColor="#FFFFFF"
-            android:textSize="18dp" />
+            <TextView
+                android:id="@+id/save"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textColor="#FFFFFF"
+                android:textSize="18dp" />
+
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

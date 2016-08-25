@@ -1,4 +1,4 @@
-package eu.janmuller.android.simplecropimage;
+package com.agba.closfy.customcrop;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 class CropImageView extends ImageViewTouchBase {
 
-    ArrayList<HighlightView> mHighlightViews      = new ArrayList<HighlightView>();
-    HighlightView            mMotionHighlightView = null;
+    ArrayList<com.agba.closfy.customcrop.HighlightView> mHighlightViews      = new ArrayList<com.agba.closfy.customcrop.HighlightView>();
+    com.agba.closfy.customcrop.HighlightView mMotionHighlightView = null;
     float mLastX, mLastY;
     int mMotionEdge;
 
@@ -23,7 +23,7 @@ class CropImageView extends ImageViewTouchBase {
 
         super.onLayout(changed, left, top, right, bottom);
         if (mBitmapDisplayed.getBitmap() != null) {
-            for (HighlightView hv : mHighlightViews) {
+            for (com.agba.closfy.customcrop.HighlightView hv : mHighlightViews) {
                 hv.mMatrix.set(getImageMatrix());
                 hv.invalidate();
                 if (hv.mIsFocused) {
@@ -43,7 +43,7 @@ class CropImageView extends ImageViewTouchBase {
     protected void zoomTo(float scale, float centerX, float centerY) {
 
         super.zoomTo(scale, centerX, centerY);
-        for (HighlightView hv : mHighlightViews) {
+        for (com.agba.closfy.customcrop.HighlightView hv : mHighlightViews) {
             hv.mMatrix.set(getImageMatrix());
             hv.invalidate();
         }
@@ -53,7 +53,7 @@ class CropImageView extends ImageViewTouchBase {
     protected void zoomIn() {
 
         super.zoomIn();
-        for (HighlightView hv : mHighlightViews) {
+        for (com.agba.closfy.customcrop.HighlightView hv : mHighlightViews) {
             hv.mMatrix.set(getImageMatrix());
             hv.invalidate();
         }
@@ -63,7 +63,7 @@ class CropImageView extends ImageViewTouchBase {
     protected void zoomOut() {
 
         super.zoomOut();
-        for (HighlightView hv : mHighlightViews) {
+        for (com.agba.closfy.customcrop.HighlightView hv : mHighlightViews) {
             hv.mMatrix.set(getImageMatrix());
             hv.invalidate();
         }
@@ -74,7 +74,7 @@ class CropImageView extends ImageViewTouchBase {
 
         super.postTranslate(deltaX, deltaY);
         for (int i = 0; i < mHighlightViews.size(); i++) {
-            HighlightView hv = mHighlightViews.get(i);
+            com.agba.closfy.customcrop.HighlightView hv = mHighlightViews.get(i);
             hv.mMatrix.postTranslate(deltaX, deltaY);
             hv.invalidate();
         }
@@ -85,15 +85,15 @@ class CropImageView extends ImageViewTouchBase {
     private void recomputeFocus(MotionEvent event) {
 
         for (int i = 0; i < mHighlightViews.size(); i++) {
-            HighlightView hv = mHighlightViews.get(i);
+            com.agba.closfy.customcrop.HighlightView hv = mHighlightViews.get(i);
             hv.setFocus(false);
             hv.invalidate();
         }
 
         for (int i = 0; i < mHighlightViews.size(); i++) {
-            HighlightView hv = mHighlightViews.get(i);
+            com.agba.closfy.customcrop.HighlightView hv = mHighlightViews.get(i);
             int edge = hv.getHit(event.getX(), event.getY());
-            if (edge != HighlightView.GROW_NONE) {
+            if (edge != com.agba.closfy.customcrop.HighlightView.GROW_NONE) {
                 if (!hv.hasFocus()) {
                     hv.setFocus(true);
                     hv.invalidate();
@@ -107,7 +107,7 @@ class CropImageView extends ImageViewTouchBase {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        CropImage cropImage = (CropImage) mContext;
+        com.agba.closfy.customcrop.CropImage cropImage = (com.agba.closfy.customcrop.CropImage) mContext;
         if (cropImage.mSaving) {
             return false;
         }
@@ -118,17 +118,17 @@ class CropImageView extends ImageViewTouchBase {
                     recomputeFocus(event);
                 } else {
                     for (int i = 0; i < mHighlightViews.size(); i++) {
-                        HighlightView hv = mHighlightViews.get(i);
+                        com.agba.closfy.customcrop.HighlightView hv = mHighlightViews.get(i);
                         int edge = hv.getHit(event.getX(), event.getY());
-                        if (edge != HighlightView.GROW_NONE) {
+                        if (edge != com.agba.closfy.customcrop.HighlightView.GROW_NONE) {
                             mMotionEdge = edge;
                             mMotionHighlightView = hv;
                             mLastX = event.getX();
                             mLastY = event.getY();
                             mMotionHighlightView.setMode(
-                                    (edge == HighlightView.MOVE)
-                                            ? HighlightView.ModifyMode.Move
-                                            : HighlightView.ModifyMode.Grow);
+                                    (edge == com.agba.closfy.customcrop.HighlightView.MOVE)
+                                            ? com.agba.closfy.customcrop.HighlightView.ModifyMode.Move
+                                            : com.agba.closfy.customcrop.HighlightView.ModifyMode.Grow);
                             break;
                         }
                     }
@@ -137,7 +137,7 @@ class CropImageView extends ImageViewTouchBase {
             case MotionEvent.ACTION_UP:
                 if (cropImage.mWaitingToPick) {
                     for (int i = 0; i < mHighlightViews.size(); i++) {
-                        HighlightView hv = mHighlightViews.get(i);
+                        com.agba.closfy.customcrop.HighlightView hv = mHighlightViews.get(i);
                         if (hv.hasFocus()) {
                             cropImage.mCrop = hv;
                             for (int j = 0; j < mHighlightViews.size(); j++) {
@@ -154,7 +154,7 @@ class CropImageView extends ImageViewTouchBase {
                 } else if (mMotionHighlightView != null) {
                     centerBasedOnHighlightView(mMotionHighlightView);
                     mMotionHighlightView.setMode(
-                            HighlightView.ModifyMode.None);
+                            com.agba.closfy.customcrop.HighlightView.ModifyMode.None);
                 }
                 mMotionHighlightView = null;
                 break;
@@ -199,7 +199,7 @@ class CropImageView extends ImageViewTouchBase {
     }
 
     // Pan the displayed image to make sure the cropping rectangle is visible.
-    private void ensureVisible(HighlightView hv) {
+    private void ensureVisible(com.agba.closfy.customcrop.HighlightView hv) {
 
         Rect r = hv.mDrawRect;
 
@@ -219,7 +219,7 @@ class CropImageView extends ImageViewTouchBase {
 
     // If the cropping rectangle's size changed significantly, change the
     // view's center and scale according to the cropping rectangle.
-    private void centerBasedOnHighlightView(HighlightView hv) {
+    private void centerBasedOnHighlightView(com.agba.closfy.customcrop.HighlightView hv) {
 
         Rect drawRect = hv.mDrawRect;
 
@@ -254,7 +254,7 @@ class CropImageView extends ImageViewTouchBase {
         }
     }
 
-    public void add(HighlightView hv) {
+    public void add(com.agba.closfy.customcrop.HighlightView hv) {
 
         mHighlightViews.add(hv);
         invalidate();
